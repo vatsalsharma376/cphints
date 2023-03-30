@@ -23,10 +23,10 @@ const navbar = () => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="#action1" className="text-primary-500">Home</Nav.Link>
-            <Nav.Link href="#action2" className="text-primary-500">Problems</Nav.Link>
+            <Nav.Link href="#action1" className="fs-4 text-primary-500">Home</Nav.Link>
+            <Nav.Link href="#action2" className="fs-4 text-primary-500">Problems</Nav.Link>
            
-            <Nav.Link href="#" className="text-primary-500">
+            <Nav.Link href="#" className="fs-4 text-primary-500">
               Link
             </Nav.Link>
           </Nav>
@@ -54,8 +54,8 @@ const navbar = () => {
               </NavDropdown.Item>
 
             </NavDropdown> */}
-            <Button variant="primary-300">Contribute</Button>
-            <Button variant="primary-300" className="mx-3">Sign In</Button>
+            <Button variant="purplee" >Contribute</Button>
+            <Button variant="purplee" className="mx-3">Sign In</Button>
       </Container>
     </Navbar>
   );
