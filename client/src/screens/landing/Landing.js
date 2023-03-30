@@ -5,11 +5,13 @@ import Image from 'react-bootstrap/Image'
 import code_editor from '../../assets/images/code_editor.png'
 import { Container } from 'react-bootstrap'
 import LogoCard from '../../components/LogoCard'
+
 const Landing = () => {
   return (
     <div>
       <Container style={{marginTop:"10%"}}>
-        <Row>
+        
+        <Row style={{height:"72vh"}}>
           <Col className='mt-5'>
             <Row><h1 className='text-white'>Explore</h1></Row>
             <Row><h1 className='text-purplee'>Contribute</h1></Row>
@@ -20,14 +22,18 @@ const Landing = () => {
             <Image src={code_editor} fluid rounded/>
           </Col>
         </Row>
-        <Row>
+       
+        
+      <Row>
           <Col><LogoCard /></Col>
           <Col><LogoCard/></Col>
           <Col><LogoCard/></Col>
 
         </Row>
-      </Container>
+        </Container>
+
     </div>
+
   )
 }
 

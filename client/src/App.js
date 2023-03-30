@@ -7,7 +7,7 @@ import { Container } from 'react-bootstrap';
 function App() {
   return (
     <Container>
-    <div className="App bg-light">
+    <div className="App ">
       
       <NavBar />
       <Landing />

@@ -11,7 +11,7 @@ import logo from '../assets/images/cphlogo.png';
 import Image from 'react-bootstrap/Image';
 const navbar = () => {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar  expand="lg">
       <Container fluid>
         <Navbar.Brand href="#" className="text-primary-500">
           <Image src={logo} height="50"/>
