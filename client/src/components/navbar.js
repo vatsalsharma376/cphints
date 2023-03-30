@@ -4,14 +4,18 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+// import NavDropdown from 'react-bootstrap/NavDropdown';
 import {Search} from 'react-bootstrap-icons'
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+// import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import logo from '../assets/images/cphlogo.png';
+import Image from 'react-bootstrap/Image';
 const navbar = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="#" className="text-primary-500">CP Hints</Navbar.Brand>
+        <Navbar.Brand href="#" className="text-primary-500">
+          <Image src={logo} height="50"/>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav

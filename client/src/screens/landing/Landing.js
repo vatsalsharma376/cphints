@@ -1,8 +1,9 @@
-import { Container } from '@chakra-ui/react'
+// import { Container } from '@chakra-ui/react'
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import Image from 'react-bootstrap/Image'
 import code_editor from '../../assets/images/code_editor.png'
+import { Container } from 'react-bootstrap'
 const Landing = () => {
   return (
     <div>
