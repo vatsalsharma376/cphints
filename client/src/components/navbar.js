@@ -33,7 +33,7 @@ const navbar = () => {
           
         </Navbar.Collapse>
 
-          <Form className="d-flex">
+          {/* <Form className="d-flex">
           
             <Form.Control
               type="search"
@@ -42,7 +42,7 @@ const navbar = () => {
               aria-label="Search"
             />
             <Button className="ml-1"><Search className="text-white" /></Button>
-          </Form>
+          </Form> */}
           {/* <NavDropdown className="text-primary-500" title="Link" id="navbarScrollingDropdown">
               <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action4" >
