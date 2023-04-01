@@ -11,6 +11,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Quotes from '../../components/Quotes';
 import NavBar from "../../components/navbar";
+import starbg from './starbg.jpg';
 const Landing = () => {
   const responsive = {
     desktop: {
@@ -47,7 +48,7 @@ const Landing = () => {
     }
   };
   return (
-    <div style={{backgroundSize:"cover",backgroundImage:"url(./purplebackgnd.jpg)"}}>
+    <div style={{backgroundSize:"cover",backgroundImage:`url(${starbg})`}}>
       <NavBar bg="" />
     
     
