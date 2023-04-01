@@ -9,10 +9,14 @@ import {Search} from 'react-bootstrap-icons'
 // import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import logo from '../assets/images/cphlogo.png';
 import Image from 'react-bootstrap/Image';
-const navbar = () => {
+const navbar = (props) => {
+  // props.bg = "red";
+  const bgcolor = `bg-${props.bg}`;
   return (
-    <Navbar  expand="lg">
-      <Container fluid>
+    <div className={bgcolor}>
+    <Container>
+
+    <Navbar expand="lg">
         <Navbar.Brand href="#" className="text-primary-500">
           <Image src={logo} height="50"/>
         </Navbar.Brand>
@@ -23,11 +27,11 @@ const navbar = () => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="#action1" className="fs-4 text-primary-500">Home</Nav.Link>
-            <Nav.Link href="#action2" className="fs-4 text-primary-500">Problems</Nav.Link>
+            <Nav.Link href="#action1" className="fs-4 text-white">Home</Nav.Link>
+            <Nav.Link href="#action2" className="fs-4 text-white">Problems</Nav.Link>
            
-            <Nav.Link href="#" className="fs-4 text-primary-500">
-              Link
+            <Nav.Link href="#" className="fs-4 text-white">
+              About
             </Nav.Link>
           </Nav>
           
@@ -56,8 +60,9 @@ const navbar = () => {
             </NavDropdown> */}
             <Button variant="purplee" >Contribute</Button>
             <Button variant="purplee" className="mx-3">Sign In</Button>
-      </Container>
     </Navbar>
+    </Container>
+    </div>
   );
 };
 

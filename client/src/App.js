@@ -6,10 +6,8 @@ import Landing from './screens/landing/Landing';
 import { Container } from 'react-bootstrap';
 function App() {
   return (
-    <Container>
     <div className="App ">
       
-      <NavBar />
       <Landing />
 
 
@@ -28,7 +26,6 @@ function App() {
 
 
     </div>
-    </Container>
   );
 }
 

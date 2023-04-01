@@ -9,6 +9,8 @@ import Typist from "react-typist";
 import { InputGroup, FormControl, Button, Form } from "react-bootstrap";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import Quotes from '../../components/Quotes';
+import NavBar from "../../components/navbar";
 const Landing = () => {
   const responsive = {
     desktop: {
@@ -27,9 +29,30 @@ const Landing = () => {
       slidesToSlide: 1
     }
   };
+  const responsive_quote = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 1,
+      slidesToSlide: 1
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 1,
+      slidesToSlide: 1
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1
+    }
+  };
   return (
-    <div>
-      <Container fluid style={{ marginTop: "5%" }}>
+    <div style={{backgroundSize:"cover",backgroundImage:"url(./purplebackgnd.jpg)"}}>
+      <NavBar bg="" />
+    
+    
+    <div >
+      <Container style={{ marginTop: "5%" }}>
         <div>
           <Typist>
             <h1 className="text-white" style={{ fontSize: "3.5rem" }}>
@@ -62,8 +85,8 @@ const Landing = () => {
             </Col>
           </Row>
         </div>
-        <div className="">
-          
+        <div className="text-white">
+          <h1>You can browse hints from </h1>
           <Carousel
           /*
           swipeable={false}
@@ -76,6 +99,7 @@ const Landing = () => {
           infinite
           containerClass="container-with-dots"
           itemClass="image-item"
+          className="mt-5"
         >
               <LogoCard title="Codeforces" />
               <LogoCard title="Leetcode" />
@@ -85,7 +109,31 @@ const Landing = () => {
           
         </Carousel>
         </div>
+        <div className="mt-5">
+          <h1 className="text-white">Why see hints instead of editorial?</h1>
+          <Carousel
+          /*
+          swipeable={false}
+          draggable={false}
+          */
+          responsive={responsive_quote}
+          ssr
+          autoPlay={true}
+          infinite
+          containerClass="container-with-dots"
+          itemClass="image-item"
+          className="mt-5"
+        >
+              <Quotes title="Codeforces" />
+              <Quotes title="Leetcode" />
+              <Quotes title="SDE Sheet" />
+              <Quotes title="CSES" />
+
+          
+        </Carousel>
+        </div>
       </Container>
+    </div>
     </div>
   );
 };
