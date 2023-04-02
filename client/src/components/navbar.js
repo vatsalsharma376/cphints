@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -17,9 +18,11 @@ const navbar = (props) => {
     <Container>
 
     <Navbar expand="lg">
+    <Link to="/">
         <Navbar.Brand href="#" className="text-primary-500">
           <Image src={logo} height="50"/>
         </Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -27,7 +30,11 @@ const navbar = (props) => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link href="#action1" className="fs-4 text-white">Home</Nav.Link>
+            <Link to="/">
+            <Nav.Link href="#action1" className="fs-4 text-white">
+              Home
+              </Nav.Link>
+              </Link>
             <Nav.Link href="#action2" className="fs-4 text-white">Problems</Nav.Link>
            
             <Nav.Link href="#" className="fs-4 text-white">
@@ -59,7 +66,7 @@ const navbar = (props) => {
 
             </NavDropdown> */}
             <Button variant="purplee" >Contribute</Button>
-            <Button variant="purplee" className="mx-3">Sign In</Button>
+            <Link to="/login"><Button variant="purplee" className="mx-3">Sign In</Button></Link>
     </Navbar>
     </Container>
     </div>
