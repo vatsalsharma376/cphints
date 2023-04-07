@@ -42,7 +42,7 @@ export const loginUser = async (request, response) => {
     // check if id is email or username
     let email = id;
     let username = id;
-    if (id.includes('@')) {
+    if (id?.includes('@')) {
         email = id;
         username = '@';
     }
