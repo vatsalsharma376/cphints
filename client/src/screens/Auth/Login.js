@@ -11,10 +11,13 @@ import Button from 'react-bootstrap/Button';
 import sign_up_pic from '../../assets/images/signup.svg';
 import backendUrl from '../../../src/constants.js';
 import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 function Login() {
   const id = useRef(null);
   const password = useRef(null);
-  const handleLogin = ()=>{
+  const handleLogin = async()=>{
     // login using backendUrl/login using axios
     // if successfull redirect to home page
     // else show error
@@ -23,13 +26,29 @@ function Login() {
       password:password.current.value
     };
     // use axios
-    axios.post(`${backendUrl}/users/login/`,data)
-    .then((res)=>{
-      alert(`Hello ${res.data.name}`)
-    })
-    .catch((err)=>{
-      alert(`Error: ${err.message} `);
-    })
+    
+    const resp = await axios.post(
+      `${backendUrl}/users/login/`,
+      data
+    );
+      
+    // console.log("After axios", resp);
+    if (resp.status === 200) {
+      console.log("Successfully logged in!");
+      return Promise.resolve();
+    } else {
+      console.log("Error loggin in!");
+      return Promise.reject(new Error("Whoops!"));
+    }
+  }
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+    const loginToast = await toast.promise(handleLogin, {
+      pending: "The login is yet to go through",
+      success: "You are logged in successfully",
+      error: "Incorrect username or password",
+    });
+
   }
   return (
     <>
@@ -47,7 +66,7 @@ function Login() {
         <Form.Control ref={password} type="password" placeholder="Password" />
       </FloatingLabel>
       
-      <Button variant="primary" className='bg-primary-300' onClick={handleLogin}>Log in</Button>{' '}
+      <Button variant="primary" className='bg-primary-300' onClick={handleSubmit}>Log in</Button>{' '}
       <p className='mt-1 text-muted'>
         <Link to="/signup">Don't have a account?</Link>
       </p>
@@ -58,6 +77,7 @@ function Login() {
         </Row>
         
       </Container>
+      <ToastContainer theme='dark' limit={3}/>
     </>
   );
 }

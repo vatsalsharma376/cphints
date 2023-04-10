@@ -13,6 +13,9 @@ import Button from "react-bootstrap/Button";
 import sign_up_pic from "../../assets/images/signup.svg";
 import backendUrl from "../../../src/constants.js";
 import axios from "axios";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function FormFloatingBasicExample() {
   const username = useRef(null);
   const password = useRef(null);
@@ -61,10 +64,10 @@ function FormFloatingBasicExample() {
     }
 
     // if any of the above conditions are true then return
-    
   };
-  const handleRegister = () => {
-    if(name.current.value.length===0) return; 
+  const handleRegister = async () => {
+    if (name.current.value.length === 0)         return Promise.reject(new Error("Whoops!"));
+
 
     if (
       nameError ||
@@ -73,7 +76,8 @@ function FormFloatingBasicExample() {
       confirmPasswordError ||
       emailError
     ) {
-      return;
+      return Promise.reject(new Error("Whoops!"));
+
     } else {
       const data = {
         username: username.current.value,
@@ -82,17 +86,25 @@ function FormFloatingBasicExample() {
         email: email.current.value,
       };
       // use axios
-      axios
-        .post(`${backendUrl}/users/register/`, data)
-        .then((res) => {
-          console.log(res);
-          alert("User registered successfully");
-        })
-        .catch((err) => {
-          console.log(err);
-          alert("Check your credentials");
-        });
+
+      const resp = await axios.post(`${backendUrl}/users/register/`, data);
+
+      // console.log("After axios", resp);
+      if (resp.status === 201) {
+        console.log("Successfully registered!");
+        return Promise.resolve();
+      } else {
+        console.log("Error in registration!");
+        return Promise.reject(new Error("Whoops!"));
+      }
     }
+  };
+  const handleSubmit = async (e) => {
+    const registerToast = await toast.promise(handleRegister, {
+      pending: "The registration is yet to go through",
+      success: "You are successfully registered",
+      error: "User already exists",
+    });
   };
   return (
     <>
@@ -167,12 +179,12 @@ function FormFloatingBasicExample() {
                 controlId="floatingPassword"
                 label="Confirm Password"
                 className="mb-3"
-                isInvalid={confirmPasswordError}
               >
                 <Form.Control
                   ref={confirmPassword}
                   type="password"
                   placeholder="Password"
+                  isInvalid={confirmPasswordError}
                 />
                 {/* {confirmPasswordError && (
                 <p className="text-danger">Password and confirm password must be same</p>
@@ -181,7 +193,7 @@ function FormFloatingBasicExample() {
               <Button
                 variant="primary"
                 className="bg-primary-300"
-                onClick={handleRegister}
+                onClick={handleSubmit}
               >
                 Submit
               </Button>{" "}
@@ -199,6 +211,7 @@ function FormFloatingBasicExample() {
           </Col>
         </Row>
       </Container>
+      <ToastContainer theme="dark" limit={3} />
     </>
   );
 }

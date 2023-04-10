@@ -12,6 +12,7 @@ export const getUsers = (request, response) => {
 // database schema CREATE TABLE users (ID SERIAL PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), password VARCHAR(512), handle VARCHAR(255), color VARCHAR(25),username varchar(255));
 export const addUser = async (request, response) => {
     const { name, email, password, handle, color,username } = request.body
+    console.log(request.body);
     // hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
