@@ -1,11 +1,29 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import { Accordion, Container } from "react-bootstrap";
 import Navbar from "../../components/navbar";
 import { FloatingLabel, Form, Button } from "react-bootstrap";
+import backendUrl from '../../../src/constants.js';
+import axios from 'axios';
 
 const Contribute = () => {
   const [ipFields, setIPFields] = useState([0]);
   const [num, setNum] = useState(1);
+  const [inputValues, setInputValues] = useState([]);
+  const qlink = useRef(null);
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+    const data = {
+      hints: inputValues,
+      qlink: qlink.current.value
+    };
+    // use axios
+    console.log(data);
+    const resp = await axios.post(
+      `${backendUrl}/hints/`,
+      data
+    );
+    console.log(resp);
+  }
 
   const handleAdd = () => {
     if (num >= 5) {
@@ -40,7 +58,7 @@ const Contribute = () => {
               className="my-4"
               style={{ width: "55%" }}
             >
-              <Form.Control type="text" placeholder="www.example.com" />
+              <Form.Control type="text" ref={qlink} placeholder="www.example.com" />
             </FloatingLabel>
 
             {ipFields.map((ipFiled, i) => {
@@ -48,11 +66,11 @@ const Contribute = () => {
                 <div className="d-flex">
                   <Accordion style={{ width: "40%" }} className="my-2 me-3">
                     <Accordion.Item eventKey="0">
-                      <Accordion.Header>Hint {i + 1}</Accordion.Header>
+                      <Accordion.Header>{i==0?"Pre-requisite":`Hint ${i + 1}`}</Accordion.Header>
                       <Accordion.Body>
                         <FloatingLabel
                           controlId="floatingTextarea"
-                          label={"Hint " + (i + 1)}
+                          label={i==0?"Pre-requisite":"Hint " + (i + 1)}
                           className="my-3"
                           style={{ width: "100%" }}
                           key={i}
@@ -60,7 +78,12 @@ const Contribute = () => {
                           <Form.Control
                             as="textarea"
                             type="text"
-                            placeholder="Enter Hint"
+                            onChange={(event) => {
+                              const newInputValues = [...inputValues];
+                              newInputValues[i] = event.target.value;
+                              setInputValues(newInputValues);
+                            }}
+                            placeholder={i==0?"Pre-requisite":"Enter Hint"}
                             style={{ height: "100px" }}
                           />
                         </FloatingLabel>
@@ -104,7 +127,7 @@ const Contribute = () => {
                 </div>
               );
             })}
-            <Button variant="submit" className="d-block btn-purplee mt-4 ">
+            <Button variant="submit" className="d-block btn-purplee mt-4 " onClick={handleSubmit}>
               Submit
             </Button>
           </Form>
