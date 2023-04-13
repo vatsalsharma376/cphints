@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-import NavBar from "../../components/navbar";
+import NavBar from "../../components/Navbar";
 import Login from "./Login";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
@@ -66,8 +66,8 @@ function FormFloatingBasicExample() {
     // if any of the above conditions are true then return
   };
   const handleRegister = async () => {
-    if (name.current.value.length === 0)         return Promise.reject(new Error("Whoops!"));
-
+    if (name.current.value.length === 0)
+      return Promise.reject(new Error("Whoops!"));
 
     if (
       nameError ||
@@ -77,7 +77,6 @@ function FormFloatingBasicExample() {
       emailError
     ) {
       return Promise.reject(new Error("Whoops!"));
-
     } else {
       const data = {
         username: username.current.value,
@@ -92,6 +91,8 @@ function FormFloatingBasicExample() {
       // console.log("After axios", resp);
       if (resp.status === 201) {
         console.log("Successfully registered!");
+        localStorage.setItem("token", resp.data.accessToken);
+
         return Promise.resolve();
       } else {
         console.log("Error in registration!");

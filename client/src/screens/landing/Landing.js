@@ -10,7 +10,7 @@ import { InputGroup, FormControl, Button, Form } from "react-bootstrap";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import Quotes from '../../components/Quotes';
-import NavBar from "../../components/navbar";
+import NavBar from "../../components/Navbar";
 import starbg from './starbg.jpg';
 const Landing = () => {
   const responsive = {

@@ -1,10 +1,10 @@
-import React, { useState,useRef } from "react";
+import React, { useState,useRef, useEffect } from "react";
 import { Accordion, Container } from "react-bootstrap";
-import Navbar from "../../components/navbar";
+import Navbar from "../../components/Navbar";
 import { FloatingLabel, Form, Button } from "react-bootstrap";
 import backendUrl from '../../../src/constants.js';
 import axios from 'axios';
-
+import jwt_decode from "jwt-decode";
 const Contribute = () => {
   const [ipFields, setIPFields] = useState([0]);
   const [num, setNum] = useState(1);
@@ -12,17 +12,21 @@ const Contribute = () => {
   const qlink = useRef(null);
   const handleSubmit = async (e) =>{
     e.preventDefault();
+    const token = await localStorage.getItem("token");
+    // console.log(token);
     const data = {
       hints: inputValues,
-      qlink: qlink.current.value
+      qlink: qlink.current.value,
     };
     // use axios
-    console.log(data);
+    // console.log(jwt_decode(token));
+    // console.log(data);
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     const resp = await axios.post(
       `${backendUrl}/hints/`,
       data
     );
-    console.log(resp);
+    // console.log(resp);
   }
 
   const handleAdd = () => {
@@ -42,6 +46,13 @@ const Contribute = () => {
     setNum((prev) => prev - 1);
     ipFields.pop();
   };
+  // check if user is logged in through local storage token else redirect him to home page
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/signup";
+    }
+  }, []);
 
   return (
     <>

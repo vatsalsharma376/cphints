@@ -1,6 +1,6 @@
 import React,{useRef} from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from "../../components/navbar";
+import NavBar from "../../components/Navbar";
 import Container from 'react-bootstrap/Container';
 import Image from "react-bootstrap/Image";
 import Row from 'react-bootstrap/Row';
@@ -26,7 +26,6 @@ function Login() {
       password:password.current.value
     };
     // use axios
-    
     const resp = await axios.post(
       `${backendUrl}/users/login/`,
       data
@@ -35,6 +34,8 @@ function Login() {
     // console.log("After axios", resp);
     if (resp.status === 200) {
       console.log("Successfully logged in!");
+      // console.log(resp.data);
+      localStorage.setItem("token", resp.data.accessToken);
       return Promise.resolve();
     } else {
       console.log("Error loggin in!");

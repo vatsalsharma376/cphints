@@ -1,6 +1,7 @@
 import pool from "../../db.js";
 import bcrypt, { hash } from "bcrypt";
 import * as queries from "./queries.js";
+import jwt from "jsonwebtoken";
 export const getUsers = (request, response) => {
   pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
     if (error) {
@@ -36,7 +37,8 @@ export const addUser = async (request, response) => {
               throw error;
             }
             // console.log(results.rows[0].id);
-            response.status(201).json(results.rows[0]);
+            const accessToken=jwt.sign(results.rows[0],"secret");
+            response.status(201).json({accessToken});
           }
         );
       }
@@ -69,7 +71,8 @@ export const loginUser = async (request, response) => {
         const user = results.rows[0];
         bcrypt.compare(password, user.password, function (err, res) {
           if (res) {
-            response.status(200).json(user);
+            const accessToken=jwt.sign(user,"secret");
+            response.status(200).json({accessToken});
           } else {
             response.status(401).send("Invalid credentials");
           }

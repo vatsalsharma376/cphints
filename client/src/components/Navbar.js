@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -10,7 +10,21 @@ import { Search } from "react-bootstrap-icons";
 // import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import logo from "../assets/images/cphlogo.png";
 import Image from "react-bootstrap/Image";
-const navbar = (props) => {
+const Navbars = (props) => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  // check if token exists in local storage in useeffect
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, [loggedIn]);
+  const handleLogout = ()=>{
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+    window.location.href = "/";
+  }
   // props.bg = "red";
   const bgcolor = `bg-${props.bg}`;
   return (
@@ -68,15 +82,21 @@ const navbar = (props) => {
           <Link to="/contribute">
             <Button variant="purplee">Contribute</Button>
           </Link>
-          <Link to="/login">
-            <Button variant="purplee" className="mx-3">
-              Sign In
+          {loggedIn ? (
+            <Button variant="purplee" className="mx-3" onClick={handleLogout}>
+              Sign out
             </Button>
-          </Link>
+          ) : (
+            <Link to="/login">
+              <Button variant="purplee" className="mx-3">
+                Sign In
+              </Button>
+            </Link>
+          )}
         </Navbar>
       </Container>
     </div>
   );
 };
 
-export default navbar;
+export default Navbars;
