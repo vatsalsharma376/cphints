@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import userRoutes from './src/users/routes.js';
 // import { router as userRouter } from "./routes/user.js";
 import hintRoutes from "./src/hints/routes.js"
+import reviewRoutes from "./src/review/routes.js"
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 
@@ -16,6 +17,7 @@ app.use(cors());
 // app.use("/api", userRouter);
 app.use('/api/users', userRoutes);
 app.use('/api/hints', hintRoutes);
+app.use('/api/review', reviewRoutes);
 // app.use(express.static(path.join(__dirname, "./client/build")));
 
 // app.get("*", function (_, res) {

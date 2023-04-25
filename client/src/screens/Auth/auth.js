@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import Popup from "reactjs-popup";
+import OtpInput from "react-otp-input";
 
 import NavBar from "../../components/Navbar";
 import Login from "./Login";
@@ -16,7 +18,13 @@ import axios from "axios";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "reactjs-popup/dist/index.css";
+import "./auth.css";
+
 function FormFloatingBasicExample() {
+  const [isPopup, setisPopup] = useState(false);
+  const [userOtp, setUserOtp] = useState("0");
+  const [enteredOtp, setEnteredOtp] = useState("");
   const username = useRef(null);
   const password = useRef(null);
   const confirmPassword = useRef(null);
@@ -85,30 +93,130 @@ function FormFloatingBasicExample() {
         email: email.current.value,
       };
       // use axios
-
-      const resp = await axios.post(`${backendUrl}/users/register/`, data);
-
-      // console.log("After axios", resp);
-      if (resp.status === 201) {
-        console.log("Successfully registered!");
-        localStorage.setItem("token", resp.data.accessToken);
-
-        return Promise.resolve();
-      } else {
+      let resp;
+      try {
+        resp = await axios.post(`${backendUrl}/users/register/`, data);
+        if (resp.status === 200) {
+          // console.log("Successfully registered!");
+          // localStorage.setItem("token", resp.data.accessToken);
+  
+          // return Promise.resolve();
+          // prompt user to enter otp
+          setisPopup(true);
+          console.log(resp.data.otp);
+          setUserOtp(resp.data.otp);
+        }
+      } catch (err) {
         console.log("Error in registration!");
-        return Promise.reject(new Error("Whoops!"));
+        // show an error toast
+        toast.error("User already exists!");
       }
+      // console.log("After axios", resp);
+      
     }
   };
   const handleSubmit = async (e) => {
-    const registerToast = await toast.promise(handleRegister, {
-      pending: "The registration is yet to go through",
-      success: "You are successfully registered",
-      error: "User already exists",
-    });
+    handleRegister();
+    // const registerToast = await toast.promise(handleRegister, {
+    //   pending: "The registration is yet to go through",
+    //   success: "You are successfully registered",
+    //   error: "User already exists LW",
+    // });
+
   };
+  const finalRegister = async () => {
+    const data = {
+      username: username.current.value,
+      password: password.current.value,
+      name: name.current.value,
+      email: email.current.value,
+    };
+    const resp = await axios.post(`${backendUrl}/users/register/verified/`, data)
+    if (resp.status === 201) {
+      console.log("Successfully registered!");
+      localStorage.setItem("token", resp.data.accessToken);
+
+      // show a success toast saying "You are successfully registered"
+      toast.success("You are successfully registered");
+    }
+   else{
+      toast.error('Something went wrong in registration');
+  }
+
+  }
   return (
     <>
+      <Popup
+        open={isPopup}
+        position="right center"
+        modal
+        onClose={() => {
+          setEnteredOtp("");
+          setisPopup(false);
+        }}
+      >
+
+        <h5>Enter your OTP</h5>
+        <p>Please enter the verification code sent to your email</p>
+        <OtpInput
+          shouldAutoFocus={true}
+          // inputType={"number"}
+          containerStyle={{
+            height: "5rem",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            marginBottom: "10px",
+          }}
+          value={enteredOtp}
+          onChange={(otp) => setEnteredOtp(otp)}
+          inputStyle={{
+            color: "purple",
+            width: "3rem",
+            height: "3rem",
+            borderRadius: "0.5rem",
+            border: "1px solid #ccc",
+            fontSize: "1.5rem",
+            textAlign: "center",
+          }}
+          numInputs={6}
+          separator={<span> </span>}
+          renderInput={(props) => <input {...props} />}
+
+        />
+
+        <button
+          className="otp-btn"
+          onClick={() => {
+            setEnteredOtp("");
+            setisPopup(false);
+          }}
+        >
+          Cancel
+        </button>
+
+        <button
+          className="otp-btn otp-confirm"
+          onClick={() => {
+            console.log(userOtp, enteredOtp);
+            if (userOtp == enteredOtp) {
+              setEnteredOtp("");
+              setisPopup(false);
+              toast.success("OTP verified!");
+              finalRegister();
+              // toast.promise(deleteData, {
+              //   pending: "The donation is yet to be deleted",
+              //   success: "OTP verified! Donation deleted",
+              //   error: "Error deleting donation",
+              // });
+            } else {
+              toast.error("Incorrect OTP");
+            }
+          }}
+        >
+          Confirm
+        </button>
+      </Popup>
       <NavBar bg="black" />
       <Container>
         <Row>
