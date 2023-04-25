@@ -12,6 +12,10 @@ import 'react-multi-carousel/lib/styles.css';
 import Quotes from '../../components/Quotes';
 import NavBar from "../../components/Navbar";
 import starbg from './starbg.jpg';
+import Timeline from '../../components/Timeline';
+// import forces from '../../assets/images/forces.png';
+
+          
 const Landing = () => {
   const responsive = {
     desktop: {
@@ -52,7 +56,7 @@ const Landing = () => {
       <NavBar bg="" />
     
     
-    <div >
+    
       <Container style={{ marginTop: "5%" }}>
         <div>
           <Typist>
@@ -74,11 +78,12 @@ const Landing = () => {
               Search
             </Button>
           </InputGroup>
-          <Row style={{ height: "72vh" }}>
-            <Col>
-              <Stack className="mt-5">
+          <Row style={{ height: "72vh",marginTop:"140px"}}>
+            <Col style={{marginTop:"50px"}}>
+              <Stack className="mt-5" >
                 <h1 className="text-purplee">Get some hints</h1>
-                {/* <h1 className='text-lg-purple'>Contribute</h1> */}
+                <h1 className='text-lg-purple'>Share some hints</h1>
+                <h1 className='text-primary-300'>Help grow the community</h1>
               </Stack>
             </Col>
             <Col>
@@ -86,8 +91,11 @@ const Landing = () => {
             </Col>
           </Row>
         </div>
-        <div className="text-white">
-          <h1>You can browse hints from </h1>
+       
+        
+      </Container>
+      <div className="text-white" style={{backgroundColor:"#000"} }  >
+          <h1 className="text-purplee">You can browse hints from </h1>
           <Carousel
           /*
           swipeable={false}
@@ -102,39 +110,22 @@ const Landing = () => {
           itemClass="image-item"
           className="mt-5"
         >
-              <LogoCard title="Codeforces" />
+              <LogoCard  title="Codeforces" />
               <LogoCard title="Leetcode" />
               <LogoCard title="SDE Sheet" />
               <LogoCard title="CSES" />
 
           
         </Carousel>
+        {/* <Typist> */}
+            <h1 className="text-white" style={{ fontSize: "3.5rem", marginTop:"100px" } }>
+              How it works?
+            </h1>
+          {/* </Typist> */}
+        <Timeline/>
         </div>
-        <div className="mt-5">
-          <h1 className="text-white">Why see hints instead of editorial?</h1>
-          <Carousel
-          /*
-          swipeable={false}
-          draggable={false}
-          */
-          responsive={responsive_quote}
-          ssr
-          autoPlay={true}
-          infinite
-          containerClass="container-with-dots"
-          itemClass="image-item"
-          className="mt-5"
-        >
-              <Quotes title="Codeforces" />
-              <Quotes title="Leetcode" />
-              <Quotes title="SDE Sheet" />
-              <Quotes title="CSES" />
 
-          
-        </Carousel>
-        </div>
-      </Container>
-    </div>
+    
     </div>
   );
 };
