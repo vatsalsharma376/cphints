@@ -27,11 +27,12 @@ const checkQuestionExists = async (qlink1, qlink2) => {
   );
 };
 export const approveHint = async (request, response) => {
+  // console.log('approveHint route called');
   // approve the hint by moving it from temphint to hint db
   const { qlink1, qlink2, qname, plaform, uid, hints } = request.body;
   const qid = await checkQuestionExists(qlink1, qlink2);
   if (qid) {
-    pool.query(queries.approveHint, [hints, qid, uid], (error, results) => {
+    pool.query(queries.approveHint, [...hints, qid, uid], (error, results) => {
       if (error) {
         response.status(400).json({ error });
         throw error;
@@ -49,7 +50,7 @@ export const approveHint = async (request, response) => {
           throw error;
         }
         const qid = results.rows[0].qid;
-        pool.query(queries.approveHint, [hints, qid, uid], (error, results) => {
+        pool.query(queries.approveHint, [...hints, qid, uid], (error, results) => {
           if (error) {
             response.status(400).json({ error });
             throw error;
@@ -62,7 +63,8 @@ export const approveHint = async (request, response) => {
 };
 export const rejectHint = (request, response) => {
   // reject the hint by deleting it from temphint db
-  const { id } = request.body;
+  // get id from url :id
+  const id  = request.params.id;
   pool.query(queries.rejectHint, [id], (error, results) => {
     if (error) {
       throw error;

@@ -1,5 +1,7 @@
 import Router from 'express';
-import {showHints} from './controller.js';
+import {approveHint, rejectHint, showHints} from './controller.js';
 const router = Router();
 router.get('/',showHints);
+router.delete('/:id',rejectHint);
+router.post('/',approveHint);
 export default router;
