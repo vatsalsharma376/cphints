@@ -7,6 +7,7 @@ import userRoutes from './src/users/routes.js';
 // import { router as userRouter } from "./routes/user.js";
 import hintRoutes from "./src/hints/routes.js"
 import reviewRoutes from "./src/review/routes.js"
+import questionRoutes from "./src/question/routes.js"
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 
@@ -18,6 +19,7 @@ app.use(cors());
 app.use('/api/users', userRoutes);
 app.use('/api/hints', hintRoutes);
 app.use('/api/review', reviewRoutes);
+app.use('/api/questions', questionRoutes);
 // app.use(express.static(path.join(__dirname, "./client/build")));
 
 // app.get("*", function (_, res) {

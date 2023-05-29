@@ -25,6 +25,7 @@
     "react-typist": "^2.0.5",
     "react-vertical-timeline-component": "^3.6.0",
     "reactjs-popup": "^2.0.5",
+    "rsuite": "^5.34.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

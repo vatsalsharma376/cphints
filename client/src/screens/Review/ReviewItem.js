@@ -14,7 +14,7 @@ function ReviewItem(props) {
   const qlink2 = useRef(null);
   const platform = useRef(null);
   const qname = useRef(null);
-  const handleAccept = async () => {
+  const handleAccept = async (thid) => {
     const data = {
       qlink1: qlink1.current.value,
       qlink2: qlink2.current.value,
@@ -22,7 +22,9 @@ function ReviewItem(props) {
       platform: platform.current.value,
       hints: hintDetails.hints,
       uid: hintDetails.uid,
+      thid
     };
+    console.log(data);
     const res = await axios.post(`${BACKEND_URL}/review/`, data);
     if (res.status === 200) {
       toast.success("Hint approved");
@@ -73,10 +75,10 @@ function ReviewItem(props) {
       <div className="mb-5">
         <Form.Select aria-label="Default select example" ref={platform}>
           <option>Platform</option>
-          <option value="1">Codeforces</option>
-          <option value="2">Leetcode</option>
-          <option value="3">Codechef</option>
-          <option value="4">Striver sheet</option>
+          <option value="Codeforces">Codeforces</option>
+          <option value="Leetcode">Leetcode</option>
+          <option value="Coding Ninjas">Coding Ninjas</option>
+          <option value="GeeksforGeeks">GeeksforGeeks</option>
         </Form.Select>
       </div>
       <Accordion alwaysOpen>
@@ -101,7 +103,7 @@ function ReviewItem(props) {
           <Accordion.Body>{hintDetails.hints[4]}</Accordion.Body>
         </Accordion.Item>
       </Accordion>
-      <Button className="mt-4" variant="success" onClick={handleAccept}>
+      <Button className="mt-4" variant="success" onClick={() => handleAccept(hintDetails.thid)}>
         Accept
       </Button>{" "}
       <Button
