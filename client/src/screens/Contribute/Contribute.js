@@ -5,13 +5,15 @@ import { FloatingLabel, Form, Button } from "react-bootstrap";
 import backendUrl from '../../../src/constants.js';
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
+
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 const Contribute = () => {
   const [ipFields, setIPFields] = useState([0]);
   const [num, setNum] = useState(1);
   const [inputValues, setInputValues] = useState([]);
   const qlink = useRef(null);
-  const handleSubmit = async (e) =>{
-    e.preventDefault();
+  const handleContribution = async () =>{
     const token = await localStorage.getItem("token");
     // console.log(token);
     const data = {
@@ -26,7 +28,24 @@ const Contribute = () => {
       `${backendUrl}/hints/`,
       data
     );
+    if (resp.status === 201) {
+      // console.log("Successfully logged in!");
+      // console.log(resp.data);
+      // localStorage.setItem("token", resp.data.accessToken);
+      return Promise.resolve();
+    } else {
+      // console.log("Error loggin in!");
+      return Promise.reject(new Error("Whoops!"));
+    }
     // console.log(resp);
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const ContributionToast = await toast.promise(handleContribution, {
+      pending: "Your hints are being sent",
+      success: "Your hints have been sent for review",
+      error: "Your hints couldn't be added due to some error",
+    });
   }
 
   const handleAdd = () => {
@@ -144,6 +163,7 @@ const Contribute = () => {
           </Form>
         </Container>
       </div>
+      <ToastContainer theme='dark' limit={3}/>
     </>
   );
 };
