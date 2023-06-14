@@ -3,10 +3,11 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
-import userRoutes from './src/users/routes.js';
+import userRoutes from "./src/users/routes.js";
 // import { router as userRouter } from "./routes/user.js";
-import hintRoutes from "./src/hints/routes.js"
-import reviewRoutes from "./src/review/routes.js"
+import hintRoutes from "./src/hints/routes.js";
+import reviewRoutes from "./src/review/routes.js";
+import profileRoutes from "./src/profile/routes.js";
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 
@@ -15,9 +16,10 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 // app.use("/api", userRouter);
-app.use('/api/users', userRoutes);
-app.use('/api/hints', hintRoutes);
-app.use('/api/review', reviewRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/hints", hintRoutes);
+app.use("/api/review", reviewRoutes);
+app.use("/api/profile", profileRoutes);
 // app.use(express.static(path.join(__dirname, "./client/build")));
 
 // app.get("*", function (_, res) {

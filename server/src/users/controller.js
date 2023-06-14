@@ -2,7 +2,7 @@ import pool from "../../db.js";
 import bcrypt, { hash } from "bcrypt";
 import * as queries from "./queries.js";
 import jwt from "jsonwebtoken";
-// import sendgrid sg module
+// import sendgrid sg module;
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import sgMail from "@sendgrid/mail";
 dotenv.config();
@@ -19,7 +19,6 @@ export const getUsers = (request, response) => {
 export const addUser = async (request, response) => {
   const { email, username } = request.body;
   console.log(request.body);
- 
 
   //check if user already exists in postgres
   pool.query(
@@ -41,6 +40,7 @@ export const addUser = async (request, response) => {
           subject: "OTP for CPhints",
           html: `The OTP for CPhints is ${otp}. OTPs are meant to be used only by the person they are intended for. Do not share your OTPs with anyone, even if they claim to be from a trusted source.`,
         };
+
         sgMail
           .send(msg)
           .then(() => {

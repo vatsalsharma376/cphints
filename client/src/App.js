@@ -8,6 +8,7 @@ import Login from "./screens/Auth/Login";
 import Landing from "./screens/landing/Landing";
 import Contribute from "./screens/Contribute/Contribute";
 import Review from "./screens/Review/Review";
+import Profile from "./screens/Profile/Profile";
 function App() {
   return (
     <div className="App">
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="signup" element={<Auth />} />
         <Route exact path="contribute" element={<Contribute />} />
         <Route exact path="review" element={<Review />} />
+        <Route exact path="profile" element={<Profile />} />
       </Routes>
     </div>
   );

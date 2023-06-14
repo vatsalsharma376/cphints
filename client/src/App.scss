@@ -1,37 +1,36 @@
-$primary: #0B132B;
-$primary-100: #1C2541;
-$primary-200: #3A506B;
-$primary-300: #5BC0BE;
-$primary-400: #6FFFE9;
-$primary-500: #6FFFE9;
-$secondary: #6FFFE9;
+$primary: #0b132b;
+$primary-100: #1c2541;
+$primary-200: #3a506b;
+$primary-300: #5bc0be;
+$primary-400: #6fffe9;
+$primary-500: #6fffe9;
+$secondary: #6fffe9;
 $success: #28a745;
 $danger: #dc3545;
 $warning: #ffc107;
 $info: #17a2b8;
-$light: #1C2541;
+$light: #1c2541;
 $dark: #343a40;
 $white: #fff;
 $theme-colors: (
   "custom-color": #900,
-  "primary": #0B132B,
-"primary-100": #1C2541,
-"primary-200": #3A506B,
-"primary-300": #52057B,
-"primary-400": #EBC7E6,
-"primary-500": #ffffff,
-"secondary": #EBC7E6,
-"success": #28a745,
-"danger": #dc3545,
-"warning": #ffc107,
-"info": #17a2b8,
-"light": #000000,
-"dark": #343a40,
-"white": #fff,
-"dark-purple": #52057B,
-"purplee": #892CDC,
-"lg-purple": #BC6FF1,
-"lt-purple": #d2adea,
-
+  "primary": #0b132b,
+  "primary-100": #1c2541,
+  "primary-200": #3a506b,
+  "primary-300": #52057b,
+  "primary-400": #ebc7e6,
+  "primary-500": #ffffff,
+  "secondary": #ebc7e6,
+  "success": #28a745,
+  "danger": #dc3545,
+  "warning": #ffc107,
+  "info": #17a2b8,
+  "light": #000000,
+  "dark": #343a40,
+  "white": #fff,
+  "dark-purple": #52057b,
+  "purplee": #892cdc,
+  "lg-purple": #bc6ff1,
+  "lt-purple": #d2adea,
 );
 @import "~bootstrap/scss/bootstrap";
