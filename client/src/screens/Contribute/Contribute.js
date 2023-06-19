@@ -87,6 +87,7 @@ const Contribute = () => {
               label="Enter the question link"
               className="my-4"
               style={{ width: "55%" }}
+              
             >
               <Form.Control type="text" ref={qlink} placeholder="www.example.com" />
             </FloatingLabel>
@@ -100,10 +101,12 @@ const Contribute = () => {
                       <Accordion.Body>
                         <FloatingLabel
                           controlId="floatingTextarea"
-                          label={i==0?"Pre-requisite":"Hint " + (i + 1)}
+                          label={i==0?"Pre-requisite (Enter comma seperated tags)":"Hint " + (i + 1)}
                           className="my-3"
                           style={{ width: "100%" }}
                           key={i}
+                          
+                          
                         >
                           <Form.Control
                             as="textarea"
@@ -113,7 +116,9 @@ const Contribute = () => {
                               newInputValues[i] = event.target.value;
                               setInputValues(newInputValues);
                             }}
-                            placeholder={i==0?"Pre-requisite":"Enter Hint"}
+                            required
+                            aria-required="true"
+                            placeholder={i==0?"Pre-requisite (Enter comma seperated tags)":"Enter Hint"}
                             style={{ height: "100px" }}
                           />
                         </FloatingLabel>

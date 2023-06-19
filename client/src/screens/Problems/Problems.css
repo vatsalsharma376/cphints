@@ -1,3 +1,24 @@
+/* // @import '~rsuite-table/lib/less/index.less';   */
+/* // @import '~rsuite/styles/index.less'; */
+/* // @import '~rsuite/dist/styles/rsuite-dark.css'; */
+.custom-table .rs-table-row-cell {
+  border-bottom: none !important;
+  border-bottom-width: 0px !important;
+
+}
+.rs-table-cell {
+  border-bottom: none !important;
+  border-bottom-width: 0px !important;
+}
+.rs-table{
+  border-radius: 0.6em;
+}
+#qlink > div:hover{
+  color: #007bff;
+  cursor: pointer;
+}
+  
+
 .form-check > :first-child {
     /* float: none !important;
     /* margin:0; */
@@ -11,4 +32,7 @@
 .form-check{
     display: flex;
 
+}
+.intro-text{
+    color: #f3f3f3;
 }
