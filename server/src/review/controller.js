@@ -1,9 +1,11 @@
 import pool from "../../db.js";
 import * as queries from "./queries.js";
+
 export const showHints = (request, response) => {
   // show all hints from temphint db
   pool.query(queries.showHints, (error, results) => {
     if (error) {
+      response.status(400).json({ err });
       throw error;
     }
     response.status(200).json(results.rows);
@@ -16,6 +18,7 @@ const checkQuestionExists = async (qlink1, qlink2) => {
     [qlink1, qlink2],
     (error, results) => {
       if (error) {
+        response.status(400).json({ err });
         throw error;
       }
       if (results.rows.length > 0) {
@@ -34,9 +37,10 @@ export const approveHint = async (request, response) => {
   let qid = null;
   pool.query(
     queries.checkQuestionExists,
-    [qlink1, qlink2.length > 0 ? qlink2 : null],
+    [qlink1, qlink2?.length > 0 ? qlink2 : null],
     (error, results) => {
       if (error) {
+        response.status(400).json({ err });
         throw error;
       }
       if (results.rows.length > 0) {

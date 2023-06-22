@@ -4,35 +4,34 @@
 .custom-table .rs-table-row-cell {
   border-bottom: none !important;
   border-bottom-width: 0px !important;
-
 }
 .rs-table-cell {
   border-bottom: none !important;
   border-bottom-width: 0px !important;
+  background-color: #1a1d24 !important;
 }
-.rs-table{
+.rs-table {
   border-radius: 0.6em;
+  background-color: #1a1d24 !important;
 }
-#qlink > div:hover{
+#qlink > div:hover {
   color: #007bff;
   cursor: pointer;
 }
-  
 
 .form-check > :first-child {
-    /* float: none !important;
+  /* float: none !important;
     /* margin:0; */
-    /* padding: 0; */ 
+  /* padding: 0; */
 }
-.form-check-label{
-    /* text-align: left !important; */
-    font-size: larger;
-    margin-left: 5%;
+.form-check-label {
+  /* text-align: left !important; */
+  font-size: larger;
+  margin-left: 5%;
 }
-.form-check{
-    display: flex;
-
+.form-check {
+  display: flex;
 }
-.intro-text{
-    color: #f3f3f3;
+.intro-text {
+  color: #f3f3f3;
 }
