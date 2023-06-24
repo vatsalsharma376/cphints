@@ -54,29 +54,29 @@ const Problems = () => {
         
         style={{backgroundColor:"#000",color:"#e9ebf0"}}
         rowHeight={50}
-        className="m-auto"
+        className="m-auto text-black"
         
         // virtualized
         // fixed={"right"}
       >
         <Column width={200} align="center">
-          <HeaderCell style={{backgroundColor:"#1a1d24"}}>Problem Name</HeaderCell>
-          <Cell dataKey="qname" style={{backgroundColor:"#1a1d24"}}/>
+          <HeaderCell style={{backgroundColor:"#f2f2ff"}}>Problem Name</HeaderCell>
+          <Cell dataKey="qname" style={{backgroundColor:"#f2f2ff"}}/>
         </Column>
 
         <Column width={300} align="center" >
-          <HeaderCell style={{backgroundColor:"#1a1d24"}}>Problem Link</HeaderCell>
-          <Cell id="qlink" dataKey="qlink1" style={{backgroundColor:"#1a1d24"}}  onClick={(e)=>window.open(e.target.textContent,"_blank")}/>
+          <HeaderCell style={{backgroundColor:"#f2f2ff"}}>Problem Link</HeaderCell>
+          <Cell id="qlink" dataKey="qlink1" style={{backgroundColor:"#f2f2ff"}}  onClick={(e)=>window.open(e.target.textContent,"_blank")}/>
         </Column>
 
         <Column width={200} align="center"  >
-          <HeaderCell style={{backgroundColor:"#1a1d24"}}>Platform</HeaderCell>
-          <Cell dataKey="platform" style={{backgroundColor:"#1a1d24"}}/>
+          <HeaderCell style={{backgroundColor:"#f2f2ff"}}>Platform</HeaderCell>
+          <Cell dataKey="platform" style={{backgroundColor:"#f2f2ff"}}/>
         </Column>
 
         <Column width={200} align="center">
-          <HeaderCell style={{backgroundColor:"#1a1d24"}}>Hints available</HeaderCell>
-          <Cell dataKey="count" style={{backgroundColor:"#1a1d24"}}/>
+          <HeaderCell style={{backgroundColor:"#f2f2ff"}}>Hints available</HeaderCell>
+          <Cell dataKey="count" style={{backgroundColor:"#f2f2ff"}}/>
         </Column>
       </Table>
       <div style={{ padding: 20 }} className="tb-page">

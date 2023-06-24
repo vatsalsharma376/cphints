@@ -10,6 +10,7 @@ import Contribute from "./screens/Contribute/Contribute";
 import Review from "./screens/Review/Review";
 import Problems from "./screens/Problems/Problems";
 import Profile from "./screens/Profile/Profile";
+import Hints from "./screens/Hints/Hints";
 function App() {
   return (
     <div className="App">
@@ -21,6 +22,7 @@ function App() {
         <Route exact path="review" element={<Review />} />
         <Route exact path="problems" element={<Problems />} />
         <Route exact path="profile" element={<Profile />} />
+        <Route exact path="hints" element={<Hints />} />
       </Routes>
     </div>
   );
