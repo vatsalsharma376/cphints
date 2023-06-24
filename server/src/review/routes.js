@@ -1,7 +1,10 @@
-import Router from 'express';
-import {approveHint, rejectHint, showHints} from './controller.js';
+import Router from "express";
+import { approveHint, rejectHint, showHints } from "./controller.js";
+import isAdmin from "../middleware/isAdmin.js";
+import jwtVerify from "../middleware/jwtAuth.js";
+
 const router = Router();
-router.get('/',showHints);
-router.delete('/:id',rejectHint);
-router.post('/',approveHint);
+router.get("/", jwtVerify, isAdmin, showHints);
+router.delete("/:id", jwtVerify, rejectHint);
+router.post("/", jwtVerify, approveHint);
 export default router;
