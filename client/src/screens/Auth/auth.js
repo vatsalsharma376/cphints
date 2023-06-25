@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import Popup from "reactjs-popup";
 import OtpInput from "react-otp-input";
@@ -30,6 +30,7 @@ function FormFloatingBasicExample() {
   const confirmPassword = useRef(null);
   const name = useRef(null);
   const email = useRef(null);
+  const [btnDisable, setbtnDisable] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
@@ -95,11 +96,13 @@ function FormFloatingBasicExample() {
       // use axios
       let resp;
       try {
+        setbtnDisable(true);
         resp = await axios.post(`${backendUrl}/users/register/`, data);
+        setbtnDisable(false);
         if (resp.status === 200) {
           // console.log("Successfully registered!");
           // localStorage.setItem("token", resp.data.accessToken);
-  
+
           // return Promise.resolve();
           // prompt user to enter otp
           setisPopup(true);
@@ -107,12 +110,13 @@ function FormFloatingBasicExample() {
           setUserOtp(resp.data.otp);
         }
       } catch (err) {
+        setbtnDisable(false);
+
         console.log("Error in registration!");
         // show an error toast
         toast.error("User already exists!");
       }
       // console.log("After axios", resp);
-      
     }
   };
   const handleSubmit = async (e) => {
@@ -122,7 +126,6 @@ function FormFloatingBasicExample() {
     //   success: "You are successfully registered",
     //   error: "User already exists LW",
     // });
-
   };
   const finalRegister = async () => {
     const data = {
@@ -131,19 +134,29 @@ function FormFloatingBasicExample() {
       name: name.current.value,
       email: email.current.value,
     };
-    const resp = await axios.post(`${backendUrl}/users/register/verified/`, data)
+    const resp = await axios.post(
+      `${backendUrl}/users/register/verified/`,
+      data
+    );
     if (resp.status === 201) {
       console.log("Successfully registered!");
       localStorage.setItem("token", resp.data.accessToken);
 
       // show a success toast saying "You are successfully registered"
+      setbtnDisable(false);
       toast.success("You are successfully registered");
+    } else {
+      setbtnDisable(false);
+      toast.error("Something went wrong in registration");
     }
-   else{
-      toast.error('Something went wrong in registration');
-  }
+  };
 
-  }
+  useLayoutEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/";
+    }
+  }, []);
   return (
     <>
       <Popup
@@ -155,7 +168,6 @@ function FormFloatingBasicExample() {
           setisPopup(false);
         }}
       >
-
         <h5>Enter your OTP</h5>
         <p>Please enter the verification code sent to your email</p>
         <OtpInput
@@ -182,7 +194,6 @@ function FormFloatingBasicExample() {
           numInputs={6}
           separator={<span> </span>}
           renderInput={(props) => <input {...props} />}
-
         />
 
         <button
@@ -303,6 +314,7 @@ function FormFloatingBasicExample() {
                 variant="primary"
                 className="bg-primary-300"
                 onClick={handleSubmit}
+                disabled={btnDisable}
               >
                 Submit
               </Button>{" "}

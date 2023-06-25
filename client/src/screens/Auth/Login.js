@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../../components/Navbar";
 import Container from "react-bootstrap/Container";
@@ -17,6 +17,9 @@ import "react-toastify/dist/ReactToastify.css";
 function Login() {
   const id = useRef(null);
   const password = useRef(null);
+  const [btnDisable, setbtnDisable] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const handleLogin = async () => {
     // login using backendUrl/login using axios
     // if successfull redirect to home page
@@ -26,14 +29,12 @@ function Login() {
       password: password.current.value,
     };
     // use axios
+    setbtnDisable(true);
     const resp = await axios.post(`${backendUrl}/users/login/`, data);
-
-    // console.log("After axios", resp);
     if (resp.status === 200) {
       console.log("Successfully logged in!");
-      // console.log(resp.data);
       localStorage.setItem("token", resp.data.accessToken);
-      // window.location.href = "/profile";
+      window.location.href = "/profile";
       return Promise.resolve();
     } else {
       console.log("Error loggin in!");
@@ -42,12 +43,24 @@ function Login() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const loginToast = await toast.promise(handleLogin, {
-      pending: "The login is yet to go through",
-      success: "You are logged in successfully",
-      error: "Incorrect username or password",
-    });
+    try {
+      const loginToast = await toast.promise(handleLogin, {
+        pending: "The login is yet to go through",
+        success: "You are logged in successfully",
+        error: "Incorrect username or password",
+      });
+      setbtnDisable(false);
+    } catch (e) {
+      setbtnDisable(false);
+    }
   };
+
+  useLayoutEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      window.location.href = "/";
+    }
+  }, []);
   return (
     <>
       <NavBar bg="black" />
@@ -86,6 +99,7 @@ function Login() {
               variant="primary"
               className="bg-primary-300"
               onClick={handleSubmit}
+              disabled={btnDisable}
             >
               Log in
             </Button>{" "}

@@ -8,6 +8,9 @@ import axios from "axios";
 import BACKEND_URL from "../../constants";
 import { ToastContainer, toast } from "react-toastify";
 
+const token = localStorage.getItem("token");
+axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
 function ReviewItem(props) {
   const hintDetails = props.props;
   const qlink1 = useRef(null);
@@ -22,7 +25,7 @@ function ReviewItem(props) {
       platform: platform.current.value,
       hints: hintDetails.hints,
       uid: hintDetails.uid,
-      thid
+      thid,
     };
     console.log(data);
     const res = await axios.post(`${BACKEND_URL}/review/`, data);
@@ -103,7 +106,11 @@ function ReviewItem(props) {
           <Accordion.Body>{hintDetails.hints[4]}</Accordion.Body>
         </Accordion.Item>
       </Accordion>
-      <Button className="mt-4" variant="success" onClick={() => handleAccept(hintDetails.thid)}>
+      <Button
+        className="mt-4"
+        variant="success"
+        onClick={() => handleAccept(hintDetails.thid)}
+      >
         Accept
       </Button>{" "}
       <Button
