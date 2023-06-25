@@ -34,10 +34,10 @@ const Timeline = () => {
     iconStyle={{ backgroundColor: '#892cdc', color: '#fff' }}
   
   >
-    <h3 className="vertical-timeline-element-title">title</h3>
+    <h3 className="vertical-timeline-element-title">Contribute Hints</h3>
     {/* <h4 className="vertical-timeline-element-subtitle">San Francisco, CA</h4> */}
     <p>
-      dkndfnejfnedfjndnfcdfjckedfkjsnfkjnfjknfcjkednkjendkje
+     Contribute hints to help others
     </p>
   </VerticalTimelineElement>
   <VerticalTimelineElement
@@ -49,10 +49,10 @@ const Timeline = () => {
     iconStyle={{ backgroundColor: '#2d2b55', color: '#fff' }}
   
   >
-    <h3 className="vertical-timeline-element-title">Web Designer</h3>
+    <h3 className="vertical-timeline-element-title">Grind</h3>
     {/* <h4 className="vertical-timeline-element-subtitle">Los Angeles, CA</h4> */}
     <p>
-      User Experience, Visual Design
+       Make sure to get the right solution for your problem 
     </p>
   </VerticalTimelineElement>
   <VerticalTimelineElement
@@ -64,27 +64,13 @@ const Timeline = () => {
     iconStyle={{ backgroundColor: '#892cdc', color: '#fff' }}
   
   >
-    <h3 className="vertical-timeline-element-title">Web Designer</h3>
-    <h4 className="vertical-timeline-element-subtitle">San Francisco, CA</h4>
-    <p>
-      User Experience, Visual Design
-    </p>
-  </VerticalTimelineElement>
-  <VerticalTimelineElement
-    className="vertical-timeline-element--education"
-    // date="April 2013"
-    icon={<Hourglass/>}
-    contentStyle={{ backgroundColor: '#2d2b55', color: '#fff' }}
-    contentArrowStyle={{ borderRight: '7px solid  rgb(45,43,85)' }}
-    iconStyle={{  backgroundColor: '#2d2b55', color: '#fff' }}
+    <h3 className="vertical-timeline-element-title">Review</h3>
     
-  >
-    <h3 className="vertical-timeline-element-title">Content Marketing for Web, Mobile and Social Media</h3>
-    <h4 className="vertical-timeline-element-subtitle">Online Course</h4>
     <p>
-      Strategy, Social Media
+     Vote for the hints that helped you the most
     </p>
   </VerticalTimelineElement>
+  
   
 
 </VerticalTimeline>

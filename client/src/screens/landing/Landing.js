@@ -14,6 +14,13 @@ import NavBar from "../../components/Navbar";
 import starbg from './starbg.jpg';
 import Timeline from '../../components/Timeline';
 // import forces from '../../assets/images/forces.png';
+import cf from '../../assets/images/cf.webp';
+import leet from '../../assets/images/leet.png';
+import cn from '../../assets/images/cn.jpeg';
+import gfg1 from '../../assets/images/gfg1.png';
+import cses from '../../assets/images/cses.png';
+import tuf1 from '../../assets/images/tuf1.png';
+
 
           
 const Landing = () => {
@@ -103,17 +110,19 @@ const Landing = () => {
           */
           responsive={responsive}
           ssr
-          autoPlay={true}
+          autoPlay={false}
           slidesToSlide={1}
           infinite
           containerClass="container-with-dots"
           itemClass="image-item"
           className="mt-5"
         >
-              <LogoCard  title="Codeforces" />
-              <LogoCard title="Leetcode" />
-              <LogoCard title="SDE Sheet" />
-              <LogoCard title="CSES" />
+          <LogoCard title="Striver Sheet" text="Problems: 10" text1="Hints: 30" img={tuf1} />
+              <LogoCard  title="Codeforces" text="Problems: 10" text1="Hints: 30" img={cf} />
+              <LogoCard title="Leetcode"  text="Problems: 10" text1="Hints: 30" img={leet}/>
+              <LogoCard title="Coding Ninjas" text="Problems: 10" text1="Hints: 30" img={cn} />
+              <LogoCard title="CSES" text="Problems: 10" text1="Hints: 30" img={cses}/>
+              <LogoCard title="GFG" text="Problems: 10" text1="Hints: 30" img={gfg1}/>
 
           
         </Carousel>
