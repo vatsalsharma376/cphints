@@ -20,11 +20,11 @@ const Navbars = (props) => {
       setLoggedIn(false);
     }
   }, [loggedIn]);
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     localStorage.removeItem("token");
     setLoggedIn(false);
     window.location.href = "/";
-  }
+  };
   // props.bg = "red";
   const bgcolor = `bg-${props.bg}`;
   return (
@@ -48,7 +48,7 @@ const Navbars = (props) => {
                   Home
                 </Nav.Link>
               </Link>
-              <Nav.Link href="#action2" className="fs-4 text-white">
+              <Nav.Link href="/problems" className="fs-4 text-white">
                 Problems
               </Nav.Link>
 

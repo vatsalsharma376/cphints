@@ -16,15 +16,22 @@ const Contribute = () => {
   const [inputValues, setInputValues] = useState([]);
   const [isLoading, setisLoading] = useState(true);
   const [btnDisable, setbtnDisable] = useState(false);
+  const [validated, setValidated] = useState(false);
   const qlink = useRef(null);
   const Navigate = useNavigate();
   const handleContribution = async () => {
     const token = await localStorage.getItem("token");
     // console.log(token);
+    if (inputValues.length < 2) {
+      // toast.error("Enter Atleast 2 hints properly");
+      // return;
+      return Promise.reject(new Error("Enter Atleast 2 hints properly"));
+    }
     const data = {
       hints: inputValues,
       qlink: qlink.current.value,
     };
+
     // use axios
     // console.log(jwt_decode(token));
     // console.log(data);
@@ -42,7 +49,40 @@ const Contribute = () => {
     // console.log(resp);
   };
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
+    const form = e.currentTarget;
+    console.log(form.checkValidity);
+    if (form.checkValidity === false) {
+      e.stopPropagation();
+    }
+    console.log(validated);
+    if (qlink.current.value.length <= 10) {
+      toast.error("Enter question link");
+      return;
+
+      // return Promise.reject(new Error("Enter Atleast 2 hints properly"));
+    }
+
+    if (inputValues.length < 2) {
+      toast.error("Enter Atleast 2 hints");
+      return;
+
+      // return Promise.reject(new Error("Enter Atleast 2 hints properly"));
+    }
+    if (inputValues[0].length < 2) {
+      toast.error("Enter hints properly");
+      return;
+
+      // return Promise.reject(new Error("Enter Atleast 2 hints properly"));
+    }
+    if (inputValues[1].length < 2) {
+      toast.error("Enter hints properly");
+      return;
+
+      // return Promise.reject(new Error("Enter Atleast 2 hints properly"));
+    }
+
+    setValidated(true);
     setbtnDisable(true);
     try {
       const ContributionToast = await toast.promise(handleContribution, {
@@ -99,7 +139,7 @@ const Contribute = () => {
             <Container>
               <h1 className="text-white text-start mt-5">Contribute a Hint</h1>
 
-              <Form>
+              <Form noValidate validated={validated}>
                 <FloatingLabel
                   controlId="floatingInput"
                   label="Enter the question link"
@@ -110,10 +150,14 @@ const Contribute = () => {
                     type="text"
                     ref={qlink}
                     placeholder="www.example.com"
+                    required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Please Enter the Question Link
+                  </Form.Control.Feedback>
                 </FloatingLabel>
 
-                {ipFields.map((ipFiled, i) => {
+                {ipFields.map((ipField, i) => {
                   return (
                     <div className="d-flex">
                       <Accordion style={{ width: "40%" }} className="my-2 me-3">
@@ -141,7 +185,6 @@ const Contribute = () => {
                                   newInputValues[i] = event.target.value;
                                   setInputValues(newInputValues);
                                 }}
-                                required
                                 aria-required="true"
                                 placeholder={
                                   i == 0
@@ -149,6 +192,7 @@ const Contribute = () => {
                                     : "Enter Hint"
                                 }
                                 style={{ height: "100px" }}
+                                required={i <= 2 ? "true" : "false"}
                               />
                             </FloatingLabel>
                           </Accordion.Body>
