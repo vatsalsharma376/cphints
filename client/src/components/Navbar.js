@@ -10,6 +10,7 @@ import { Search } from "react-bootstrap-icons";
 // import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import logo from "../assets/images/cphlogo.png";
 import Image from "react-bootstrap/Image";
+import Dropdownmenu from "./Dropmenu";
 const Navbars = (props) => {
   const [loggedIn, setLoggedIn] = useState(false);
   // check if token exists in local storage in useeffect
@@ -83,9 +84,8 @@ const Navbars = (props) => {
             <Button variant="purplee">Contribute</Button>
           </Link>
           {loggedIn ? (
-            <Button variant="purplee" className="mx-3" onClick={handleLogout}>
-              Sign out
-            </Button>
+            <Dropdownmenu setLoggedIn={setLoggedIn}/>
+         
           ) : (
             <Link to="/login">
               <Button variant="purplee" className="mx-3">
