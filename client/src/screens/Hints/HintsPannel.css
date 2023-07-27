@@ -1,0 +1,9 @@
+.caretUpButton:hover {
+  color: #28a745;
+  cursor: pointer;
+}
+
+.caretDownButton:hover {
+  color: #dc3545;
+  cursor: pointer;
+}
