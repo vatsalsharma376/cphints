@@ -1,0 +1,25 @@
+#link-title {
+  color: #d9d9d9;
+}
+
+#link-title:hover {
+  text-decoration: none;
+}
+
+.caretUpButton:hover {
+  color: #28a745;
+  cursor: pointer;
+}
+
+.caretDownButton:hover {
+  color: #dc3545;
+  cursor: pointer;
+}
+
+.blurHints {
+  filter: blur(4px);
+}
+
+.hintsBox {
+  height: 25vh;
+}

@@ -9,7 +9,7 @@ $success: #28a745;
 $danger: #dc3545;
 $warning: #ffc107;
 $info: #17a2b8;
-$light: #1c2541;
+$light: #f8f9fa;
 $dark: #343a40;
 $white: #fff;
 $theme-colors: (
@@ -33,5 +33,6 @@ $theme-colors: (
   "lg-purple": #bc6ff1,
   "lt-purple": #d2adea,
   "orange": #fd866f,
+  "primary-white": #d9d9d9,
 );
 @import "~bootstrap/scss/bootstrap";
