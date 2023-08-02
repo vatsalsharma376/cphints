@@ -9,6 +9,7 @@ import hintRoutes from "./src/hints/routes.js";
 import reviewRoutes from "./src/review/routes.js";
 import questionRoutes from "./src/question/routes.js";
 import profileRoutes from "./src/profile/routes.js";
+import leaderboardRoutes from "./src/leaderboard/routes.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -23,6 +24,7 @@ app.use("/api/hints", hintRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/leaderboard", leaderboardRoutes);
 
 // app.use(express.static(path.join(__dirname, "./client/build")));
 

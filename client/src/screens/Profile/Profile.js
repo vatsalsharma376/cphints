@@ -63,6 +63,7 @@ const Profile = () => {
     };
     getUser();
     getActiveQuestions();
+    getReviewQuestions();
     getStats();
   }, [page, limit]);
 
@@ -105,7 +106,7 @@ const Profile = () => {
                 <StatsCard stats={stats} />
                 <div>
                   <Datatable
-                    Datas={switchState ? activeData : {}}
+                    Datas={switchState ? activeData : reviewData}
                     switchState={switchState}
                     setSwitchState={setSwitchState}
                   />
@@ -120,7 +121,7 @@ const Profile = () => {
                       maxButtons={5}
                       size="s"
                       layout={["total", "-", "limit", "|", "pager", "skip"]}
-                      total={activeCount}
+                      total={switchState ? activeCount : reviewCount}
                       limitOptions={[10, 20, 30]}
                       limit={limit}
                       // activePage={1}

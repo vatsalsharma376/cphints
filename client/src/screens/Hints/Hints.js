@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "../../components/Navbar";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Dropdown } from "react-bootstrap";
 import HintPanel from "./HintPanel";
 import "./Hints.css";
 
 const Hints = () => {
   const [arr, setArr] = useState(Array(12).fill(0));
+  const [sort, setSort] = useState("Latest Hints");
   // const arr = Array(12).fill(0);
 
   const handleInfiniteScroll = () => {
@@ -28,13 +29,41 @@ const Hints = () => {
         <NavBar bg="black" />
         <div>
           <Container>
-            <div>
+            <div className="my-3">
               <a href="/" id="link-title">
                 <h2>Question Name With Link</h2>
               </a>
               <h4>platform</h4>
             </div>
-            <Row>
+
+            <div className="mb-2 mt-4 ms-auto" style={{ width: "15%" }}>
+              <Dropdown>
+                <Dropdown.Toggle
+                  variant="transparent"
+                  id="dropdown-basic"
+                  className=" text-primary-white border"
+                >
+                  {sort}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    href="#"
+                    onClick={() => setSort("Latest Hints")}
+                  >
+                    Latest Hints
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    href="#"
+                    onClick={() => setSort("Most Upvoted")}
+                  >
+                    Most Upvoted
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+
+            <Row className="border-top border-dark">
               {arr.map((a, i) => (
                 <HintPanel bgColor="#1A1D24" key={i} />
               ))}

@@ -11,6 +11,7 @@ import ReviewRoute from "./screens/Review/ReviewRoute";
 import Problems from "./screens/Problems/Problems";
 import Profile from "./screens/Profile/Profile";
 import Hints from "./screens/Hints/Hints";
+import Leaderboard from "./screens/Leaderboard/Leaderboard";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route exact path="profile" element={<Profile />} />
         <Route exact path="hints" element={<Hints />} />
         <Route exact path="review" element={<ReviewRoute />} />
+        <Route exact path="leaderboard" element={<Leaderboard />} />
       </Routes>
     </div>
   );

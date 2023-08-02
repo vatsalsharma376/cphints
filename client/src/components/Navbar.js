@@ -53,8 +53,8 @@ const Navbars = (props) => {
                 Problems
               </Nav.Link>
 
-              <Nav.Link href="#" className="fs-4 text-white">
-                About
+              <Nav.Link href="/leaderboard" className="fs-4 text-white">
+                Leaderboard
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
@@ -84,8 +84,7 @@ const Navbars = (props) => {
             <Button variant="purplee">Contribute</Button>
           </Link>
           {loggedIn ? (
-            <Dropdownmenu setLoggedIn={setLoggedIn}/>
-         
+            <Dropdownmenu setLoggedIn={setLoggedIn} />
           ) : (
             <Link to="/login">
               <Button variant="purplee" className="mx-3">

@@ -63,9 +63,9 @@ const HintsModal = (props) => {
                     setActiveStep(activeStep - 1);
                   }
                 }}
-                variant="outline-primary-white"
+                variant="outline-primary-white fw-bold"
               >
-                Previous Hint
+                <i class="bi bi-arrow-left"></i>
               </Button>
             )}
             {activeStep < props.hints.length - 1 && (
@@ -78,7 +78,7 @@ const HintsModal = (props) => {
                 variant="outline-primary-white"
                 className="ms-auto"
               >
-                Next Hint
+                <i class="bi bi-arrow-right fw-bold"></i>
               </Button>
             )}
           </div>

@@ -10,8 +10,12 @@ const DataCard = ({ d }) => {
         id="Card"
         style={{ height: "4rem" }}
       >
-        <div className="fs-5 text-start px-4">{d.qname}</div>
-        <p className="text-start px-4">{d.platform}</p>
+        <div className="fs-5 text-start px-4">
+          {d.qname ? d.qname : d.qlink.slice(8, 40) + "..."}
+        </div>
+        <p className="text-start px-4">
+          {d.platform ? d.platform : d.qlink.split("/")[2]}
+        </p>
       </div>
     </Col>
   );
