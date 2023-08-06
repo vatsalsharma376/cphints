@@ -13,7 +13,7 @@ const Dropmenu = ({setLoggedIn}) => {
   }
   return (
     <div>
-      <Dropdown  align={"end"} style={{marginTop:'20px',marginLeft:'10px', color:'black'}}  drop={'centered'}>
+      <Dropdown  align={"end"} style={{marginTop:'0px',marginLeft:'10px', color:'black'}}  drop={'centered'}>
       <Dropdown.Toggle className="bg-purplee" variant="success" id="dropdown-basic"  style={{border:'none'}}>
       <Image
                         src={Avatar}
@@ -28,7 +28,7 @@ const Dropmenu = ({setLoggedIn}) => {
         <Dropdown.Item href="/profile">Profile</Dropdown.Item>
        <Dropdown.Item href="/" onClick={handleLogout}>Sign Out</Dropdown.Item>
       </Dropdown.Menu>
-    </Dropdown>\
+    </Dropdown>
     </div>
   )
 }

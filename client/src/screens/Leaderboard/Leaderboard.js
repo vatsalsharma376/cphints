@@ -38,7 +38,7 @@ const Leaderboard = () => {
           backgroundRepeat: "no-repeat",
           backgroundAttachment: "fixed",
           backgroundSize: "cover",
-          minHeight: "88vh",
+          minHeight: "90vh",
         }}
         // className="min-vh-100"
       >

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import Axios from "axios";
 import NavBar from "../../components/Navbar";
 import { Container, Row, Dropdown } from "react-bootstrap";
 import HintPanel from "./HintPanel";
 import "./Hints.css";
+import BACKEND_URL from "../../constants";
+import { useLocation } from "react-router-dom";
 
 const Hints = () => {
+  const {state} = useLocation();
   const [arr, setArr] = useState(Array(12).fill(0));
   const [sort, setSort] = useState("Latest Hints");
   // const arr = Array(12).fill(0);
@@ -22,6 +26,21 @@ const Hints = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleInfiniteScroll);
   }, [arr]);
+
+  useEffect(() => {
+    const fetchData = async ()=>{
+      console.log(state.qid);
+    const data = await Axios.post(`${BACKEND_URL}/hints/gethints/`, {
+      qid: state.qid,
+      limit: "12",
+      offset: "0",
+   
+   });
+   console.log(data);
+    setArr(await data.data);
+  }
+   fetchData();
+  }, []);
 
   return (
     <>
@@ -64,8 +83,8 @@ const Hints = () => {
             </div>
 
             <Row className="border-top border-dark">
-              {arr.map((a, i) => (
-                <HintPanel bgColor="#1A1D24" key={i} />
+              {arr && arr.map((a, i) => (
+                <HintPanel bgColor="#1A1D24" key={i} hintData={a} />
               ))}
             </Row>
           </Container>

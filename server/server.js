@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import Redis from "ioredis";
+
 import userRoutes from "./src/users/routes.js";
 // import { router as userRouter } from "./routes/user.js";
 import hintRoutes from "./src/hints/routes.js";
@@ -14,6 +17,7 @@ import leaderboardRoutes from "./src/leaderboard/routes.js";
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 
+dotenv.config();
 const __dirname = path.dirname(__filename);
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -39,7 +43,18 @@ app.use("/api/leaderboard", leaderboardRoutes);
 //   );
 // });
 const PORT = process.env.PORT || 5001;
+var redisClient;
+const startServer = async () => {
 
+  const redisConfig = {
+  host: process.env.REDIS_HOST,
+  port: 13305,
+  password: process.env.REDIS_PASSWORD, // If applicable, otherwise remove this line
+};
+redisClient = new Redis(redisConfig);
 app.listen(PORT, () => {
   console.log(`serving on port ${PORT}`);
 });
+}
+startServer();
+export {redisClient};

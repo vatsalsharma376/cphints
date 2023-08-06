@@ -1,5 +1,6 @@
 // import { Container } from '@chakra-ui/react'
-import React, { useReducer, useRef, useState } from "react";
+import React, { useReducer, useRef, useState,useEffect } from "react";
+import axios from "axios";
 import { Col, Row } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import code_editor from "../../assets/images/code_editor.png";
@@ -21,6 +22,7 @@ import cn from "../../assets/images/cn.jpeg";
 import gfg1 from "../../assets/images/gfg1.png";
 import cses from "../../assets/images/cses.png";
 import tuf1 from "../../assets/images/tuf1.png";
+import backendUrl from "../../constants"
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -59,6 +61,15 @@ const Landing = () => {
       slidesToSlide: 1,
     },
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res  = await axios.get(`${backendUrl}/landing`);
+      console.log(res.data);
+    };
+    fetchData();
+  }, []);
+
   return (
     <div style={{ backgroundSize: "cover", backgroundImage: `url(${starbg})` }}>
       <NavBar bg="" />

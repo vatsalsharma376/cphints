@@ -96,6 +96,8 @@ const ReviewItem = (props) => {
           <option value="Leetcode">Leetcode</option>
           <option value="Coding Ninjas">Coding Ninjas</option>
           <option value="GeeksforGeeks">GeeksforGeeks</option>
+          <option value="CSES">CSES</option>
+          
         </Form.Select>
       </div>
       <Accordion alwaysOpen>

@@ -3,6 +3,8 @@ import Navbars from "../../components/Navbar";
 import { Row, Col, Container, Button, InputGroup } from "react-bootstrap";
 import { Table, Pagination } from "rsuite";
 import Form from "react-bootstrap/Form";
+import { useNavigate } from 'react-router-dom';
+
 import "./Problems.css";
 import axios from "axios";
 import backendUrl from "../../../src/constants.js";
@@ -11,6 +13,7 @@ import backendUrl from "../../../src/constants.js";
 
 const { Column, HeaderCell, Cell } = Table;
 const Problems = () => {
+  const navigate = useNavigate();
   const [tdata, setTdata] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
@@ -84,7 +87,7 @@ const Problems = () => {
               // classPrefix="rsuite-dark"
               // classPrefix="custom-table"
               // cellBordered={true}
-
+              onRowClick={(rowData) => navigate('/hints', { state: rowData })}
               style={{ backgroundColor: "#000", color: "#e9ebf0" }}
               rowHeight={50}
               className="m-auto"

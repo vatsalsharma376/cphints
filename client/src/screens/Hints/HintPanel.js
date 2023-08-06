@@ -3,41 +3,34 @@ import { Col, OverlayTrigger, Tooltip, Button, Stack } from "react-bootstrap";
 import HintModal from "./HintsModal";
 import "./Hints.css";
 
-const tag1 = [
-  "dynamic programming",
-  "greedy algorithm",
-  "sliding window concept",
-  "greedy algorithm",
-  "sliding window concept",
-];
 
-const hints = [
-  {
-    title: "hint 2",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed diam at augue faucibus consequat vitae a turpis. Donec blandit in ante rhoncus laoreet. Etiam euismod massa massa, ut pulvinar dolor egestas non. Morbi iaculis libero vitae nulla scelerisque porttitor. Aliquam ut dictum arcu.",
-  },
-  {
-    title: "hint 3",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed diam at augue faucibus consequat vitae a turpis. Donec blandit in ante rhoncus laoreet.",
-  },
-  {
-    title: "hint 4",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ",
-  },
-  {
-    title: "hint 5",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed diam at augue faucibus consequat vitae a turpis. Donec blandit in ante rhoncus laoreet. Etiam euismod massa massa, ut pulvinar dolor egestas non. Morbi iaculis libero vitae nulla scelerisque porttitor. Aliquam ut dictum arcu.",
-  },
-];
+// const hints = [
+//   {
+//     title: "hint 2",
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed diam at augue faucibus consequat vitae a turpis. Donec blandit in ante rhoncus laoreet. Etiam euismod massa massa, ut pulvinar dolor egestas non. Morbi iaculis libero vitae nulla scelerisque porttitor. Aliquam ut dictum arcu.",
+//   },
+//   {
+//     title: "hint 3",
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed diam at augue faucibus consequat vitae a turpis. Donec blandit in ante rhoncus laoreet.",
+//   },
+//   {
+//     title: "hint 4",
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ",
+//   },
+//   {
+//     title: "hint 5",
+//     description:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed diam at augue faucibus consequat vitae a turpis. Donec blandit in ante rhoncus laoreet. Etiam euismod massa massa, ut pulvinar dolor egestas non. Morbi iaculis libero vitae nulla scelerisque porttitor. Aliquam ut dictum arcu.",
+//   },
+// ];
 
 const HintTags = ({ tags }) => {
   return (
     <>
-      {tags.map((t, i) => {
+      {tags && tags.map((t, i) => {
         return (
           <OverlayTrigger
             placement="top"
@@ -58,11 +51,16 @@ const HintTags = ({ tags }) => {
   );
 };
 
-const HintPanel = ({ bgColor }) => {
-  const [upvote, setUpvote] = useState(0);
-  const [downvote, setDownvote] = useState(0);
+const HintPanel = (props) => {
+  const bgColor = props.bgColor;
+  console.log(props);
+  const hintData = props.hintData;
+  const [upvote, setUpvote] = useState(hintData.upvote);
+  const [downvote, setDownvote] = useState(hintData.downvote);
   const [modalShow, setModalShow] = useState(false);
-
+  const tag1 = hintData.hints;
+  console.log(tag1);
+  const hints = hintData.hints;
   const setDownVoteButton = () => {
     if (upvote) setUpvote((prev) => !prev);
     setDownvote((prev) => !prev);
@@ -96,10 +94,10 @@ const HintPanel = ({ bgColor }) => {
                     }
                   ></i>
                 </h3>
-                <h6>10</h6>
+                <h6>{upvote}</h6>
               </div>
               <div>
-                <h6>10</h6>
+                <h6>{downvote}</h6>
                 <h3
                   style={{ lineHeight: "0" }}
                   className="caretDownButton"
