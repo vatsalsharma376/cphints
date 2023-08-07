@@ -1,4 +1,3 @@
-
 import pool from "../../db.js";
 import * as queries from "./queries.js";
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
@@ -19,8 +18,6 @@ dotenv.config();
 //   port: 13305,
 //   password: process.env.REDIS_PASSWORD, // If applicable, otherwise remove this line
 // };
-
-
 
 // // Create a new Redis client with the configuration
 // const redisClient = new Redis(redisConfig);
@@ -74,8 +71,8 @@ export const upDownvoteHint = async (request, response) => {
     // remove user id from set of downvotes in redis
     await redisClient.srem(`downvote:${hintId}`, request.user.id);
   }
-
 };
+
 export const getHints = async (request, response) => {
   const { qid, limit, offset } = request.body;
 
@@ -83,66 +80,105 @@ export const getHints = async (request, response) => {
   // redisClient.on("error", (err) => {
   //   throw err;
   // });
-  pool.query(queries.getHints, [qid, limit, offset], (error, results) => {
+  pool.query(queries.getHints, [qid, limit, offset], async (error, results) => {
     if (error) {
       throw error;
     }
     const allHints = results.rows;
-    console.log(allHints, "HIs");
+    // console.log(allHints, "HIs");
+
     // add total upvote downvote count for each hint stored in redis
-    allHints.forEach(async (hint) => {
-      try {
-        hint.totalUpvotes = await redisClient.scard(`upvote:${hint.hid}`);
-        hint.totalDownvotes = await redisClient.scard(`downvote:${hint.hid}`);
-        hint.isUpvoted = await redisClient.sismember(
-          `upvote:${hint.hid}`,
-          request.user.id
-        );
-        hint.isDownvoted = await redisClient.sismember(
-          `downvote:${hint.hid}`,
-          request.user.id
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    });
-    console.log(allHints);
-    response.status(200).json(allHints);
+    const updatedHints = await Promise.all(
+      allHints.map(async (hint) => {
+        try {
+          hint.totalUpvotes = await redisClient.scard(`upvote:${hint.hid}`);
+          hint.totalDownvotes = await redisClient.scard(`downvote:${hint.hid}`);
+          hint.isUpvoted = await redisClient.sismember(
+            `upvote:${hint.hid}`,
+            request.user.id
+          );
+          hint.isDownvoted = await redisClient.sismember(
+            `downvote:${hint.hid}`,
+            request.user.id
+          );
+
+          return hint;
+        } catch (err) {
+          console.log(err);
+        }
+      })
+    );
+
+    const finalHints = await Promise.all(
+      updatedHints.map((hint) => {
+        return new Promise((resolve, reject) => {
+          pool.query(queries.getUser, [hint.uid], (error, results) => {
+            if (error) {
+              reject(error);
+            } else {
+              hint.username = results.rows[0].username;
+              resolve(hint);
+            }
+          });
+        });
+      })
+    );
+
+    response.status(200).json(finalHints);
   });
 };
 
-export const getHintsByVotes = (request, response) => {
+export const getHintsByVotes = async (request, response) => {
   const { qid, limit, offset } = request.body;
-  
 
-  pool.query(queries.getHintsByVotes, [qid], (error, results) => {
+  pool.query(queries.getHintsByVotes, [qid], async (error, results) => {
     if (error) {
       throw error;
     }
     const allHints = results.rows;
     // add total upvote downvote count for each hint stored in redis
-    allHints.forEach(async (hint) => {
-      try {
-        hint.totalUpvotes = await redisClient.scard(`upvote:${hint.hid}`);
-        hint.totalDownvotes = await redisClient.scard(`downvote:${hint.hid}`);
-        hint.isUpvoted = await redisClient.sismember(
-          `upvote:${hint.hid}`,
-          request.user.id
-        );
-        hint.isDownvoted = await redisClient.sismember(
-          `downvote:${hint.hid}`,
-          request.user.id
-        );
-      } catch (err) {
-        console.log(err);
-      }
+    const updatedHints = await Promise.all(
+      allHints.map(async (hint) => {
+        try {
+          hint.totalUpvotes = await redisClient.scard(`upvote:${hint.hid}`);
+          hint.totalDownvotes = await redisClient.scard(`downvote:${hint.hid}`);
+          hint.isUpvoted = await redisClient.sismember(
+            `upvote:${hint.hid}`,
+            request.user.id
+          );
+          hint.isDownvoted = await redisClient.sismember(
+            `downvote:${hint.hid}`,
+            request.user.id
+          );
 
+          return hint;
+        } catch (err) {
+          console.log(err);
+        }
         // check if user.id is present in downvote set
-    });
+      })
+    );
+
+    const finalHints = await Promise.all(
+      updatedHints.map((hint) => {
+        return new Promise((resolve, reject) => {
+          pool.query(queries.getUser, [hint.uid], (error, results) => {
+            if (error) {
+              reject(error);
+            } else {
+              hint.username = results.rows[0].username;
+              resolve(hint);
+            }
+          });
+        });
+      })
+    );
+
     // sort allHints based on most number of totalUpvotes
-    allHints.sort((a, b) => b.totalUpvotes - a.totalUpvotes);
+    finalHints.sort((a, b) => b.totalUpvotes - a.totalUpvotes);
     // return subarray of allHints based on limit and offset
     const limitHints = allHints.slice(offset, offset + limit);
+
     response.status(200).json(limitHints);
   });
 };

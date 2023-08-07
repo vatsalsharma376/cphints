@@ -1,9 +1,15 @@
 #link-title {
   color: #d9d9d9;
+  text-decoration: none;
 }
 
-#link-title:hover {
+#link-title h4 {
+  color: #6c757d;
   text-decoration: none;
+}
+
+#link-title:hover h2 {
+  color: #007bff;
 }
 
 .caretUpButton:hover {

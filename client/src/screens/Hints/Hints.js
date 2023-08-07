@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import Axios from "axios";
 import NavBar from "../../components/Navbar";
 import { Container, Row, Dropdown } from "react-bootstrap";
@@ -8,9 +8,11 @@ import BACKEND_URL from "../../constants";
 import { useLocation } from "react-router-dom";
 
 const Hints = () => {
-  const {state} = useLocation();
-  const [arr, setArr] = useState(Array(12).fill(0));
+  const { state } = useLocation();
+
+  const [arr, setArr] = useState([]);
   const [sort, setSort] = useState("Latest Hints");
+  const [limit, setLimit] = useState(12);
   // const arr = Array(12).fill(0);
 
   const handleInfiniteScroll = () => {
@@ -19,7 +21,8 @@ const Hints = () => {
     const scrolled = window.scrollY;
     if (Math.ceil(scrolled) === scrollable) {
       console.log("reached bottom");
-      setArr([...arr, ...Array(12).fill(0)]);
+      setLimit((prev) => prev + 12);
+      // setArr([...arr, ...Array(12).fill(0)]);
     }
   };
 
@@ -28,19 +31,31 @@ const Hints = () => {
   }, [arr]);
 
   useEffect(() => {
-    const fetchData = async ()=>{
-      console.log(state.qid);
-    const data = await Axios.post(`${BACKEND_URL}/hints/gethints/`, {
-      qid: state.qid,
-      limit: "12",
-      offset: "0",
-   
-   });
-   console.log(data);
-    setArr(await data.data);
-  }
-   fetchData();
+    const fetchData = async () => {
+      const res = await Axios.post(`${BACKEND_URL}/hints/gethints/`, {
+        qid: state.qid,
+        limit: limit,
+        offset: "0",
+      });
+      setArr(res.data);
+    };
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const url = sort === "Latest Hints" ? "gethints" : "getHintsByVotes";
+      setLimit(12);
+
+      const res = await Axios.post(`${BACKEND_URL}/hints/${url}/`, {
+        qid: state.qid,
+        limit: limit,
+        offset: "0",
+      });
+      setArr(res.data);
+    };
+    fetchData();
+  }, [sort]);
 
   return (
     <>
@@ -49,10 +64,10 @@ const Hints = () => {
         <div>
           <Container>
             <div className="my-3">
-              <a href="/" id="link-title">
-                <h2>Question Name With Link</h2>
+              <a href={state.qlink1} target="__blank" id="link-title">
+                <h2>{state.qname}</h2>
+                <h4>{state.platform}</h4>
               </a>
-              <h4>platform</h4>
             </div>
 
             <div className="mb-2 mt-4 ms-auto" style={{ width: "15%" }}>
@@ -83,9 +98,10 @@ const Hints = () => {
             </div>
 
             <Row className="border-top border-dark">
-              {arr && arr.map((a, i) => (
-                <HintPanel bgColor="#1A1D24" key={i} hintData={a} />
-              ))}
+              {arr &&
+                arr.map((a, i) => (
+                  <HintPanel bgColor="#1A1D24" key={i} hintData={a} />
+                ))}
             </Row>
           </Container>
         </div>

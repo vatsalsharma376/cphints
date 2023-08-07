@@ -3,72 +3,77 @@ import { Col, OverlayTrigger, Tooltip, Button, Stack } from "react-bootstrap";
 import HintModal from "./HintsModal";
 import "./Hints.css";
 
-
-// const hints = [
-//   {
-//     title: "hint 2",
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed diam at augue faucibus consequat vitae a turpis. Donec blandit in ante rhoncus laoreet. Etiam euismod massa massa, ut pulvinar dolor egestas non. Morbi iaculis libero vitae nulla scelerisque porttitor. Aliquam ut dictum arcu.",
-//   },
-//   {
-//     title: "hint 3",
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed diam at augue faucibus consequat vitae a turpis. Donec blandit in ante rhoncus laoreet.",
-//   },
-//   {
-//     title: "hint 4",
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ",
-//   },
-//   {
-//     title: "hint 5",
-//     description:
-//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed diam at augue faucibus consequat vitae a turpis. Donec blandit in ante rhoncus laoreet. Etiam euismod massa massa, ut pulvinar dolor egestas non. Morbi iaculis libero vitae nulla scelerisque porttitor. Aliquam ut dictum arcu.",
-//   },
-// ];
-
 const HintTags = ({ tags }) => {
   return (
     <>
-      {tags && tags.map((t, i) => {
-        return (
-          <OverlayTrigger
-            placement="top"
-            delay={{ show: 100, hide: 100 }}
-            overlay={<Tooltip id="button-tooltip">{t}</Tooltip>}
-            key={i}
-          >
-            <div
-              className="p-1 m-1 rounded text-black"
-              style={{ fontSize: ".9em", backgroundColor: "#D9D9D9" }}
-            >
-              {t.length > 10 ? t.split(" ")[0] + "..." : t}
-            </div>
-          </OverlayTrigger>
-        );
-      })}
+      {tags &&
+        tags.map((t, i) => {
+          return (
+            <>
+              {i <= 5 && (
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 100, hide: 100 }}
+                  overlay={<Tooltip id="button-tooltip">{t}</Tooltip>}
+                  key={i}
+                >
+                  <div
+                    className="p-1 m-1 rounded text-black"
+                    style={{ fontSize: ".9em", backgroundColor: "#D9D9D9" }}
+                  >
+                    {t.length > 10 ? t.split(" ")[0] + "..." : t}
+                  </div>
+                </OverlayTrigger>
+              )}
+            </>
+          );
+        })}
     </>
   );
 };
 
-const HintPanel = (props) => {
-  const bgColor = props.bgColor;
-  console.log(props);
-  const hintData = props.hintData;
-  const [upvote, setUpvote] = useState(hintData.upvote);
-  const [downvote, setDownvote] = useState(hintData.downvote);
+const HintPanel = ({ bgColor, hintData }) => {
+  // const bgColor = props.bgColor;
+
+  // shows the active state of the upvote downvote button
+  // -1 means no button is active
+  // 0 means downvote button is active
+  // 1 means upvote button is active
+  const [active, setActive] = useState(-1);
+
+  const [upvote, setUpvote] = useState(hintData.totalUpvotes);
+  const [downvote, setDownvote] = useState(hintData.totalDownvotes);
   const [modalShow, setModalShow] = useState(false);
-  const tag1 = hintData.hints;
-  console.log(tag1);
-  const hints = hintData.hints;
+
+  const [tag, ...hints] = hintData.hints;
+  const tags = tag.split(/[\s,]+/);
+
   const setDownVoteButton = () => {
-    if (upvote) setUpvote((prev) => !prev);
-    setDownvote((prev) => !prev);
+    if (active === 1) {
+      setUpvote((prev) => prev - 1);
+      setDownvote((prev) => prev + 1);
+      setActive(0);
+    } else if (active === -1) {
+      setDownvote((prev) => prev + 1);
+      setActive(0);
+    } else {
+      setDownvote((prev) => prev - 1);
+      setActive(-1);
+    }
   };
 
   const setUpVoteButton = () => {
-    if (downvote) setDownvote((prev) => !prev);
-    setUpvote((prev) => !prev);
+    if (active === 0) {
+      setUpvote((prev) => prev + 1);
+      setDownvote((prev) => prev - 1);
+      setActive(1);
+    } else if (active === -1) {
+      setUpvote((prev) => prev + 1);
+      setActive(1);
+    } else {
+      setUpvote((prev) => prev - 1);
+      setActive(-1);
+    }
   };
 
   return (
@@ -88,7 +93,7 @@ const HintPanel = (props) => {
                 >
                   <i
                     className={
-                      !upvote
+                      active !== 1
                         ? "bi bi-caret-up"
                         : "bi bi-caret-up-fill text-success"
                     }
@@ -105,7 +110,7 @@ const HintPanel = (props) => {
                 >
                   <i
                     className={
-                      !downvote
+                      active !== 0
                         ? "bi bi-caret-down"
                         : "bi bi-caret-down-fill text-danger"
                     }
@@ -114,8 +119,10 @@ const HintPanel = (props) => {
               </div>
             </div>
             <div style={{ width: "80%" }}>
-              <div className="d-flex  flex-wrap overflow-hidden">
-                <HintTags tags={tag1} />
+              <div style={{ minHeight: "4rem" }}>
+                <div className="d-flex  flex-wrap overflow-hidden">
+                  <HintTags tags={tags} />
+                </div>
               </div>
               <div className="d-flex justify-content-between align-items-end mt-2">
                 <Button
@@ -127,7 +134,8 @@ const HintPanel = (props) => {
                 </Button>
                 <div className="d-flex flex-column align-items-end text-muted">
                   <p>
-                    <i class="bi bi-person-fill"></i> ANKUSH
+                    <i class="bi bi-person-fill"></i>{" "}
+                    {hintData.username.toUpperCase()}
                   </p>
                   <p className="m-0">
                     <i class="bi bi-clock"></i> 6 days ago

@@ -8,7 +8,7 @@ const RenderHint = ({ hint }) => {
     <>
       <div className="my-3 mx-2 p-1">
         <h4>{hint.title}</h4>
-        <p>{hint.description}</p>
+        <p className="">{hint.description}</p>
       </div>
     </>
   );
@@ -16,12 +16,21 @@ const RenderHint = ({ hint }) => {
 
 const HintsModal = (props) => {
   const [activeStep, setActiveStep] = useState(0);
-  const steps = [
-    { title: "Hint 1" },
-    { title: "Hint 2" },
-    { title: "hint 3" },
-    { title: "hint 4" },
-  ];
+
+  const tempHints = props.hints.map((hint, i) => {
+    if (hint.length > 0) {
+      const obj = { title: "Hint " + (i + 1), description: hint };
+      return obj;
+    }
+  });
+
+  const hints = tempHints.filter((hint) => hint);
+
+  const steps = hints.map((hint) => {
+    if (hint) {
+      return { title: hint.title };
+    }
+  });
 
   return (
     <Modal
@@ -39,7 +48,7 @@ const HintsModal = (props) => {
           <Modal.Title id="contained-modal-title-vcenter">Hints</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div style={{ height: "30vh" }}>
+          <div style={{ height: "35vh" }}>
             <Stepper
               steps={steps}
               activeStep={activeStep}
@@ -53,7 +62,7 @@ const HintsModal = (props) => {
               completeBarColor="#bc6ff1"
               circleFontSize={12}
             />
-            <RenderHint hint={props.hints[activeStep]} />
+            <RenderHint hint={hints[activeStep]} />
           </div>
           <div className="d-flex justify-content-between mx-2">
             {activeStep > 0 && (
@@ -68,7 +77,7 @@ const HintsModal = (props) => {
                 <i class="bi bi-arrow-left"></i>
               </Button>
             )}
-            {activeStep < props.hints.length - 1 && (
+            {activeStep < hints.length - 1 && (
               <Button
                 onClick={() => {
                   if (activeStep < props.hints.length - 1) {
