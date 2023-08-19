@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Col, OverlayTrigger, Tooltip, Button, Stack } from "react-bootstrap";
 import HintModal from "./HintsModal";
 import "./Hints.css";
-
+import BACKEND_URL from "../../constants";
+import axios from "axios";  
 const HintTags = ({ tags }) => {
   return (
     <>
@@ -40,39 +41,77 @@ const HintPanel = ({ bgColor, hintData }) => {
   // 0 means downvote button is active
   // 1 means upvote button is active
   const [active, setActive] = useState(-1);
-
+  const [disabled,setDisabled] = useState(0);
   const [upvote, setUpvote] = useState(hintData.totalUpvotes);
   const [downvote, setDownvote] = useState(hintData.totalDownvotes);
   const [modalShow, setModalShow] = useState(false);
-
+  console.log(hintData);
   const [tag, ...hints] = hintData.hints;
   const tags = tag.split(/[\s,]+/);
 
-  const setDownVoteButton = () => {
+  const setDownVoteButton = async () => {
+    let upvote = 0,
+      downvote = 0;
+      if(disabled==1) return;
     if (active === 1) {
       setUpvote((prev) => prev - 1);
       setDownvote((prev) => prev + 1);
+      upvote = -1;
+      downvote = 1;
       setActive(0);
     } else if (active === -1) {
       setDownvote((prev) => prev + 1);
+      downvote = 1;
       setActive(0);
     } else {
       setDownvote((prev) => prev - 1);
+      downvote = -1;
       setActive(-1);
+    }
+    try {
+      setDisabled(1);
+      const response = await axios.post(`${BACKEND_URL}/updownvote`, {
+        upvote,
+        downvote,
+        hintId: hintData.hid,
+      });
+      setDisabled(0);
+    } catch (err) {
+      console.log(err);
+      setDisabled(0);
     }
   };
 
-  const setUpVoteButton = () => {
+  const setUpVoteButton = async () => {
+    let upvote = 0,
+      downvote = 0;
+      if(disabled==1) return;
     if (active === 0) {
       setUpvote((prev) => prev + 1);
       setDownvote((prev) => prev - 1);
+      upvote = 1;
+      downvote = -1;
       setActive(1);
     } else if (active === -1) {
       setUpvote((prev) => prev + 1);
+      upvote = 1;
       setActive(1);
     } else {
       setUpvote((prev) => prev - 1);
+      upvote = -1;
       setActive(-1);
+    }
+    try {
+      setDisabled(1);
+      const response = await axios.post(`${BACKEND_URL}/updownvote`, {
+        upvote,
+        downvote,
+        hintId: hintData.hid,
+      });
+      setDisabled(0);
+    } catch (err) {
+      console.log(err);
+      setDisabled(0);
     }
   };
 

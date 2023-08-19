@@ -27,10 +27,7 @@ CREATE TABLE temphint(
     AND hints[1] <> '' 
     AND hints[2] <> ''
   ), 
-  upvote INTEGER CHECK (upvote >= 0), 
-  downvote INTEGER CHECK (downvote >= 0), 
   uid INTEGER NOT NULL, 
-  qid INTEGER NOT NULL, 
   qlink VARCHAR(255) NOT NULL CHECK (qlink <> ''), 
   FOREIGN KEY (uid) REFERENCES users(id), 
   FOREIGN KEY (qid) REFERENCES question(qid)
