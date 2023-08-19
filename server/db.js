@@ -1,9 +1,10 @@
 // initialize postgres db connection
-import * as pg from 'pg'
+import pg from "pg";
+const { Pool } = pg;
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
 
-const { Pool } = pg.default
+// const { Pool } = pg;
 // const pool = new Pool({
 //     user : process.env.DB_USER,
 //     host : process.env.DB_HOST,

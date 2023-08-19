@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import Redis from "ioredis";
+import morgan from "morgan";
 
 import userRoutes from "./src/users/routes.js";
 // import { router as userRouter } from "./routes/user.js";
@@ -15,6 +16,7 @@ import profileRoutes from "./src/profile/routes.js";
 import leaderboardRoutes from "./src/leaderboard/routes.js";
 
 const app = express();
+app.use(morgan(':method :url :status :response-time ms - :res[content-length]'));
 const __filename = fileURLToPath(import.meta.url);
 
 dotenv.config();
