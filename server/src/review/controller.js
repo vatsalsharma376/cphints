@@ -11,6 +11,7 @@ export const showHints = (request, response) => {
     response.status(200).json(results.rows);
   });
 };
+
 const checkQuestionExists = async (qlink1, qlink2) => {
   // check if question exists in question db
   await pool.query(

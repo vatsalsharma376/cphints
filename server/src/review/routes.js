@@ -5,6 +5,6 @@ import jwtVerify from "../middleware/jwtAuth.js";
 
 const router = Router();
 router.get("/", jwtVerify, isAdmin, showHints);
-router.delete("/:id", jwtVerify, rejectHint);
-router.post("/", jwtVerify, approveHint);
+router.delete("/:id", jwtVerify, isAdmin, rejectHint);
+router.post("/", jwtVerify, isAdmin, approveHint);
 export default router;

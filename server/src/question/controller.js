@@ -2,7 +2,7 @@ import pool from "../../db.js";
 import * as queries from "./queries.js";
 
 // controller for router.post('/',showAllQuestions); with number of hints for each question
-export const showAllQuestions = (request, response) => {
+export const showAllQuestions = async (request, response) => {
   const { limit, offset, searchQuery } = request.body;
   const obj = [];
   if (searchQuery === "") {
