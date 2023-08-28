@@ -1,6 +1,5 @@
 // initialize postgres db connection
 import pg from "pg";
-import { createClient } from "@supabase/supabase-js";
 const { Pool } = pg;
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
@@ -38,14 +37,6 @@ const pool = new Pool({
   connectionString: connectionString,
   max: 20,
 });
-
-// // ! creating a new client for supabase
-// const supabase = createClient(
-//   process.env.SUPABASE_URL,
-//   process.env.SUPABASE_API_KEY
-// );
-
-// export default supabase;
 
 // pool
 //   .connect()

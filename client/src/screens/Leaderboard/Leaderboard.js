@@ -50,7 +50,7 @@ const Leaderboard = () => {
               <div className="card bg-dark">
                 <div className="card-body" style={{ minHeight: "50vh" }}>
                   {isLoading ? (
-                    <LoadingComponent />
+                    <LoadingComponent lSize="30px" />
                   ) : (
                     <table className="table table-dark table-striped">
                       <thead>

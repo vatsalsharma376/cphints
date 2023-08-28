@@ -17,7 +17,7 @@ export const getPlatfromData = async (req, res) => {
           throw err;
         } else {
           obj.push(result.rows);
-          // console.log(obj);
+          console.log(obj);
           res.status(200).json(obj);
         }
       });

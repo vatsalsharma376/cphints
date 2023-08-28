@@ -3,7 +3,7 @@ import { Col, OverlayTrigger, Tooltip, Button, Stack } from "react-bootstrap";
 import HintModal from "./HintsModal";
 import "./Hints.css";
 import BACKEND_URL from "../../constants";
-import axios from "axios";  
+import axios from "axios";
 const HintTags = ({ tags }) => {
   return (
     <>
@@ -41,18 +41,18 @@ const HintPanel = ({ bgColor, hintData }) => {
   // 0 means downvote button is active
   // 1 means upvote button is active
   const [active, setActive] = useState(-1);
-  const [disabled,setDisabled] = useState(0);
+  const [disabled, setDisabled] = useState(0);
   const [upvote, setUpvote] = useState(hintData.totalUpvotes);
   const [downvote, setDownvote] = useState(hintData.totalDownvotes);
   const [modalShow, setModalShow] = useState(false);
-  console.log(hintData);
+  // console.log(hintData);
   const [tag, ...hints] = hintData.hints;
   const tags = tag.split(/[\s,]+/);
 
   const setDownVoteButton = async () => {
     let upvote = 0,
       downvote = 0;
-      if(disabled==1) return;
+    if (disabled == 1) return;
     if (active === 1) {
       setUpvote((prev) => prev - 1);
       setDownvote((prev) => prev + 1);
@@ -85,7 +85,7 @@ const HintPanel = ({ bgColor, hintData }) => {
   const setUpVoteButton = async () => {
     let upvote = 0,
       downvote = 0;
-      if(disabled==1) return;
+    if (disabled == 1) return;
     if (active === 0) {
       setUpvote((prev) => prev + 1);
       setDownvote((prev) => prev - 1);
@@ -173,8 +173,7 @@ const HintPanel = ({ bgColor, hintData }) => {
                 </Button>
                 <div className="d-flex flex-column align-items-end text-muted">
                   <p>
-                    <i class="bi bi-person-fill"></i>{" "}
-                    {hintData.username.toUpperCase()}
+                    <i class="bi bi-person-fill"></i> {hintData.username}
                   </p>
                   <p className="m-0">
                     <i class="bi bi-clock"></i> 6 days ago
