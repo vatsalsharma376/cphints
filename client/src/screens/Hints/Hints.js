@@ -35,7 +35,7 @@ const Hints = () => {
       const res = await Axios.post(`${BACKEND_URL}/hints/gethints/`, {
         qid: state.qid,
         limit: limit,
-        offset: "0",
+        offset: 0,
       });
       setArr(res.data);
     };
@@ -50,7 +50,7 @@ const Hints = () => {
       const res = await Axios.post(`${BACKEND_URL}/hints/${url}/`, {
         qid: state.qid,
         limit: limit,
-        offset: "0",
+        offset: 0,
       });
       setArr(res.data);
     };

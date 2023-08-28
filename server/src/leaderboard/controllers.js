@@ -7,7 +7,7 @@ export const getLeaderboard = async (req, res) => {
       res.status(400).json({ err });
       // throw err;
     } else {
-      // console.log(result.rows);
+      console.log(result.rows);
       res.status(200).json(result.rows);
     }
   });

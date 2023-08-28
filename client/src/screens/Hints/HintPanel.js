@@ -40,7 +40,8 @@ const HintPanel = ({ bgColor, hintData }) => {
   // -1 means no button is active
   // 0 means downvote button is active
   // 1 means upvote button is active
-  const [active, setActive] = useState(-1);
+  console.log(hintData);
+  const [active, setActive] = useState((hintData.isUpvoted==1)?1:((hintData.isDownvoted==1)?0:-1));
   const [disabled,setDisabled] = useState(0);
   const [upvote, setUpvote] = useState(hintData.totalUpvotes);
   const [downvote, setDownvote] = useState(hintData.totalDownvotes);
@@ -70,7 +71,7 @@ const HintPanel = ({ bgColor, hintData }) => {
     }
     try {
       setDisabled(1);
-      const response = await axios.post(`${BACKEND_URL}/updownvote`, {
+      const response = await axios.post(`${BACKEND_URL}/hints/updownvote/`, {
         upvote,
         downvote,
         hintId: hintData.hid,
@@ -103,7 +104,7 @@ const HintPanel = ({ bgColor, hintData }) => {
     }
     try {
       setDisabled(1);
-      const response = await axios.post(`${BACKEND_URL}/updownvote`, {
+      const response = await axios.post(`${BACKEND_URL}/hints/updownvote/`, {
         upvote,
         downvote,
         hintId: hintData.hid,

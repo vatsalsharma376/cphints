@@ -42,7 +42,7 @@ CREATE TABLE users (
 CREATE TABLE question (
   qid SERIAL PRIMARY KEY, 
   qlink1 VARCHAR(255) NOT NULL CHECK (qlink1 <> ''), 
-  qlink2 VARCHAR(255) NOT NULL CHECK (qlink2 <> ''), 
+  qlink2 VARCHAR(255) NOT NULL, 
   platform VARCHAR(255) NOT NULL CHECK (platform <> ''), 
   qname VARCHAR(255) NOT NULL CHECK (qname <> '')
 );

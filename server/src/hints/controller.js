@@ -33,16 +33,21 @@ export const addTemporaryHint = (request, response) => {
 
   // console.log(qlink,hints,userId);
   // add hints array to table temphints postgresql
-  pool.query(
-    queries.addTemporaryHint,
-    [...hints, qlink, request.user.id],
-    (error, results) => {
-      if (error) {
-        throw error;
+  try {
+    pool.query(
+      queries.addTemporaryHint,
+      [...hints, qlink, request.user.id],
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        response.status(201).json(results.rows[0]);
       }
-      response.status(201).json(results.rows[0]);
-    }
-  );
+    );
+  } catch (err) {
+    console.log('Error adding hint.');
+    response.status(400).json({ message: "Error adding hint." });
+  }
 };
 // export const upvoteHint = (request, response) => {
 //   const { hid } = request.body;
@@ -107,7 +112,7 @@ export const upDownvoteHint = async (request, response) => {
 
 export const getHints = async (request, response) => {
   const { qid, limit, offset } = request.body;
-
+  console.log(request.user);
   // await redisClient.connect();
   // redisClient.on("error", (err) => {
   //   throw err;
@@ -127,11 +132,11 @@ export const getHints = async (request, response) => {
           hint.totalDownvotes = await redisClient.scard(`downvote:${hint.hid}`);
           hint.isUpvoted = await redisClient.sismember(
             `upvote:${hint.hid}`,
-            (request.user?request.user.id:-1)
+            request.user ? request.user.id : -1
           );
           hint.isDownvoted = await redisClient.sismember(
             `downvote:${hint.hid}`,
-            (request.user?request.user.id:-1)
+            request.user ? request.user.id : -1
           );
 
           return hint;
@@ -176,11 +181,11 @@ export const getHintsByVotes = async (request, response) => {
           hint.totalDownvotes = await redisClient.scard(`downvote:${hint.hid}`);
           hint.isUpvoted = await redisClient.sismember(
             `upvote:${hint.hid}`,
-            (request.user?request.user.id:-1)
+            request.user ? request.user.id : -1
           );
           hint.isDownvoted = await redisClient.sismember(
             `downvote:${hint.hid}`,
-            (request.user?request.user.id:-1)
+            request.user ? request.user.id : -1
           );
 
           return hint;

@@ -35,64 +35,73 @@ export const approveHint = async (request, response) => {
   const { qlink1, qlink2, qname, platform, uid, hints, thid } = request.body;
 
   let qid = null;
-  pool.query(
-    queries.checkQuestionExists,
-    [qlink1, qlink2?.length > 0 ? qlink2 : null],
-    (error, results) => {
-      if (error) {
-        response.status(400).json({ err });
-        throw error;
-      }
-      if (results.rows.length > 0) {
-        qid = results.rows[0].qid;
-      } else {
-        qid = false;
-      }
-      if (qid && qid != null) {
-        console.log("Found", qid);
-        pool.query(queries.rejectHint, [thid], (error, results) => {});
-        pool.query(
-          queries.approveHint,
-          [...hints, qid, uid],
-          (error, results) => {
-            if (error) {
-              response.status(400).json({ error });
-              throw error;
-            }
-            pool.query(queries.rejectHint, [thid], (error, results) => {});
-
-            response.status(200).json(results.rows);
-          }
-        );
-      } else {
-        // if question does not exist in question db, add it to question db
-        pool.query(
-          queries.addQuestion,
-          [qlink1, qlink2, platform, qname],
-          (error, results) => {
-            if (error) {
-              response.status(400).json({ error });
-              throw error;
-            }
-            const qid = results.rows[0].qid;
-            pool.query(
-              queries.approveHint,
-              [...hints, qid, uid],
-              (error, results) => {
-                if (error) {
-                  response.status(400).json({ error });
-                  throw error;
-                }
-                pool.query(queries.rejectHint, [thid], (error, results) => {});
-
-                response.status(200).json(results.rows);
+  try {
+    pool.query(
+      queries.checkQuestionExists,
+      [qlink1, qlink2?.length > 0 ? qlink2 : null],
+      (error, results) => {
+        if (error) {
+          response.status(400).json({ err });
+          throw error;
+        }
+        if (results.rows.length > 0) {
+          qid = results.rows[0].qid;
+        } else {
+          qid = false;
+        }
+        if (qid && qid != null) {
+          console.log("Found", qid);
+          pool.query(queries.rejectHint, [thid], (error, results) => {});
+          pool.query(
+            queries.approveHint,
+            [...hints, qid, uid],
+            (error, results) => {
+              if (error) {
+                response.status(400).json({ error });
+                throw error;
               }
-            );
-          }
-        );
+              pool.query(queries.rejectHint, [thid], (error, results) => {});
+
+              response.status(200).json(results.rows);
+            }
+          );
+        } else {
+          // if question does not exist in question db, add it to question db
+          pool.query(
+            queries.addQuestion,
+            [qlink1, qlink2, platform, qname],
+            (error, results) => {
+              if (error) {
+                response.status(400).json({ error });
+                throw error;
+              }
+              const qid = results.rows[0].qid;
+              pool.query(
+                queries.approveHint,
+                [...hints, qid, uid],
+                (error, results) => {
+                  if (error) {
+                    response.status(400).json({ error });
+                    throw error;
+                  }
+                  pool.query(
+                    queries.rejectHint,
+                    [thid],
+                    (error, results) => {}
+                  );
+
+                  response.status(200).json(results.rows);
+                }
+              );
+            }
+          );
+        }
       }
-    }
-  );
+    );
+  } catch (err) {
+    console.log("Error approving hint.");
+    response.status(400).json({ message: "Error approving hint." });
+  }
 };
 export const rejectHint = (request, response) => {
   // reject the hint by deleting it from temphint db

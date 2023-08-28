@@ -16,7 +16,9 @@ import profileRoutes from "./src/profile/routes.js";
 import leaderboardRoutes from "./src/leaderboard/routes.js";
 
 const app = express();
-app.use(morgan(':method :url :status :response-time ms - :res[content-length]'));
+app.use(
+  morgan(":method :url :status :response-time ms - :res[content-length]")
+);
 const __filename = fileURLToPath(import.meta.url);
 
 dotenv.config();
@@ -47,16 +49,15 @@ app.use("/api/leaderboard", leaderboardRoutes);
 const PORT = process.env.PORT || 5001;
 var redisClient;
 const startServer = async () => {
-
   const redisConfig = {
-  host: process.env.REDIS_HOST,
-  port: 13305,
-  password: process.env.REDIS_PASSWORD, // If applicable, otherwise remove this line
+    host: process.env.REDIS_HOST,
+    port: 13305,
+    password: process.env.REDIS_PASSWORD, 
+  };
+  redisClient = new Redis(redisConfig);
+  app.listen(PORT, () => {
+    console.log(`serving on port ${PORT}`);
+  });
 };
-redisClient = new Redis(redisConfig);
-app.listen(PORT, () => {
-  console.log(`serving on port ${PORT}`);
-});
-}
 startServer();
-export {redisClient};
+export { redisClient };

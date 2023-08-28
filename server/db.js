@@ -1,22 +1,9 @@
 // initialize postgres db connection
-import pg from "pg";
-const { Pool } = pg;
+import * as pg from "pg";
 import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
 
-// const { Pool } = pg;
-// const pool = new Pool({
-//     user : process.env.DB_USER,
-//     host : process.env.DB_HOST,
-//     database : 'cphints',
-//     password : process.env.DB_PASSWORD,
-//     port : process.env.DB_PORT,
-//     ssl: {
-//         rejectUnauthorized: false // Only set this to true if your certificate is signed by a trusted CA.
-//     }
-// });
-// initialize postgres db connection
-
+const { Pool } = pg.default;
 // const pool = new Pool({
 //   user: process.env.DB_USER,
 //   host: process.env.DB_HOST,
@@ -31,12 +18,13 @@ dotenv.config();
 
 // const connectionString =
 //   "postgres://earigpgu:jjKGaUjw3UHruxQRJWRoy-TlVPoNfqk_@tiny.db.elephantsql.com/earigpgu";
-const connectionString = process.env.PSQL_STRING;
+const connectionString = "postgres://postgres:Nadaha@cphints@db.hqmlpsgdrivmtkosghru.supabase.co:6543/postgres"
 // Create a new connection pool
 const pool = new Pool({
   connectionString: connectionString,
-  max:20,
+  max:10,
 });
+const prev = new Date();
 // pool
 //   .connect()
 //   .then((client) => {
