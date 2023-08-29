@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Accordion, Container } from "react-bootstrap";
 import Navbar from "../../components/Navbar";
 import { FloatingLabel, Form, Button } from "react-bootstrap";
@@ -17,8 +17,10 @@ const Contribute = () => {
   const [isLoading, setisLoading] = useState(true);
   const [btnDisable, setbtnDisable] = useState(false);
   const [validated, setValidated] = useState(false);
+  const { state } = useLocation();
   const qlink = useRef(null);
   const Navigate = useNavigate();
+
   const handleContribution = async () => {
     const token = await localStorage.getItem("token");
     // console.log(token);
@@ -27,9 +29,12 @@ const Contribute = () => {
       // return;
       return Promise.reject(new Error("Enter Atleast 2 hints properly"));
     }
+    const qlinkLength = qlink.current.value.length;
     const data = {
       hints: inputValues,
-      qlink: qlink.current.value,
+      qlink:
+        qlink.current.value +
+        (qlink.current.value.charAt(qlinkLength-1) != "/" ? "/" : ""),
     };
 
     // use axios
@@ -119,6 +124,7 @@ const Contribute = () => {
   // check if user is logged in through local storage token else redirect him to home page
   useEffect(() => {
     const token = localStorage.getItem("token");
+
     // setisLoading(false);
     if (!token) {
       window.location.href = "/signup";
@@ -149,6 +155,7 @@ const Contribute = () => {
                   <Form.Control
                     type="text"
                     ref={qlink}
+                    value={state && state.qlink}
                     placeholder="www.example.com"
                     required
                   />

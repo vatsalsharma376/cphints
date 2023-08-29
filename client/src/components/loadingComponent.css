@@ -7,8 +7,6 @@
   }
 }
 .loading-spinner {
-  width: 40px;
-  height: 40px;
   border: 10px solid #007bff; /* Light grey */
   border-top: 10px solid #383636; /* Blue */
   border-bottom: 10px solid #383636; /* Blue */
@@ -20,5 +18,4 @@
   display: grid;
   justify-content: center;
   align-items: center;
-  height: 350px;
 }

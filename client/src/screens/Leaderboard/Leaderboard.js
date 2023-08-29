@@ -29,17 +29,17 @@ const Leaderboard = () => {
   }, []);
 
   return (
-    <>
+    <div style={{
+      backgroundColor: "black",
+      backgroundImage: `url(${LeaderBoardBackground})`,
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "fixed",
+      backgroundSize: "cover",
+      minHeight: "100vh",
+    }}>
       <Navbar bg="black" />
       <div
-        style={{
-          backgroundColor: "black",
-          backgroundImage: `url(${LeaderBoardBackground})`,
-          backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed",
-          backgroundSize: "cover",
-          minHeight: "90vh",
-        }}
+        
         // className="min-vh-100"
       >
         <h1 className="mb-3">Leaderboard</h1>
@@ -50,7 +50,7 @@ const Leaderboard = () => {
               <div className="card bg-dark">
                 <div className="card-body" style={{ minHeight: "50vh" }}>
                   {isLoading ? (
-                    <LoadingComponent />
+                    <LoadingComponent lSize="30px" />
                   ) : (
                     <table className="table table-dark table-striped">
                       <thead>
@@ -93,7 +93,7 @@ const Leaderboard = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

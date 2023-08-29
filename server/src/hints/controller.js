@@ -45,7 +45,7 @@ export const addTemporaryHint = (request, response) => {
       }
     );
   } catch (err) {
-    console.log('Error adding hint.');
+    console.log("Error adding hint.");
     response.status(400).json({ message: "Error adding hint." });
   }
 };
@@ -62,51 +62,66 @@ export const addTemporaryHint = (request, response) => {
 export const upDownvoteHint = async (request, response) => {
   const { upvote, downvote, hintId } = request.body;
   // const redisClient = createClient();
-  if (upvote == 1 || upvote == -1 || downvote == 1 || downvote == -1) {
-    if (upvote == 1) {
-      // add user id to set of upvotes in redis
-      const query = await redisClient.sadd(`upvote:${hintId}`, request.user.id);
-      if (query == 1) {
-        response.status(200).json({ message: "Upvote added successfully." });
-      } else {
-        response.status(409).json({ message: "Upvote already exists." });
+  console.log(upvote, downvote, hintId);
+  try {
+    if (upvote == 1 || upvote == -1 || downvote == 1 || downvote == -1) {
+      if (upvote == 1) {
+        // add user id to set of upvotes in redis
+        const query = await redisClient.sadd(
+          `upvote:${hintId}`,
+          request.user.id
+        );
+        // if (query == 1) {
+        // response.status(200).json({ message: "Upvote added successfully." });
+        // } else {
+        // response.status(409).json({ message: "Upvote already exists." });
+        // }
+      } else if (upvote == -1) {
+        // remove user id from set of upvotes in redis
+        const query = await redisClient.srem(
+          `upvote:${hintId}`,
+          request.user.id
+        );
+        // if (query == 1) {
+        //   response.status(200).json({ message: "Upvote removed successfully." });
+        // } else {
+        //   response.status(409).json({ message: "Upvote does not exist." });
+        // }
       }
-    } else if (upvote == -1) {
-      // remove user id from set of upvotes in redis
-      const query = await redisClient.srem(`upvote:${hintId}`, request.user.id);
-      if (query == 1) {
-        response.status(200).json({ message: "Upvote removed successfully." });
-      } else {
-        response.status(409).json({ message: "Upvote does not exist." });
+      if (downvote == 1) {
+        // add user id to set of downvotes in redis
+        const query = await redisClient.sadd(
+          `downvote:${hintId}`,
+          request.user.id
+        );
+        // if (query == 1) {
+        //   response.status(200).json({ message: "Downvote added successfully." });
+        // } else {
+        //   response.status(409).json({ message: "Downvote already exists." });
+        // }
+      } else if (downvote == -1) {
+        // remove user id from set of downvotes in redis
+        const query = await redisClient.srem(
+          `downvote:${hintId}`,
+          request.user.id
+        );
+        // if (query == 1) {
+        //   response
+        //     .status(200)
+        //     .json({ message: "Downvote removed successfully." });
+        // } else {
+        //   response.status(409).json({ message: "Downvote does not exist." });
+        // }
       }
+    } else {
+      response.status(400).json({ message: "Invalid request." });
     }
-    if (downvote == 1) {
-      // add user id to set of downvotes in redis
-      const query = await redisClient.sadd(
-        `downvote:${hintId}`,
-        request.user.id
-      );
-      if (query == 1) {
-        response.status(200).json({ message: "Downvote added successfully." });
-      } else {
-        response.status(409).json({ message: "Downvote already exists." });
-      }
-    } else if (downvote == -1) {
-      // remove user id from set of downvotes in redis
-      const query = await redisClient.srem(
-        `downvote:${hintId}`,
-        request.user.id
-      );
-      if (query == 1) {
-        response
-          .status(200)
-          .json({ message: "Downvote removed successfully." });
-      } else {
-        response.status(409).json({ message: "Downvote does not exist." });
-      }
-    }
-  } else {
-    response.status(400).json({ message: "Invalid request." });
+  } catch (err) {
+    console.log(err);
+    response.status(400).json({ message: "Error updating vote." });
+  }
+  finally{
+    response.status(200).json({ message: "Vote updated successfully." });
   }
 };
 
@@ -210,11 +225,13 @@ export const getHintsByVotes = async (request, response) => {
         });
       })
     );
+    console.log(finalHints);
 
     // sort allHints based on most number of totalUpvotes
     finalHints.sort((a, b) => b.totalUpvotes - a.totalUpvotes);
-    // return subarray of allHints based on limit and offset
-    const limitHints = allHints.slice(offset, offset + limit);
+    // return subarray of finalHints based on limit and offset
+    const limitHints = finalHints.slice(offset, offset + limit);
+    console.log(limitHints);
 
     response.status(200).json(limitHints);
   });

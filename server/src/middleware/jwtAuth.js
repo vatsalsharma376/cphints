@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 const verifyToken = (req, res, next) => {
   // console.log(req.headers.authorization);
-  console.log(req);
+  console.log(req.originalUrl);
   const authHeader =
     req.body.token ||
     req.query.token ||
@@ -10,8 +10,8 @@ const verifyToken = (req, res, next) => {
   const exceptions = ["/api/hints/gethints/","/api/hints/getHintsByVotes/"];
   
   const token = authHeader && authHeader.split(" ")[1];
-  // console.log(token);
-  if (!token && exceptions.includes(req.originalUrl)) {
+  
+  if (token==="null" && exceptions.includes(req.originalUrl)) {
     return next();
   }
   if (!token) {
@@ -21,6 +21,7 @@ const verifyToken = (req, res, next) => {
     const decoded = jwt.verify(token, "secret");
     req.user = decoded;
   } catch (err) {
+    console.log('Invalid user');
     return res.status(401).send("Invalid Token");
   }
   return next();

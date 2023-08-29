@@ -1,7 +1,7 @@
 const isAdmin = (req, res, next) => {
   const email = req.user.email;
 
-  if (email !== "vatsalsharma376@gmail.com") {
+  if (email !== process.env.ADMIN_EMAIL) {
     return res.status(401).send("You are not an Admin");
   }
   return next();

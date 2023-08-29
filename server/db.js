@@ -18,13 +18,12 @@ const { Pool } = pg.default;
 
 // const connectionString =
 //   "postgres://earigpgu:jjKGaUjw3UHruxQRJWRoy-TlVPoNfqk_@tiny.db.elephantsql.com/earigpgu";
-const connectionString = "postgres://postgres:Nadaha@cphints@db.hqmlpsgdrivmtkosghru.supabase.co:6543/postgres"
-// Create a new connection pool
+const connectionString = process.env.PSQL_STRING;
+// // Create a new connection pool
 const pool = new Pool({
   connectionString: connectionString,
-  max:10,
+  max: 20,
 });
-const prev = new Date();
 // pool
 //   .connect()
 //   .then((client) => {

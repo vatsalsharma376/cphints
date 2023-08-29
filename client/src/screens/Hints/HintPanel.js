@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, OverlayTrigger, Tooltip, Button, Stack } from "react-bootstrap";
 import HintModal from "./HintsModal";
 import "./Hints.css";
 import BACKEND_URL from "../../constants";
-import axios from "axios";  
+import axios from "axios";
 const HintTags = ({ tags }) => {
   return (
     <>
@@ -22,7 +22,8 @@ const HintTags = ({ tags }) => {
                     className="p-1 m-1 rounded text-black"
                     style={{ fontSize: ".9em", backgroundColor: "#D9D9D9" }}
                   >
-                    {t.length > 10 ? t.split(" ")[0] + "..." : t}
+                    {t.length > 10 ? t.substr(0,10) + "..." : t}
+                    {/* {t} */}
                   </div>
                 </OverlayTrigger>
               )}
@@ -40,20 +41,35 @@ const HintPanel = ({ bgColor, hintData }) => {
   // -1 means no button is active
   // 0 means downvote button is active
   // 1 means upvote button is active
-  console.log(hintData);
+  console.log(hintData.totalUpvotes,hintData.totalDownvotes);
   const [active, setActive] = useState((hintData.isUpvoted==1)?1:((hintData.isDownvoted==1)?0:-1));
   const [disabled,setDisabled] = useState(0);
   const [upvote, setUpvote] = useState(hintData.totalUpvotes);
   const [downvote, setDownvote] = useState(hintData.totalDownvotes);
+  const [daysAgo,setDaysAgo] = useState(99);
   const [modalShow, setModalShow] = useState(false);
-  console.log(hintData);
+  // console.log(hintData);
   const [tag, ...hints] = hintData.hints;
-  const tags = tag.split(/[\s,]+/);
-
+  const tags = tag.split(",");
+  useEffect(()=>{
+    setActive((hintData.isUpvoted==1)?1:((hintData.isDownvoted==1)?0:-1));
+    setUpvote(hintData.totalUpvotes);
+    setDownvote(hintData.totalDownvotes);
+    // const date = Date.now();
+    // console.log(hintData.created_at);
+    // const diff = date - hintData.created_at;
+    const hint_ts = new Date(hintData.created_at);
+    console.log(hint_ts);
+    const current_ts = new Date();
+    const timeDifference = current_ts - hint_ts;
+    const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+    setDaysAgo(Math.floor(timeDifference / millisecondsPerDay));
+    console.log(daysAgo);
+  },[hintData]);
   const setDownVoteButton = async () => {
     let upvote = 0,
       downvote = 0;
-      if(disabled==1) return;
+    if (disabled == 1) return;
     if (active === 1) {
       setUpvote((prev) => prev - 1);
       setDownvote((prev) => prev + 1);
@@ -86,7 +102,7 @@ const HintPanel = ({ bgColor, hintData }) => {
   const setUpVoteButton = async () => {
     let upvote = 0,
       downvote = 0;
-      if(disabled==1) return;
+    if (disabled == 1) return;
     if (active === 0) {
       setUpvote((prev) => prev + 1);
       setDownvote((prev) => prev - 1);
@@ -174,11 +190,17 @@ const HintPanel = ({ bgColor, hintData }) => {
                 </Button>
                 <div className="d-flex flex-column align-items-end text-muted">
                   <p>
-                    <i class="bi bi-person-fill"></i>{" "}
-                    {hintData.username.toUpperCase()}
+                    <i class="bi bi-person-fill"></i> {hintData.username}
                   </p>
                   <p className="m-0">
-                    <i class="bi bi-clock"></i> 6 days ago
+                    {/* find difference between timestamptz and current time in number of days 
+                    and display it  
+                    const date = Date.now();
+                    const diff = date - hintData.created_at;
+                    const days = diff/1000/60/60/24;
+
+                    */}
+                    <i class="bi bi-clock"></i> {daysAgo} days ago
                   </p>
                 </div>
               </div>

@@ -39,6 +39,7 @@ const ReviewItem = (props) => {
       hints: hint,
       uid: hintDetails.uid,
       thid,
+      created_at:hintDetails.created_at
     };
     console.log(data);
     const res = await axios.post(`${BACKEND_URL}/review/`, data);

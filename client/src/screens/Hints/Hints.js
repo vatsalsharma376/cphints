@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import Axios from "axios";
 import NavBar from "../../components/Navbar";
-import { Container, Row, Dropdown } from "react-bootstrap";
+import { Container, Row, Dropdown, Button } from "react-bootstrap";
 import HintPanel from "./HintPanel";
 import "./Hints.css";
 import BACKEND_URL from "../../constants";
-import { useLocation } from "react-router-dom";
+import LoadingComponent from "../../components/loadingComponent";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Hints = () => {
   const { state } = useLocation();
@@ -13,7 +14,9 @@ const Hints = () => {
   const [arr, setArr] = useState([]);
   const [sort, setSort] = useState("Latest Hints");
   const [limit, setLimit] = useState(12);
+  const [isLoading, setIsLoading] = useState(true);
   // const arr = Array(12).fill(0);
+  const navigate = useNavigate();
 
   const handleInfiniteScroll = () => {
     const scrollable =
@@ -37,6 +40,7 @@ const Hints = () => {
         limit: limit,
         offset: 0,
       });
+      setIsLoading(false);
       setArr(res.data);
     };
     fetchData();
@@ -44,7 +48,7 @@ const Hints = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = sort === "Latest Hints" ? "gethints" : "getHintsByVotes";
+      const url = (sort === "Latest Hints" ? "gethints" : "getHintsByVotes");
       setLimit(12);
 
       const res = await Axios.post(`${BACKEND_URL}/hints/${url}/`, {
@@ -52,6 +56,7 @@ const Hints = () => {
         limit: limit,
         offset: 0,
       });
+      console.log(res.data);
       setArr(res.data);
     };
     fetchData();
@@ -70,38 +75,54 @@ const Hints = () => {
               </a>
             </div>
 
-            <div className="mb-2 mt-4 ms-auto" style={{ width: "15%" }}>
-              <Dropdown>
-                <Dropdown.Toggle
-                  variant="transparent"
-                  id="dropdown-basic"
-                  className=" text-primary-white border"
+            <div className="d-flex justify-content-end  my-4">
+              <div>
+                <Button
+                  variant="outline-primary-white"
+                  onClick={() =>
+                    navigate("/contribute", { state: { qlink: state.qlink1 } })
+                  }
                 >
-                  {sort}
-                </Dropdown.Toggle>
+                  Add Hint
+                </Button>
+              </div>
 
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    href="#"
-                    onClick={() => setSort("Latest Hints")}
+              <div className="" style={{ width: "15%" }}>
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant="transparent"
+                    id="dropdown-basic"
+                    className=" text-primary-white border"
                   >
-                    Latest Hints
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    href="#"
-                    onClick={() => setSort("Most Upvoted")}
-                  >
-                    Most Upvoted
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+                    {sort}
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      href="#"
+                      onClick={() => setSort("Latest Hints")}
+                    >
+                      Latest Hints
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      href="#"
+                      onClick={() => setSort("Most Upvoted")}
+                    >
+                      Most Upvoted
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
             </div>
-
             <Row className="border-top border-dark">
-              {arr &&
+              {isLoading ? (
+                <LoadingComponent height="500px" lSize="30px" />
+              ) : (
+                arr &&
                 arr.map((a, i) => (
                   <HintPanel bgColor="#1A1D24" key={i} hintData={a} />
-                ))}
+                ))
+              )}
             </Row>
           </Container>
         </div>
