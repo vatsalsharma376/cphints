@@ -327,7 +327,7 @@ function FormFloatingBasicExample() {
               <Link to="/login">Already have a account?</Link>
             </p>
           </Col>
-          <Col className="d-flex ">
+          <Col className="d-flex vector-image">
             <Image
               src={sign_up_pic}
               style={{ width: "70%", height: "60%", marginTop: "25%" }}

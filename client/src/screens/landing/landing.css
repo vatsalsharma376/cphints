@@ -1,0 +1,38 @@
+.main-heading {
+  font-size: "3.5rem";
+}
+
+.title-text {
+  height: 65dvh;
+}
+
+.search-bar {
+  width: 50%;
+  margin: auto;
+}
+
+@media screen and (max-width: 720px) {
+  .search-bar {
+    width: 100%;
+  }
+
+  .three-lines {
+    font-size: 2em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-heading {
+    min-height: 3em;
+  }
+
+  .search-bar {
+    width: 100%;
+    margin-top: 1em;
+  }
+
+  .text-heading {
+    width: 100%;
+    font-size: 2em;
+  }
+}

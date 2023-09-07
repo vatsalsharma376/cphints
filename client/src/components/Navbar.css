@@ -1,0 +1,24 @@
+.login-btn {
+  display: flex;
+  gap: 0.5em;
+}
+
+.navBar {
+  max-height: 100px;
+}
+
+@media screen and (max-width: 480px) {
+  .login-btn {
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: end;
+  }
+
+  .navBar {
+    max-height: none;
+  }
+
+  .nav-link {
+    text-align: end;
+  }
+}

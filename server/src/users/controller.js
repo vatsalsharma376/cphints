@@ -9,13 +9,6 @@ dotenv.config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export const getUsers = async (request, response) => {
-  // pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
-  //   if (error) {
-  //     throw error;
-  //   }
-  //   response.status(200).json(results.rows);
-  // });
-
   // * changing the code to async await
   try {
     const result = await pool.query("SELECT * FROM users ORDER BY id ASC");
@@ -29,15 +22,6 @@ export const getUsers = async (request, response) => {
 export const addUser = async (request, response) => {
   const { email, username } = request.body;
   console.log(request.body);
-
-  //check if user already exists in postgres
-  // pool.query(
-  //   queries.checkAlreadyExists,
-  //   [email, username],
-  //   (error, results) => {
-  //     if (error) {
-  //       throw error;
-  //     }
 
   // * changing the code to async await
   try {
@@ -88,14 +72,6 @@ export const loginUser = async (request, response) => {
     username = id;
   }
 
-  // pool.query(
-  //   queries.checkAlreadyExists,
-  //   [email, username],
-  //   (error, results) => {
-  //     if (error) {
-  //       throw error;
-  //     }
-
   // * changing the code to async await
   try {
     const results = await pool.query(queries.checkAlreadyExists, [
@@ -131,18 +107,6 @@ export const addTemporaryHint = async (request, response) => {
     }
   }
 
-  // add hints array to table temphints postgresql
-  // pool.query(
-  //   queries.addHint,
-  //   [hints[0], hints[1], hints[2], hints[3], hints[4]],
-  //   (error, results) => {
-  //     if (error) {
-  //       throw error;
-  //     }
-  //     response.status(201).json(results.rows[0]);
-  //   }
-  // );
-
   // * changing the code to async await
   try {
     const result = await pool.query(queries.addHint, [
@@ -164,20 +128,6 @@ export const addUserToDatabase = async (request, response) => {
   // hash password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
-
-  //check if user already exists in postgres
-  // pool.query(
-  //   queries.addUser,
-  //   [name, email, hashedPassword, username],
-  //   (error, results) => {
-  //     if (error) {
-  //       throw error;
-  //     }
-  //     // console.log(results.rows[0].id);
-  //     const accessToken = jwt.sign(results.rows[0], "secret");
-  //     response.status(201).json({ accessToken });
-  //   }
-  // );
 
   // * changing the code to async await
   try {

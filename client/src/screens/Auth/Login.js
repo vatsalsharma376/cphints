@@ -13,6 +13,7 @@ import backendUrl from "../../../src/constants.js";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./auth.css";
 
 function Login() {
   const id = useRef(null);
@@ -69,6 +70,7 @@ function Login() {
           <Col
             md={{ span: 4, offset: 2 }}
             style={{ marginTop: "12%", marginLeft: "15%" }}
+            className="input-grp"
           >
             <div className="mb-5">
               <h1>Log in</h1>
@@ -76,7 +78,7 @@ function Login() {
             <FloatingLabel
               controlId="floatingInput"
               label="UserName/Email"
-              className="mb-3"
+              className="login-input mb-3"
             >
               <Form.Control
                 ref={id}
@@ -87,7 +89,7 @@ function Login() {
             <FloatingLabel
               controlId="floatingPassword"
               label="Password"
-              className="mb-3"
+              className="login-input mb-3"
             >
               <Form.Control
                 ref={password}
@@ -107,7 +109,7 @@ function Login() {
               <Link to="/signup">Don't have a account?</Link>
             </p>
           </Col>
-          <Col className="d-flex ">
+          <Col className="vector-image d-flex">
             <Image
               src={sign_up_pic}
               style={{ width: "70%", height: "60%", marginTop: "25%" }}

@@ -11,6 +11,8 @@ import { Search } from "react-bootstrap-icons";
 import logo from "../assets/images/cphlogo.png";
 import Image from "react-bootstrap/Image";
 import Dropdownmenu from "./Dropmenu";
+import "./Navbar.css";
+
 const Navbars = (props) => {
   const [loggedIn, setLoggedIn] = useState(false);
   // check if token exists in local storage in useeffect
@@ -37,11 +39,13 @@ const Navbars = (props) => {
               <Image src={logo} height="50" />
             </Navbar.Brand>
           </Link>
-          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Toggle
+            aria-controls="responsive-navbar-nav"
+            style={{ backgroundColor: "#d9d9d9" }}
+          />
           <Navbar.Collapse id="navbarScroll">
             <Nav
-              className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: "100px" }}
+              className="navBar me-auto my-2 my-lg-0 align-items-center"
               navbarScroll
             >
               <Link to="/">
@@ -57,41 +61,24 @@ const Navbars = (props) => {
                 Leaderboard
               </Nav.Link>
             </Nav>
+
+            <div className="login-btn">
+              <Link to="/contribute">
+                <Button variant="purplee" className="">
+                  Contribute
+                </Button>
+              </Link>
+              {loggedIn ? (
+                <Dropdownmenu setLoggedIn={setLoggedIn} />
+              ) : (
+                <Link to="/login">
+                  <Button variant="purplee" className="">
+                    Sign In
+                  </Button>
+                </Link>
+              )}
+            </div>
           </Navbar.Collapse>
-
-          {/* <Form className="d-flex">
-          
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button className="ml-1"><Search className="text-white" /></Button>
-          </Form> */}
-          {/* <NavDropdown className="text-primary-500" title="Link" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action4" >
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">
-                Something else here
-              </NavDropdown.Item>
-
-            </NavDropdown> */}
-          <Link to="/contribute">
-            <Button variant="purplee">Contribute</Button>
-          </Link>
-          {loggedIn ? (
-            <Dropdownmenu setLoggedIn={setLoggedIn} />
-          ) : (
-            <Link to="/login">
-              <Button variant="purplee" className="mx-3">
-                Sign In
-              </Button>
-            </Link>
-          )}
         </Navbar>
       </Container>
     </div>
