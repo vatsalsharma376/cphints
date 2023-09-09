@@ -14,18 +14,19 @@ import Dropdownmenu from "./Dropmenu";
 import "./Navbar.css";
 
 const Navbars = (props) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(null);
   // check if token exists in local storage in useeffect
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setLoggedIn(true);
+    const token_local = localStorage.getItem("token");
+    if (token_local) {
+      setLoggedIn(token_local);
     } else {
-      setLoggedIn(false);
+      setLoggedIn(null);
     }
   }, [loggedIn]);
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setLoggedIn(false);
+    setLoggedIn(null);
     window.location.href = "/";
   };
   // props.bg = "red";
@@ -69,7 +70,7 @@ const Navbars = (props) => {
                 </Button>
               </Link>
               {loggedIn ? (
-                <Dropdownmenu setLoggedIn={setLoggedIn} />
+                <Dropdownmenu setLoggedIn={setLoggedIn} token={loggedIn}/>
               ) : (
                 <Link to="/login">
                   <Button variant="purplee" className="">

@@ -4,12 +4,21 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 import { Image } from "react-bootstrap";
 import Avatar from "../assets/images/avatar.jpg";
 
-const Dropmenu = ({ setLoggedIn }) => {
+const Dropmenu = ({ setLoggedIn,token }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setLoggedIn(false);
     window.location.href = "/";
   };
+  const decode_jwt = (token) =>{
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload).username;
+  }
   return (
     <div>
       <Dropdown
@@ -32,7 +41,7 @@ const Dropmenu = ({ setLoggedIn }) => {
 
         <Dropdown.Menu style={{ top: "80%" }}>
           <Dropdown.Item href="#/action-1" disabled={"true"}>
-            username
+            {decode_jwt(token)}
           </Dropdown.Item>
           <Dropdown.Item href="/profile">Profile</Dropdown.Item>
           <Dropdown.Item href="/" onClick={handleLogout}>

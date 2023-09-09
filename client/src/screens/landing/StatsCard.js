@@ -20,14 +20,14 @@ import "../landing/landing.css";
 const StatsCard = () => {
   return (
     <>
-      <motion.h3
+      <motion.h1
         className="text-heading mb-4 text-center text-purplee d-block"
         whileInView={{ y: 0, opacity: 1 }}
         initial={{ y: 100, opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
-        With handpicked resources from the best
-      </motion.h3>
+        Supported Platforms
+      </motion.h1>
       <Container
         style={{ width: "60%", minHeight: "50vh" }}
         className="mb-3 py-2 rounded-5 text-md-start"

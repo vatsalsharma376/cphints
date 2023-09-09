@@ -4,6 +4,8 @@ import HintModal from "./HintsModal";
 import "./Hints.css";
 import BACKEND_URL from "../../constants";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+
 const HintTags = ({ tags }) => {
   return (
     <>
@@ -95,7 +97,10 @@ const HintPanel = ({ bgColor, hintData }) => {
       setDisabled(0);
     } catch (err) {
       console.log(err);
+      toast.error(err.response.data);
+      setDownvote((downvote)=>downvote-1);
       setDisabled(0);
+      setActive(-1);
     }
   };
 
@@ -128,6 +133,9 @@ const HintPanel = ({ bgColor, hintData }) => {
       setDisabled(0);
     } catch (err) {
       console.log(err);
+      toast.error(err.response.data);
+      setUpvote((upvote)=>upvote-1);
+      setActive(-1);
       setDisabled(0);
     }
   };
@@ -214,6 +222,7 @@ const HintPanel = ({ bgColor, hintData }) => {
           hints={hints}
         />
       </Col>
+      <ToastContainer limit={3}/>
     </>
   );
 };

@@ -12,11 +12,12 @@ import Problems from "./screens/Problems/Problems";
 import Profile from "./screens/Profile/Profile";
 import Hints from "./screens/Hints/Hints";
 import Leaderboard from "./screens/Leaderboard/Leaderboard";
-
+import NotFound from "./components/NotFound";
 function App() {
   return (
     <div className="App">
       <Routes>
+        <Route path='*' element={<NotFound />}/>
         <Route exact path="/" element={<Landing />} />
         <Route exact path="login" element={<Login />} />
         <Route exact path="signup" element={<Auth />} />

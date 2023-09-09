@@ -22,7 +22,7 @@ const verifyToken = (req, res, next) => {
     req.user = decoded;
   } catch (err) {
     console.log('Invalid user');
-    return res.status(401).send("Invalid Token");
+    return res.status(401).send("You need to log in");
   }
   return next();
 };
