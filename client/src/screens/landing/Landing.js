@@ -1,7 +1,7 @@
 // import { Container } from '@chakra-ui/react'
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Toast } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import code_editor from "../../assets/images/code_editor.png";
 import { Container, Stack } from "react-bootstrap";
@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 import backendUrl from "../../constants";
 import StatsCard from "./StatsCard";
 import "./landing.css";
+import { ToastContainer } from "react-toastify";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -66,8 +67,12 @@ const Landing = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`${backendUrl}/landing`);
-      console.log(res.data);
+      try {
+        const res = await axios.get(`${backendUrl}/landing`);
+        console.log(res.data);
+      } catch (err) {
+        Toast.error(err.message);
+      }
     };
     fetchData();
   }, []);
@@ -136,6 +141,7 @@ const Landing = () => {
           <Timeline />
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };

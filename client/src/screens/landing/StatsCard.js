@@ -119,6 +119,51 @@ const StatsCard = () => {
             </h4>
           </motion.div>
         </Row>
+        <Row
+          style={{ height: "35%" }}
+          className="d-flex justify-content-around my-3 gap-3"
+        >
+          <motion.div
+            className="col-12 col-lg-5  rounded position-relative overflow-hidden p-2"
+            whileInView={{ y: 0, opacity: 1 }}
+            initial={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            whileHover={{ scale: 1.1 }}
+            style={{
+              backgroundImage: `url(${bg3})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              height: "9em",
+            }}
+          >
+            <h4
+              className="text-white position-absolute start-0 bottom-0"
+              style={{ transform: "translate(10%,-15%)" }}
+            >
+              CodeForces
+            </h4>
+          </motion.div>
+          <motion.div
+            className="col-12 col-lg-5  rounded position-relative overflow-hidden p-2"
+            whileInView={{ y: 0, opacity: 1 }}
+            initial={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            whileHover={{ scale: 1.1 }}
+            style={{
+              backgroundImage: `url(${bg6})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              height: "9em",
+            }}
+          >
+            <h4
+              className="text-white position-absolute start-0 bottom-0"
+              style={{ transform: "translate(10%,-15%)" }}
+            >
+              CodeChef
+            </h4>
+          </motion.div>
+        </Row>
       </Container>
     </>
   );

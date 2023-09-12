@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import "./Problems.css";
 import axios from "axios";
 import backendUrl from "../../../src/constants.js";
+import { ToastContainer, toast } from "react-toastify";
 // import "~rsuite/dist/rsuite.css";
 // import '~rsuite/styles/index.less';
 
@@ -39,123 +40,134 @@ const Problems = () => {
     };
 
     const getAllProblems = async () => {
-      const resp = await axios.post(`${backendUrl}/questions/`, pageConfig);
-      // console.log(resp.data);
-      setCount(resp.data[0]);
-      setTdata(resp.data[1]);
-      settotalResults(resp.data.totalCount);
-      // console.log(searchQuery);
+      try {
+        const resp = await axios.post(`${backendUrl}/questions/`, pageConfig);
+        // console.log(resp.data);
+        setCount(resp.data[0]);
+        setTdata(resp.data[1]);
+        settotalResults(resp.data.totalCount);
+        // console.log(searchQuery);
+      } catch (err) {
+        toast.error("There was some error fetching the data!!");
+      }
     };
     getAllProblems();
   }, [page, limit, search]);
   return (
-    <div style={{ backgroundColor: "#0f131a", minHeight: "100vh" }}>
-      <Navbars bg="black" />
-      <div className="intro-text my-4">
-        <h1>Problems</h1>
-        <h4>Browse through all the problems available</h4>
-      </div>
-      <Container>
-        {/**style={{boxShadow:"0 10px 10px 1px rgba(0,0,0,.2)",height:"70vh"}} */}
-        <Row>
-          <InputGroup className="mb-3 w-25 ms-auto">
-            <Form.Control
-              placeholder="Search for problems"
-              aria-label="Search for problems"
-              aria-describedby="basic-addon2"
-              ref={val}
-            />
-            <Button
-              variant="outline-dark"
-              id="button-addon2"
-              onClick={() => {
-                setSearch(val.current.value);
-              }}
-            >
-              Button
-            </Button>
-          </InputGroup>
-        </Row>
-        <Row>
-          <Col className="rounded">
-            <Table
-              loading={tdata.length > 0 ? false : true}
-              data={tdata}
-              width={900}
-              autoHeight={true}
-              bordered={false}
-              // classPrefix="rsuite-dark"
-              // classPrefix="custom-table"
-              // cellBordered={true}
-              onRowClick={(rowData) => navigate("/hints", { state: rowData })}
-              style={{
-                backgroundColor: "#000",
-                color: "#e9ebf0",
-                cursor: "pointer",
-              }}
-              rowHeight={50}
-              className="m-auto"
-
-              // virtualized
-              // fixed={"right"}
-            >
-              <Column width={200} align="center">
-                <HeaderCell style={{ backgroundColor: "#1a1d24" }}>
-                  Problem Name
-                </HeaderCell>
-                <Cell dataKey="qname" style={{ backgroundColor: "#1a1d24" }} />
-              </Column>
-
-              <Column width={300} align="center">
-                <HeaderCell style={{ backgroundColor: "#1a1d24" }}>
-                  Problem Link
-                </HeaderCell>
-                <Cell
-                  id="qlink"
-                  dataKey="qlink1"
-                  style={{ backgroundColor: "#1a1d24" }}
-                  onClick={(e) => window.open(e.target.textContent, "_blank")}
-                />
-              </Column>
-
-              <Column width={200} align="center">
-                <HeaderCell style={{ backgroundColor: "#1a1d24" }}>
-                  Platform
-                </HeaderCell>
-                <Cell
-                  dataKey="platform"
-                  style={{ backgroundColor: "#1a1d24" }}
-                />
-              </Column>
-
-              <Column width={200} align="center">
-                <HeaderCell style={{ backgroundColor: "#1a1d24" }}>
-                  Hints available
-                </HeaderCell>
-                <Cell dataKey="count" style={{ backgroundColor: "#1a1d24" }} />
-              </Column>
-            </Table>
-            <div style={{ padding: 20 }} className="tb-page">
-              <Pagination
-                prev
-                next
-                first
-                last
-                ellipsis
-                boundaryLinks
-                maxButtons={5}
-                size="xs"
-                layout={["total", "-", "limit", "|", "pager", "skip"]}
-                total={count}
-                limitOptions={[10, 20, 30]}
-                limit={limit}
-                activePage={page}
-                onChangePage={setPage}
-                onChangeLimit={handleChangeLimit}
+    <>
+      <div style={{ backgroundColor: "#0f131a", minHeight: "100vh" }}>
+        <Navbars bg="black" />
+        <div className="intro-text my-4">
+          <h1>Problems</h1>
+          <h4>Browse through all the problems available</h4>
+        </div>
+        <Container>
+          {/**style={{boxShadow:"0 10px 10px 1px rgba(0,0,0,.2)",height:"70vh"}} */}
+          <Row>
+            <InputGroup className="mb-3 w-25 ms-auto">
+              <Form.Control
+                placeholder="Search for problems"
+                aria-label="Search for problems"
+                aria-describedby="basic-addon2"
+                ref={val}
               />
-            </div>
-          </Col>
-          {/* <Col style={{ borderLeft: "1px solid grey" }}>
+              <Button
+                variant="outline-dark"
+                id="button-addon2"
+                onClick={() => {
+                  setSearch(val.current.value);
+                }}
+              >
+                Button
+              </Button>
+            </InputGroup>
+          </Row>
+          <Row>
+            <Col className="rounded">
+              <Table
+                loading={tdata.length > 0 ? false : true}
+                data={tdata}
+                width={900}
+                autoHeight={true}
+                bordered={false}
+                // classPrefix="rsuite-dark"
+                // classPrefix="custom-table"
+                // cellBordered={true}
+                onRowClick={(rowData) => navigate("/hints", { state: rowData })}
+                style={{
+                  backgroundColor: "#000",
+                  color: "#e9ebf0",
+                  cursor: "pointer",
+                }}
+                rowHeight={50}
+                className="m-auto"
+
+                // virtualized
+                // fixed={"right"}
+              >
+                <Column width={200} align="center">
+                  <HeaderCell style={{ backgroundColor: "#1a1d24" }}>
+                    Problem Name
+                  </HeaderCell>
+                  <Cell
+                    dataKey="qname"
+                    style={{ backgroundColor: "#1a1d24" }}
+                  />
+                </Column>
+
+                <Column width={300} align="center">
+                  <HeaderCell style={{ backgroundColor: "#1a1d24" }}>
+                    Problem Link
+                  </HeaderCell>
+                  <Cell
+                    id="qlink"
+                    dataKey="qlink1"
+                    style={{ backgroundColor: "#1a1d24" }}
+                    onClick={(e) => window.open(e.target.textContent, "_blank")}
+                  />
+                </Column>
+
+                <Column width={200} align="center">
+                  <HeaderCell style={{ backgroundColor: "#1a1d24" }}>
+                    Platform
+                  </HeaderCell>
+                  <Cell
+                    dataKey="platform"
+                    style={{ backgroundColor: "#1a1d24" }}
+                  />
+                </Column>
+
+                <Column width={200} align="center">
+                  <HeaderCell style={{ backgroundColor: "#1a1d24" }}>
+                    Hints available
+                  </HeaderCell>
+                  <Cell
+                    dataKey="count"
+                    style={{ backgroundColor: "#1a1d24" }}
+                  />
+                </Column>
+              </Table>
+              <div style={{ padding: 20 }} className="tb-page">
+                <Pagination
+                  prev
+                  next
+                  first
+                  last
+                  ellipsis
+                  boundaryLinks
+                  maxButtons={5}
+                  size="xs"
+                  layout={["total", "-", "limit", "|", "pager", "skip"]}
+                  total={count}
+                  limitOptions={[10, 20, 30]}
+                  limit={limit}
+                  activePage={page}
+                  onChangePage={setPage}
+                  onChangeLimit={handleChangeLimit}
+                />
+              </div>
+            </Col>
+            {/* <Col style={{ borderLeft: "1px solid grey" }}>
             <h2>Filters</h2>
 
             <Form>
@@ -180,9 +192,11 @@ const Problems = () => {
               <Button variant="danger">Reset</Button>
             </Stack>
           </Col>   */}
-        </Row>
-      </Container>
-    </div>
+          </Row>
+        </Container>
+      </div>
+      <ToastContainer theme="dark" limit={3} />
+    </>
   );
 };
 

@@ -24,7 +24,7 @@ const HintTags = ({ tags }) => {
                     className="p-1 m-1 rounded text-black"
                     style={{ fontSize: ".9em", backgroundColor: "#D9D9D9" }}
                   >
-                    {t.length > 10 ? t.substr(0,10) + "..." : t}
+                    {t.length > 10 ? t.substr(0, 10) + "..." : t}
                     {/* {t} */}
                   </div>
                 </OverlayTrigger>
@@ -43,18 +43,20 @@ const HintPanel = ({ bgColor, hintData }) => {
   // -1 means no button is active
   // 0 means downvote button is active
   // 1 means upvote button is active
-  console.log(hintData.totalUpvotes,hintData.totalDownvotes);
-  const [active, setActive] = useState((hintData.isUpvoted==1)?1:((hintData.isDownvoted==1)?0:-1));
-  const [disabled,setDisabled] = useState(0);
+  console.log(hintData.totalUpvotes, hintData.totalDownvotes);
+  const [active, setActive] = useState(
+    hintData.isUpvoted == 1 ? 1 : hintData.isDownvoted == 1 ? 0 : -1
+  );
+  const [disabled, setDisabled] = useState(0);
   const [upvote, setUpvote] = useState(hintData.totalUpvotes);
   const [downvote, setDownvote] = useState(hintData.totalDownvotes);
-  const [daysAgo,setDaysAgo] = useState(99);
+  const [daysAgo, setDaysAgo] = useState(99);
   const [modalShow, setModalShow] = useState(false);
   // console.log(hintData);
   const [tag, ...hints] = hintData.hints;
   const tags = tag.split(",");
-  useEffect(()=>{
-    setActive((hintData.isUpvoted==1)?1:((hintData.isDownvoted==1)?0:-1));
+  useEffect(() => {
+    setActive(hintData.isUpvoted == 1 ? 1 : hintData.isDownvoted == 1 ? 0 : -1);
     setUpvote(hintData.totalUpvotes);
     setDownvote(hintData.totalDownvotes);
     // const date = Date.now();
@@ -67,7 +69,7 @@ const HintPanel = ({ bgColor, hintData }) => {
     const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
     setDaysAgo(Math.floor(timeDifference / millisecondsPerDay));
     console.log(daysAgo);
-  },[hintData]);
+  }, [hintData]);
   const setDownVoteButton = async () => {
     let upvote = 0,
       downvote = 0;
@@ -98,7 +100,7 @@ const HintPanel = ({ bgColor, hintData }) => {
     } catch (err) {
       console.log(err);
       toast.error(err.response.data);
-      setDownvote((downvote)=>downvote-1);
+      setDownvote((downvote) => downvote - 1);
       setDisabled(0);
       setActive(-1);
     }
@@ -134,7 +136,7 @@ const HintPanel = ({ bgColor, hintData }) => {
     } catch (err) {
       console.log(err);
       toast.error(err.response.data);
-      setUpvote((upvote)=>upvote-1);
+      setUpvote((upvote) => upvote - 1);
       setActive(-1);
       setDisabled(0);
     }
@@ -222,7 +224,6 @@ const HintPanel = ({ bgColor, hintData }) => {
           hints={hints}
         />
       </Col>
-      <ToastContainer limit={3}/>
     </>
   );
 };

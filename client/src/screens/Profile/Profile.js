@@ -10,6 +10,7 @@ import backendUrl from "../../constants";
 import { Table, Pagination } from "rsuite";
 import "rsuite/dist/rsuite.css";
 import Loading from "../../components/Loading";
+import { ToastContainer, toast } from "react-toastify";
 
 const Profile = () => {
   const [switchState, setSwitchState] = useState(1);
@@ -34,20 +35,28 @@ const Profile = () => {
     };
 
     const getActiveQuestions = async () => {
-      const resp = await axios.post(
-        `${backendUrl}/profile/active-hints`,
-        pageConfig
-      );
-      setActiveData(resp.data[1]);
-      setActiveCount(resp.data[0]);
+      try {
+        const resp = await axios.post(
+          `${backendUrl}/profile/active-hints`,
+          pageConfig
+        );
+        setActiveData(resp.data[1]);
+        setActiveCount(resp.data[0]);
+      } catch (e) {
+        toast.error("There was some error fetching the data!!");
+      }
     };
     const getReviewQuestions = async () => {
-      const resp = await axios.post(
-        `${backendUrl}/profile/review-hints`,
-        pageConfig
-      );
-      setReviewData(resp.data[1]);
-      setReviewCount(resp.data[0]);
+      try {
+        const resp = await axios.post(
+          `${backendUrl}/profile/review-hints`,
+          pageConfig
+        );
+        setReviewData(resp.data[1]);
+        setReviewCount(resp.data[0]);
+      } catch (e) {
+        toast.error("There was some error fetching the data!!");
+      }
     };
     const getUser = async () => {
       try {
@@ -58,8 +67,12 @@ const Profile = () => {
       }
     };
     const getStats = async () => {
-      const res = await axios.get(`${backendUrl}/profile/stats`);
-      setStats(res.data);
+      try {
+        const res = await axios.get(`${backendUrl}/profile/stats`);
+        setStats(res.data);
+      } catch (e) {
+        toast.error("There was some error fetching the data!!");
+      }
     };
     getUser();
     getActiveQuestions();
@@ -138,6 +151,7 @@ const Profile = () => {
       ) : (
         <Loading />
       )}
+      <ToastContainer theme="dark" limit={3} />
     </>
   );
 };

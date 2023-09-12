@@ -7,6 +7,7 @@ import "./Hints.css";
 import BACKEND_URL from "../../constants";
 import LoadingComponent from "../../components/loadingComponent";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const Hints = () => {
   const { state } = useLocation();
@@ -35,20 +36,24 @@ const Hints = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await Axios.post(`${BACKEND_URL}/hints/gethints/`, {
-        qid: state.qid,
-        limit: limit,
-        offset: 0,
-      });
-      setIsLoading(false);
-      setArr(res.data);
+      try {
+        const res = await Axios.post(`${BACKEND_URL}/hints/gethints/`, {
+          qid: state.qid,
+          limit: limit,
+          offset: 0,
+        });
+        setIsLoading(false);
+        setArr(res.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
     fetchData();
   }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = (sort === "Latest Hints" ? "gethints" : "getHintsByVotes");
+      const url = sort === "Latest Hints" ? "gethints" : "getHintsByVotes";
       setLimit(12);
 
       const res = await Axios.post(`${BACKEND_URL}/hints/${url}/`, {
@@ -127,6 +132,7 @@ const Hints = () => {
           </Container>
         </div>
       </div>
+      <ToastContainer theme="dark" limit={3} />
     </>
   );
 };
