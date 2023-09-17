@@ -2,53 +2,39 @@ import pool from "../../db.js";
 import * as queries from "./query.js";
 
 export const getActiveHints = async (req, res) => {
-  const { limit, offset } = req.body;
-  const id = req.user.id;
-  const obj = new Array();
+  try {
+    const { limit, offset } = req.body;
+    const id = req.user.id;
+    const obj = [];
 
-  pool.query(queries.getActiveCount, [id], (err, result) => {
-    if (err) {
-      res.status(400).json({ err });
-      throw err;
-    } else {
-      obj.push(result.rows[0].total_count);
+    const result1 = await pool.query(queries.getActiveCount, [id]);
+    obj.push(result1.rows[0].total_count);
 
-      pool.query(queries.activeHints, [id, limit, offset], (err, result) => {
-        if (err) {
-          res.status(400).json({ err });
-          throw err;
-        } else {
-          obj.push(result.rows);
-          res.status(200).json(obj);
-        }
-      });
-    }
-  });
+    const result2 = await pool.query(queries.activeHints, [id, limit, offset]);
+    obj.push(result2.rows);
+
+    res.status(200).json(obj);
+  } catch (err) {
+    res.status(400).json({ err });
+  }
 };
 
 export const getReviewHints = async (req, res) => {
-  const { limit, offset } = req.body;
-  const id = req.user.id;
-  const obj = new Array();
+  try {
+    const { limit, offset } = req.body;
+    const id = req.user.id;
+    const obj = [];
 
-  pool.query(queries.getReviewCount, [id], (err, result) => {
-    if (err) {
-      res.status(400).json({ err });
-      throw err;
-    } else {
-      obj.push(result.rows[0].total_count);
+    const result1 = await pool.query(queries.getReviewCount, [id]);
+    obj.push(result1.rows[0].total_count);
 
-      pool.query(queries.reviewHints, [id, limit, offset], (err, result) => {
-        if (err) {
-          res.status(400).json({ err });
-          throw err;
-        } else {
-          obj.push(result.rows);
-          res.status(200).json(obj);
-        }
-      });
-    }
-  });
+    const result2 = await pool.query(queries.reviewHints, [id, limit, offset]);
+    obj.push(result2.rows);
+
+    res.status(200).json(obj);
+  } catch (err) {
+    res.status(400).json({ err });
+  }
 };
 
 // pool.query(
@@ -65,38 +51,30 @@ export const getReviewHints = async (req, res) => {
 // );
 
 export const getUser = async (req, res) => {
-  const id = req.user.id;
-  pool.query(queries.getUser, [id], (err, result) => {
-    if (err) {
-      res.status(400).json({ err });
-      throw err;
-    }
+  try {
+    const id = req.user.id;
+    const result = await pool.query(queries.getUser, [id]);
     res.status(200).json(result.rows);
-  });
+  } catch (err) {
+    res.status(400).json({ err });
+  }
 };
 
 export const getStats = async (req, res) => {
-  const id = req.user.id;
-  const obj = {};
+  try {
+    const id = req.user.id;
+    const obj = {};
 
-  pool.query(queries.getStats, [id], (err, result) => {
-    if (err) {
-      res.status(400).json({ err });
-      throw err;
-    } else {
-      obj.upvotes = result.rows[0].total_upvotes;
-      obj.downvotes = result.rows[0].total_downvotes;
-      obj.hintsAccepted = result.rows[0].total_hints;
+    const result1 = await pool.query(queries.getStats, [id]);
+    obj.upvotes = result1.rows[0].total_upvotes;
+    obj.downvotes = result1.rows[0].total_downvotes;
+    obj.hintsAccepted = result1.rows[0].total_hints;
 
-      pool.query(queries.getReviewStats, [id], (err, result) => {
-        if (err) {
-          res.status(400).json({ err });
-          throw err;
-        }
-        obj.hintsInReview = result.rows[0].total_in_review;
+    const result2 = await pool.query(queries.getReviewStats, [id]);
+    obj.hintsInReview = result2.rows[0].total_in_review;
 
-        res.status(200).json(obj);
-      });
-    }
-  });
+    res.status(200).json(obj);
+  } catch (err) {
+    res.status(400).json({ err });
+  }
 };

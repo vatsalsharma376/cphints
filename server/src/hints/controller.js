@@ -5,64 +5,30 @@ import Redis from "ioredis";
 import { redisClient } from "../../server.js";
 dotenv.config();
 
-// const redisClient = redis.createClient({
-//     password: process.env.REDIS_PASSWORD,
-//     socket: {
-//       host: pprocess.env.REDIS_HOSTrocess.env.REDIS_HOST,
-//       port: 13305,
-//     },
-//     legacyMode: true,
-//   });
-// const redisConfig = {
-//   host: process.env.REDIS_HOST,
-//   port: 13305,
-//   password: process.env.REDIS_PASSWORD, // If applicable, otherwise remove this line
-// };
-
-// // Create a new Redis client with the configuration
-// const redisClient = new Redis(redisConfig);
-export const addTemporaryHint = (request, response) => {
+export const addTemporaryHint = async (request, response) => {
   const { qlink, hints } = request.body;
-  // console.log(request.user);
-  // padd hints array with undefined if length is less than 5
-  if (hints.length < 5) {
-    for (let i = hints.length; i < 5; i++) {
-      hints.push(null);
-    }
+
+  // Pad hints array with null if length is less than 5
+  while (hints.length < 5) {
+    hints.push(null);
   }
 
-  // console.log(qlink,hints,userId);
-  // add hints array to table temphints postgresql
   try {
-    pool.query(
-      queries.addTemporaryHint,
-      [...hints, qlink, request.user.id],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-        response.status(201).json(results.rows[0]);
-      }
-    );
+    const results = await pool.query(queries.addTemporaryHint, [
+      ...hints,
+      qlink,
+      request.user.id,
+    ]);
+
+    response.status(201).json(results.rows[0]);
   } catch (err) {
-    console.log("Error adding hint.");
+    console.log("Error adding hint:", err);
     response.status(400).json({ message: "Error adding hint." });
   }
 };
-// export const upvoteHint = (request, response) => {
-//   const { hid } = request.body;
-//   pool.query(queries.upvoteHint, [hid], (error, results) => {
-//     if (error) {
-//       throw error;
-//     }
-//     response.status(201).json(results.rows[0]);
-//   });
-// };
 
 export const upDownvoteHint = async (request, response) => {
   const { upvote, downvote, hintId } = request.body;
-  // const redisClient = createClient();
-  console.log(upvote, downvote, hintId);
   try {
     if (upvote == 1 || upvote == -1 || downvote == 1 || downvote == -1) {
       if (upvote == 1) {
@@ -71,22 +37,12 @@ export const upDownvoteHint = async (request, response) => {
           `upvote:${hintId}`,
           request.user.id
         );
-        // if (query == 1) {
-        // response.status(200).json({ message: "Upvote added successfully." });
-        // } else {
-        // response.status(409).json({ message: "Upvote already exists." });
-        // }
       } else if (upvote == -1) {
         // remove user id from set of upvotes in redis
         const query = await redisClient.srem(
           `upvote:${hintId}`,
           request.user.id
         );
-        // if (query == 1) {
-        //   response.status(200).json({ message: "Upvote removed successfully." });
-        // } else {
-        //   response.status(409).json({ message: "Upvote does not exist." });
-        // }
       }
       if (downvote == 1) {
         // add user id to set of downvotes in redis
@@ -94,24 +50,12 @@ export const upDownvoteHint = async (request, response) => {
           `downvote:${hintId}`,
           request.user.id
         );
-        // if (query == 1) {
-        //   response.status(200).json({ message: "Downvote added successfully." });
-        // } else {
-        //   response.status(409).json({ message: "Downvote already exists." });
-        // }
       } else if (downvote == -1) {
         // remove user id from set of downvotes in redis
         const query = await redisClient.srem(
           `downvote:${hintId}`,
           request.user.id
         );
-        // if (query == 1) {
-        //   response
-        //     .status(200)
-        //     .json({ message: "Downvote removed successfully." });
-        // } else {
-        //   response.status(409).json({ message: "Downvote does not exist." });
-        // }
       }
     } else {
       response.status(400).json({ message: "Invalid request." });
@@ -119,27 +63,27 @@ export const upDownvoteHint = async (request, response) => {
   } catch (err) {
     console.log(err);
     response.status(400).json({ message: "Error updating vote." });
-  }
-  finally{
+  } finally {
     response.status(200).json({ message: "Vote updated successfully." });
   }
 };
 
 export const getHints = async (request, response) => {
-  const { qid, limit, offset } = request.body;
-  console.log(request.user);
-  // await redisClient.connect();
-  // redisClient.on("error", (err) => {
-  //   throw err;
-  // });
-  pool.query(queries.getHints, [qid, limit, offset], async (error, results) => {
-    if (error) {
-      throw error;
-    }
-    const allHints = results.rows;
-    // console.log(allHints, "HIs");
+  try {
+    const { qid, limit, offset } = request.body;
 
-    // add total upvote downvote count for each hint stored in redis
+    const results = await new Promise((resolve, reject) => {
+      pool.query(queries.getHints, [qid, limit, offset], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+
+    const allHints = results.rows;
+
     const updatedHints = await Promise.all(
       allHints.map(async (hint) => {
         try {
@@ -157,38 +101,56 @@ export const getHints = async (request, response) => {
           return hint;
         } catch (err) {
           console.log(err);
+          return hint;
         }
       })
     );
 
     const finalHints = await Promise.all(
-      updatedHints.map((hint) => {
-        return new Promise((resolve, reject) => {
-          pool.query(queries.getUser, [hint.uid], (error, results) => {
-            if (error) {
-              reject(error);
-            } else {
-              hint.username = results.rows[0].username;
-              resolve(hint);
-            }
+      updatedHints.map(async (hint) => {
+        try {
+          const userResults = await new Promise((resolve, reject) => {
+            pool.query(queries.getUser, [hint.uid], (error, results) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(results);
+              }
+            });
           });
-        });
+
+          hint.username = userResults.rows[0].username;
+          return hint;
+        } catch (err) {
+          console.log(err);
+          return hint;
+        }
       })
     );
 
     response.status(200).json(finalHints);
-  });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json({ message: "Internal server error" });
+  }
 };
 
 export const getHintsByVotes = async (request, response) => {
-  const { qid, limit, offset } = request.body;
+  try {
+    const { qid, limit, offset } = request.body;
 
-  pool.query(queries.getHintsByVotes, [qid], async (error, results) => {
-    if (error) {
-      throw error;
-    }
+    const results = await new Promise((resolve, reject) => {
+      pool.query(queries.getHintsByVotes, [qid], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+
     const allHints = results.rows;
-    // add total upvote downvote count for each hint stored in redis
+
     const updatedHints = await Promise.all(
       allHints.map(async (hint) => {
         try {
@@ -206,33 +168,41 @@ export const getHintsByVotes = async (request, response) => {
           return hint;
         } catch (err) {
           console.log(err);
+          return hint;
         }
-        // check if user.id is present in downvote set
       })
     );
 
     const finalHints = await Promise.all(
-      updatedHints.map((hint) => {
-        return new Promise((resolve, reject) => {
-          pool.query(queries.getUser, [hint.uid], (error, results) => {
-            if (error) {
-              reject(error);
-            } else {
-              hint.username = results.rows[0].username;
-              resolve(hint);
-            }
+      updatedHints.map(async (hint) => {
+        try {
+          const userResults = await new Promise((resolve, reject) => {
+            pool.query(queries.getUser, [hint.uid], (error, results) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(results);
+              }
+            });
           });
-        });
+
+          hint.username = userResults.rows[0].username;
+          return hint;
+        } catch (err) {
+          console.log(err);
+          return hint;
+        }
       })
     );
-    console.log(finalHints);
 
-    // sort allHints based on most number of totalUpvotes
+    // Sort finalHints based on most number of totalUpvotes
     finalHints.sort((a, b) => b.totalUpvotes - a.totalUpvotes);
-    // return subarray of finalHints based on limit and offset
+    // Return subarray of finalHints based on limit and offset
     const limitHints = finalHints.slice(offset, offset + limit);
-    console.log(limitHints);
 
     response.status(200).json(limitHints);
-  });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json({ message: "Internal server error" });
+  }
 };

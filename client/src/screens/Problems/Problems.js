@@ -78,7 +78,7 @@ const Problems = () => {
                   setSearch(val.current.value);
                 }}
               >
-                Button
+                Search
               </Button>
             </InputGroup>
           </Row>

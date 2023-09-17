@@ -6,7 +6,9 @@
 .navBar {
   max-height: 100px;
 }
-
+a:hover{
+  text-decoration: none !important;
+}
 @media screen and (max-width: 480px) {
   .login-btn {
     flex-direction: column;
