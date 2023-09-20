@@ -64,7 +64,7 @@ const Problems = () => {
         <Container>
           {/**style={{boxShadow:"0 10px 10px 1px rgba(0,0,0,.2)",height:"70vh"}} */}
           <Row>
-            <InputGroup className="mb-3 w-25 ms-auto">
+            <InputGroup className="mb-3 w-25" style={{marginLeft:"56em"}}>
               <Form.Control
                 placeholder="Search for problems"
                 aria-label="Search for problems"
