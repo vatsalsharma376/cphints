@@ -2,7 +2,6 @@ import pool from "../../db.js";
 import * as queries from "./queries.js";
 
 export const showHints = async (request, response) => {
-  // *  changed the code to async await
   try {
     const data = await pool.query(queries.showHints);
     response.status(200).json(data.rows);
@@ -13,7 +12,6 @@ export const showHints = async (request, response) => {
 };
 
 const checkQuestionExists = async (qlink1, qlink2) => {
-  // *  changed the code to async await
   try {
     const data = await pool.query(queries.checkQuestionExists, [
       qlink1,
@@ -31,7 +29,6 @@ const checkQuestionExists = async (qlink1, qlink2) => {
 };
 
 export const approveHint = async (request, response) => {
-  // console.log('approveHint route called');
   // approve the hint by moving it from temphint to hint db
   const { qlink1, qlink2, qname, platform, uid, hints, thid, created_at } =
     request.body;
@@ -71,7 +68,6 @@ export const rejectHint = async (request, response) => {
   // get id from url :id
   const id = request.params.id;
 
-  // *  changed the code to async await
   try {
     const data = await pool.query(queries.rejectHint, [id]);
     response.status(200).send(`Hint deleted with ID: ${id}`);

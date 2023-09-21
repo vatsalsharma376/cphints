@@ -37,18 +37,7 @@ export const getReviewHints = async (req, res) => {
   }
 };
 
-// pool.query(
-//   queries.reviewHints,
-//   [id, limit, offset],
-//   (err, result) => {
-//     if (err) {
-//       res.status(400).json({ err });
-//       throw err;
-//     }
-//     obj.push(result.rows);
-//     res.status(200).json(obj);
-//   }
-// );
+
 
 export const getUser = async (req, res) => {
   try {

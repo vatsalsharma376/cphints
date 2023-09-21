@@ -1,6 +1,4 @@
-// import { Container } from '@chakra-ui/react'
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Col, Row, Toast } from "react-bootstrap";
 import Img from "react-bootstrap/Image";
 import code_editor from "../../assets/images/code_editor.png";
@@ -13,7 +11,6 @@ import starbg from "./starbg.jpg";
 import Timeline from "../../components/Timeline";
 import { useNavigate } from "react-router-dom";
 
-import backendUrl from "../../constants";
 import StatsCard from "./StatsCard";
 import "./landing.css";
 import { ToastContainer } from "react-toastify";
@@ -99,24 +96,18 @@ const Landing = () => {
             </div>
           </Container>
           <div style={{ backgroundColor: "#000" }} className="py-5">
-            <div
-              // style={{ width: "60%" }}
-              className="py-4 mx-auto"
-            >
+            <div className="py-4 mx-auto">
               <StatsCard />
             </div>
 
             <div className="text-white">
               <h1 className="text-heading text-white mb-lg-2">How it works?</h1>
-              {/* </Typist> */}
               <Timeline />
             </div>
           </div>
           <ToastContainer />
         </div>
-        
       )}
-      
     </>
   );
 };

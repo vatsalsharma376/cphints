@@ -1,6 +1,5 @@
 export const activeHints =
   "SELECT  q.platform, q.qname FROM question q JOIN hint h ON q.qid = h.qid JOIN users u ON h.uid = u.id WHERE u.id = $1  LIMIT $2 OFFSET $3";
-// GROUP BY q.qid, q.qlink1, q.qlink2, q.platform, q.qname
 
 export const reviewHints =
   "SELECT th.qlink FROM temphint th JOIN users u ON u.id = th.uid WHERE u.id = $1 LIMIT $2 OFFSET $3";

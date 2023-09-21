@@ -16,7 +16,6 @@ const Hints = () => {
   const [sort, setSort] = useState("Latest Hints");
   const [limit, setLimit] = useState(12);
   const [isLoading, setIsLoading] = useState(true);
-  // const arr = Array(12).fill(0);
   const navigate = useNavigate();
 
   const handleInfiniteScroll = () => {
@@ -24,14 +23,16 @@ const Hints = () => {
       document.documentElement.scrollHeight - window.innerHeight;
     const scrolled = window.scrollY;
     if (Math.ceil(scrolled) === scrollable) {
-      console.log("reached bottom");
       setLimit((prev) => prev + 12);
-      // setArr([...arr, ...Array(12).fill(0)]);
     }
   };
 
   useEffect(() => {
     window.addEventListener("scroll", handleInfiniteScroll);
+    return () => {
+      window.removeEventListener("scroll", handleInfiniteScroll);
+
+    }
   }, [arr]);
 
   useEffect(() => {
@@ -45,11 +46,11 @@ const Hints = () => {
         setIsLoading(false);
         setArr(res.data);
       } catch (err) {
-        console.log(err);
+        toast.error("There was an error fetching the hints");
       }
     };
     fetchData();
-  }, []);
+  }, [limit]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +62,6 @@ const Hints = () => {
         limit: limit,
         offset: 0,
       });
-      console.log(res.data);
       setArr(res.data);
     };
     fetchData();

@@ -1,13 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
-import SDE from "../../assets/images/SDE_sheet.png";
-import gfg1 from "../../assets/images/gfg1.png";
-import cses from "../../assets/images/cses.png";
-import tuf1 from "../../assets/images/tuf1.png";
-import leet from "../../assets/images/leet.png";
-import cn from "../../assets/images/cn.jpeg";
-import cf from "../../assets/images/cf.webp";
 
 import bg1 from "../../assets/images/bg/bg1.jpg";
 import bg2 from "../../assets/images/bg/bg2.jpg";
@@ -29,12 +22,12 @@ const StatsCard = () => {
         Supported Platforms
       </motion.h1>
       <Container
-        style={{ width: "60%", minHeight: "50vh" }}
+        style={{ width: "90%", minHeight: "50vh" }}
         className="mb-3 py-2 rounded-5 text-md-start"
       >
-        <Row className="d-flex justify-content-around my-3 gap-3">
+        <Row className="d-flex justify-content-evenly my-5 gap-3">
           <motion.div
-            className="col-12 col-lg-5  rounded position-relative overflow-hidden p-2"
+            className="col-12 col-lg-3  rounded position-relative overflow-hidden p-2"
             whileInView={{ y: 0, opacity: 1 }}
             initial={{ y: 100, opacity: 0 }}
             transition={{ duration: 0.3 }}
@@ -54,7 +47,7 @@ const StatsCard = () => {
             </h4>
           </motion.div>
           <motion.div
-            className="col-12 col-lg-5  rounded position-relative overflow-hidden p-2"
+            className="col-12 col-lg-3  rounded position-relative overflow-hidden p-2"
             whileInView={{ y: 0, opacity: 1 }}
             initial={{ y: 100, opacity: 0 }}
             transition={{ duration: 0.3 }}
@@ -73,13 +66,8 @@ const StatsCard = () => {
               LeetCode
             </h4>
           </motion.div>
-        </Row>
-        <Row
-          style={{ height: "35%" }}
-          className="d-flex justify-content-around my-3 gap-3"
-        >
           <motion.div
-            className="col-12 col-lg-5  rounded position-relative overflow-hidden p-2"
+            className="col-12 col-lg-3  rounded position-relative overflow-hidden p-2"
             whileInView={{ y: 0, opacity: 1 }}
             initial={{ y: 100, opacity: 0 }}
             transition={{ duration: 0.3 }}
@@ -98,8 +86,14 @@ const StatsCard = () => {
               Geeks For Geeks
             </h4>
           </motion.div>
+        </Row>
+        <Row
+          style={{ height: "35%" }}
+          className="d-flex justify-content-evenly my-5 gap-3"
+        >
+          
           <motion.div
-            className="col-12 col-lg-5  rounded position-relative overflow-hidden p-2"
+            className="col-12 col-lg-3  rounded position-relative overflow-hidden p-2"
             whileInView={{ y: 0, opacity: 1 }}
             initial={{ y: 100, opacity: 0 }}
             transition={{ duration: 0.3 }}
@@ -118,13 +112,9 @@ const StatsCard = () => {
               Coding Ninjas
             </h4>
           </motion.div>
-        </Row>
-        <Row
-          style={{ height: "35%" }}
-          className="d-flex justify-content-around my-3 gap-3"
-        >
+
           <motion.div
-            className="col-12 col-lg-5  rounded position-relative overflow-hidden p-2"
+            className="col-12 col-lg-3  rounded position-relative overflow-hidden p-2"
             whileInView={{ y: 0, opacity: 1 }}
             initial={{ y: 100, opacity: 0 }}
             transition={{ duration: 0.3 }}
@@ -144,7 +134,7 @@ const StatsCard = () => {
             </h4>
           </motion.div>
           <motion.div
-            className="col-12 col-lg-5  rounded position-relative overflow-hidden p-2"
+            className="col-12 col-lg-3  rounded position-relative overflow-hidden p-2"
             whileInView={{ y: 0, opacity: 1 }}
             initial={{ y: 100, opacity: 0 }}
             transition={{ duration: 0.3 }}
@@ -164,6 +154,7 @@ const StatsCard = () => {
             </h4>
           </motion.div>
         </Row>
+        
       </Container>
     </>
   );

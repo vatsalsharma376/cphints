@@ -30,7 +30,6 @@ const ReviewItem = (props) => {
       hint4.current.value,
       hint5.current.value,
     ];
-    console.log(hint);
     const data = {
       qlink1: qlink1.current.value,
       qlink2: qlink2.current.value,
@@ -39,9 +38,8 @@ const ReviewItem = (props) => {
       hints: hint,
       uid: hintDetails.uid,
       thid,
-      created_at:hintDetails.created_at
+      created_at: hintDetails.created_at,
     };
-    console.log(data);
     const res = await axios.post(`${BACKEND_URL}/review/`, data);
     if (res.status === 200) {
       toast.success("Hint approved");
@@ -65,7 +63,6 @@ const ReviewItem = (props) => {
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
           ref={qlink1}
-          // value={hintDetails.qlink}
           defaultValue={hintDetails.qlink}
         />
       </InputGroup>
@@ -98,7 +95,6 @@ const ReviewItem = (props) => {
           <option value="Coding Ninjas">Coding Ninjas</option>
           <option value="GeeksforGeeks">GeeksforGeeks</option>
           <option value="CSES">CSES</option>
-          
         </Form.Select>
       </div>
       <Accordion alwaysOpen>
@@ -144,7 +140,6 @@ const ReviewItem = (props) => {
               <Form.Control
                 aria-label="Default"
                 aria-describedby="inputGroup-sizing-default"
-                // ref={qlink1}
                 ref={hint3}
                 defaultValue={hintDetails.hints[2]}
               />
@@ -161,7 +156,6 @@ const ReviewItem = (props) => {
               <Form.Control
                 aria-label="Default"
                 aria-describedby="inputGroup-sizing-default"
-                // ref={qlink1}
                 ref={hint4}
                 defaultValue={hintDetails.hints[3]}
               />
@@ -178,7 +172,6 @@ const ReviewItem = (props) => {
               <Form.Control
                 aria-label="Default"
                 aria-describedby="inputGroup-sizing-default"
-                // ref={qlink1}
                 ref={hint5}
                 defaultValue={hintDetails.hints[4]}
               />

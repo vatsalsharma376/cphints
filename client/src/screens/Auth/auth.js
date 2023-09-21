@@ -5,7 +5,6 @@ import OtpInput from "react-otp-input";
 import { useNavigate } from "react-router-dom";
 
 import NavBar from "../../components/Navbar";
-import Login from "./Login";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Row from "react-bootstrap/Row";
@@ -41,7 +40,6 @@ function FormFloatingBasicExample() {
   const navigate = useNavigate();
 
   const handleValidation = () => {
-    // console.log(data.password.length);
     if (name.current.value === "") {
       setNameError(true);
     } else {
@@ -103,32 +101,17 @@ function FormFloatingBasicExample() {
         resp = await axios.post(`${backendUrl}/users/register/`, data);
         setbtnDisable(false);
         if (resp.status === 200) {
-          // console.log("Successfully registered!");
-          // localStorage.setItem("token", resp.data.accessToken);
-
-          // return Promise.resolve();
-          // prompt user to enter otp
           setisPopup(true);
-          console.log(resp.data.otp);
           setUserOtp(resp.data.otp);
         }
       } catch (err) {
         setbtnDisable(false);
-
-        console.log("Error in registration!");
-        // show an error toast
         toast.error("User already exists!");
       }
-      // console.log("After axios", resp);
     }
   };
   const handleSubmit = async (e) => {
     handleRegister();
-    // const registerToast = await toast.promise(handleRegister, {
-    //   pending: "The registration is yet to go through",
-    //   success: "You are successfully registered",
-    //   error: "User already exists LW",
-    // });
   };
   const finalRegister = async () => {
     const data = {
@@ -142,7 +125,6 @@ function FormFloatingBasicExample() {
       data
     );
     if (resp.status === 201) {
-      console.log("Successfully registered!");
       localStorage.setItem("token", resp.data.accessToken);
 
       // show a success toast saying "You are successfully registered"
@@ -176,7 +158,6 @@ function FormFloatingBasicExample() {
         <p>Please enter the verification code sent to your email</p>
         <OtpInput
           shouldAutoFocus={true}
-          // inputType={"number"}
           containerStyle={{
             height: "5rem",
             display: "flex",
@@ -213,17 +194,11 @@ function FormFloatingBasicExample() {
         <button
           className="otp-btn otp-confirm"
           onClick={() => {
-            console.log(userOtp, enteredOtp);
             if (userOtp == enteredOtp) {
               setEnteredOtp("");
               setisPopup(false);
               toast.success("OTP verified!");
               finalRegister();
-              // toast.promise(deleteData, {
-              //   pending: "The donation is yet to be deleted",
-              //   success: "OTP verified! Donation deleted",
-              //   error: "Error deleting donation",
-              // });
             } else {
               toast.error("Incorrect OTP");
             }
@@ -250,11 +225,6 @@ function FormFloatingBasicExample() {
                   placeholder="name@example.com"
                   isInvalid={usernameError}
                 />
-                {/* {usernameError && (
-                <Form.Control.Feedback type="invalid">
-                Please choose a username.
-              </Form.Control.Feedback>
-              )} */}
               </FloatingLabel>
               <FloatingLabel
                 controlId="floatingInput"
@@ -266,9 +236,6 @@ function FormFloatingBasicExample() {
                   placeholder="name@example.com"
                   isInvalid={nameError}
                 />
-                {/* {nameError && (
-                <p className="text-danger">Enter a valid name</p>
-              )} */}
               </FloatingLabel>
               <FloatingLabel
                 controlId="floatingInput"
@@ -280,9 +247,6 @@ function FormFloatingBasicExample() {
                   placeholder="name@example.com"
                   isInvalid={emailError}
                 />
-                {/* {emailError && (
-                <p className="text-danger">Enter a valid email</p>
-              )} */}
               </FloatingLabel>
               <FloatingLabel
                 controlId="floatingPassword"
@@ -295,9 +259,6 @@ function FormFloatingBasicExample() {
                   placeholder="Password"
                   isInvalid={passwordError}
                 />
-                {/* {passwordError && (
-                <p className="text-danger">Password must be atleast 8 characters</p>
-              )} */}
               </FloatingLabel>
               <FloatingLabel
                 controlId="floatingPassword"
@@ -310,9 +271,6 @@ function FormFloatingBasicExample() {
                   placeholder="Password"
                   isInvalid={confirmPasswordError}
                 />
-                {/* {confirmPasswordError && (
-                <p className="text-danger">Password and confirm password must be same</p>
-              )} */}
               </FloatingLabel>
               <Button
                 variant="primary"

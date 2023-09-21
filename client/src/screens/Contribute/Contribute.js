@@ -5,7 +5,6 @@ import Navbar from "../../components/Navbar";
 import { FloatingLabel, Form, Button } from "react-bootstrap";
 import backendUrl from "../../../src/constants.js";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,10 +22,7 @@ const Contribute = () => {
 
   const handleContribution = async () => {
     const token = await localStorage.getItem("token");
-    // console.log(token);
     if (inputValues.length < 2) {
-      // toast.error("Enter Atleast 2 hints properly");
-      // return;
       return Promise.reject(new Error("Enter Atleast 2 hints properly"));
     }
     const qlinkLength = qlink.current.value.length;
@@ -34,57 +30,38 @@ const Contribute = () => {
       hints: inputValues,
       qlink:
         qlink.current.value +
-        (qlink.current.value.charAt(qlinkLength-1) != "/" ? "/" : ""),
+        (qlink.current.value.charAt(qlinkLength - 1) != "/" ? "/" : ""),
     };
 
-    // use axios
-    // console.log(jwt_decode(token));
-    // console.log(data);
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     const resp = await axios.post(`${backendUrl}/hints/`, data);
     if (resp.status === 201) {
-      // console.log("Successfully logged in!");
-      // console.log(resp.data);
-      // localStorage.setItem("token", resp.data.accessToken);
       return Promise.resolve();
     } else {
-      // console.log("Error loggin in!");
       return Promise.reject(new Error("Whoops!"));
     }
-    // console.log(resp);
   };
   const handleSubmit = async (e) => {
-    // e.preventDefault();
     const form = e.currentTarget;
-    console.log(form.checkValidity);
     if (form.checkValidity === false) {
       e.stopPropagation();
     }
-    console.log(validated);
     if (qlink.current.value.length <= 10) {
       toast.error("Enter question link");
       return;
-
-      // return Promise.reject(new Error("Enter Atleast 2 hints properly"));
     }
 
     if (inputValues.length < 2) {
       toast.error("Enter Atleast 2 hints");
       return;
-
-      // return Promise.reject(new Error("Enter Atleast 2 hints properly"));
     }
     if (inputValues[0].length < 2) {
       toast.error("Enter hints properly");
       return;
-
-      // return Promise.reject(new Error("Enter Atleast 2 hints properly"));
     }
     if (inputValues[1].length < 2) {
       toast.error("Enter hints properly");
       return;
-
-      // return Promise.reject(new Error("Enter Atleast 2 hints properly"));
     }
 
     setValidated(true);
@@ -95,7 +72,6 @@ const Contribute = () => {
         success: "Your hints have been sent for review",
         error: "Your hints couldn't be added due to some error",
       });
-      // setbtnDisable(false);
       setTimeout(() => {
         Navigate("/");
       }, 1000);
@@ -121,11 +97,9 @@ const Contribute = () => {
     setNum((prev) => prev - 1);
     ipFields.pop();
   };
-  // check if user is logged in through local storage token else redirect him to home page
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    // setisLoading(false);
     if (!token) {
       window.location.href = "/signup";
     } else {

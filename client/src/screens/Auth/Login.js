@@ -33,12 +33,10 @@ function Login() {
     setbtnDisable(true);
     const resp = await axios.post(`${backendUrl}/users/login/`, data);
     if (resp.status === 200) {
-      console.log("Successfully logged in!");
       localStorage.setItem("token", resp.data.accessToken);
       window.location.href = "/profile";
       return Promise.resolve();
     } else {
-      console.log("Error loggin in!");
       return Promise.reject(new Error("Whoops!"));
     }
   };

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { ButtonGroup, Button, Col, Container } from "react-bootstrap";
+import { Col, Container } from "react-bootstrap";
 import Navbar from "./../../components/Navbar";
 import { Row, Image } from "react-bootstrap";
 import Avatar from "../../assets/images/avatar.jpg";
 import StatsCard from "./StatsCard";
 import Datatable from "./Datatable";
 import backendUrl from "../../constants";
-import { Table, Pagination } from "rsuite";
+import { Pagination } from "rsuite";
 import "rsuite/dist/rsuite.css";
 import Loading from "../../components/Loading";
 import { ToastContainer, toast } from "react-toastify";
@@ -94,10 +94,7 @@ const Profile = () => {
           >
             <Row>
               <Col sm={3}>
-                <div
-                  className="profile-section bg-primary-500 rounded mt-4"
-                  //   style={{ height: "30vh" }}
-                >
+                <div className="profile-section bg-primary-500 rounded mt-4">
                   <div className="name-section p-2">
                     <div className="avatar-image">
                       <Image
@@ -137,7 +134,6 @@ const Profile = () => {
                       total={switchState ? activeCount : reviewCount}
                       limitOptions={[10, 20, 30]}
                       limit={limit}
-                      // activePage={1}
                       activePage={page}
                       onChangePage={setPage}
                       onChangeLimit={handleChangeLimit}

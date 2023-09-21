@@ -17,10 +17,8 @@ const ReviewRouter = () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/review/`);
       setHints(await res.data);
-      // console.log(res);
       if (res.status === 200) setisAuthorised(1);
       else setisAuthorised(0);
-      // console.log(res.data);
     } catch (e) {
       setisAuthorised(0);
     }

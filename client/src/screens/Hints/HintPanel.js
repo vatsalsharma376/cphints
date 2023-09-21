@@ -25,7 +25,6 @@ const HintTags = ({ tags }) => {
                     style={{ fontSize: ".9em", backgroundColor: "#D9D9D9" }}
                   >
                     {t.length > 10 ? t.substr(0, 10) + "..." : t}
-                    {/* {t} */}
                   </div>
                 </OverlayTrigger>
               )}
@@ -37,13 +36,10 @@ const HintTags = ({ tags }) => {
 };
 
 const HintPanel = ({ bgColor, hintData }) => {
-  // const bgColor = props.bgColor;
-
   // shows the active state of the upvote downvote button
   // -1 means no button is active
   // 0 means downvote button is active
   // 1 means upvote button is active
-  console.log(hintData.totalUpvotes, hintData.totalDownvotes);
   const [active, setActive] = useState(
     hintData.isUpvoted == 1 ? 1 : hintData.isDownvoted == 1 ? 0 : -1
   );
@@ -52,23 +48,17 @@ const HintPanel = ({ bgColor, hintData }) => {
   const [downvote, setDownvote] = useState(hintData.totalDownvotes);
   const [daysAgo, setDaysAgo] = useState(99);
   const [modalShow, setModalShow] = useState(false);
-  // console.log(hintData);
   const [tag, ...hints] = hintData.hints;
   const tags = tag.split(",");
   useEffect(() => {
     setActive(hintData.isUpvoted == 1 ? 1 : hintData.isDownvoted == 1 ? 0 : -1);
     setUpvote(hintData.totalUpvotes);
     setDownvote(hintData.totalDownvotes);
-    // const date = Date.now();
-    // console.log(hintData.created_at);
-    // const diff = date - hintData.created_at;
     const hint_ts = new Date(hintData.created_at);
-    console.log(hint_ts);
     const current_ts = new Date();
     const timeDifference = current_ts - hint_ts;
     const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
     setDaysAgo(Math.floor(timeDifference / millisecondsPerDay));
-    console.log(daysAgo);
   }, [hintData]);
   const setDownVoteButton = async () => {
     let upvote = 0,
@@ -98,7 +88,6 @@ const HintPanel = ({ bgColor, hintData }) => {
       });
       setDisabled(0);
     } catch (err) {
-      console.log(err);
       toast.error(err.response.data);
       setDownvote((downvote) => downvote - 1);
       setDisabled(0);
@@ -134,7 +123,6 @@ const HintPanel = ({ bgColor, hintData }) => {
       });
       setDisabled(0);
     } catch (err) {
-      console.log(err);
       toast.error(err.response.data);
       setUpvote((upvote) => upvote - 1);
       setActive(-1);
@@ -203,13 +191,6 @@ const HintPanel = ({ bgColor, hintData }) => {
                     <i class="bi bi-person-fill"></i> {hintData.username}
                   </p>
                   <p className="m-0">
-                    {/* find difference between timestamptz and current time in number of days 
-                    and display it  
-                    const date = Date.now();
-                    const diff = date - hintData.created_at;
-                    const days = diff/1000/60/60/24;
-
-                    */}
                     <i class="bi bi-clock"></i> {daysAgo} days ago
                   </p>
                 </div>

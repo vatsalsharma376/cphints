@@ -1,31 +1,35 @@
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownItem from "react-bootstrap/DropdownItem";
 import { Image } from "react-bootstrap";
 import Avatar from "../assets/images/avatar.jpg";
 
-const Dropmenu = ({ setLoggedIn,token }) => {
+const Dropmenu = ({ setLoggedIn, token }) => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setLoggedIn(false);
     window.location.href = "/";
   };
-  const decode_jwt = (token) =>{
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+  const decode_jwt = (token) => {
+    var base64Url = token.split(".")[1];
+    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    var jsonPayload = decodeURIComponent(
+      window
+        .atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
 
     return JSON.parse(jsonPayload).username;
-  }
+  };
   return (
     <div>
       <Dropdown
         align={"end"}
         style={{
           marginTop: "0px",
-          // marginLeft: "10px",
           color: "black",
         }}
         drop={"centered"}

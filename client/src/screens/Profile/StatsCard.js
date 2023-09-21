@@ -3,7 +3,6 @@ import { Row, Col } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const StatsCard = ({ stats }) => {
-  // console.log(props);
   return (
     <>
       <div className="container-fluid">

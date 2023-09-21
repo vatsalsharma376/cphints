@@ -2,14 +2,12 @@ import pool from "../../db.js";
 import bcrypt, { hash } from "bcrypt";
 import * as queries from "./queries.js";
 import jwt from "jsonwebtoken";
-// import sendgrid sg module;
-import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+import * as dotenv from "dotenv";
 import sgMail from "@sendgrid/mail";
 dotenv.config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export const getUsers = async (request, response) => {
-  // * changing the code to async await
   try {
     const result = await pool.query("SELECT * FROM users ORDER BY id ASC");
     response.status(200).json(result.rows);
@@ -18,12 +16,11 @@ export const getUsers = async (request, response) => {
     response.status(500).send("Server error");
   }
 };
-// database schema CREATE TABLE users (ID SERIAL PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), password VARCHAR(512), handle VARCHAR(255), color VARCHAR(25),username varchar(255));
+
 export const addUser = async (request, response) => {
   const { email, username } = request.body;
   console.log(request.body);
 
-  // * changing the code to async await
   try {
     const results = await pool.query(queries.checkAlreadyExists, [
       email,
@@ -72,7 +69,6 @@ export const loginUser = async (request, response) => {
     username = id;
   }
 
-  // * changing the code to async await
   try {
     const results = await pool.query(queries.checkAlreadyExists, [
       email,
@@ -83,7 +79,7 @@ export const loginUser = async (request, response) => {
       const user = results.rows[0];
       bcrypt.compare(password, user.password, function (err, res) {
         if (res) {
-          const accessToken = jwt.sign(user, "secret");
+          const accessToken = jwt.sign(user, process.env.JWT_SECRET);
           response.status(200).json({ accessToken });
         } else {
           response.status(401).send("Invalid credentials");
@@ -107,7 +103,6 @@ export const addTemporaryHint = async (request, response) => {
     }
   }
 
-  // * changing the code to async await
   try {
     const result = await pool.query(queries.addHint, [
       hints[0],
@@ -129,7 +124,6 @@ export const addUserToDatabase = async (request, response) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  // * changing the code to async await
   try {
     const result = await pool.query(queries.addUser, [
       name,
@@ -138,7 +132,7 @@ export const addUserToDatabase = async (request, response) => {
       username,
     ]);
 
-    const accessToken = jwt.sign(result.rows[0], "secret");
+    const accessToken = jwt.sign(result.rows[0], process.env.JWT_SECRET);
     response.status(201).json({ accessToken });
   } catch (error) {
     console.log(error);

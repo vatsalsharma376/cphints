@@ -9,8 +9,6 @@ import "./Problems.css";
 import axios from "axios";
 import backendUrl from "../../../src/constants.js";
 import { ToastContainer, toast } from "react-toastify";
-// import "~rsuite/dist/rsuite.css";
-// import '~rsuite/styles/index.less';
 
 const { Column, HeaderCell, Cell } = Table;
 const Problems = () => {
@@ -29,7 +27,6 @@ const Problems = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const queryParamValue = urlParams.get("q");
-    // alert(queryParamValue);
     const searchQuery =
       search == "" ? (queryParamValue === null ? "" : queryParamValue) : search;
 
@@ -42,11 +39,9 @@ const Problems = () => {
     const getAllProblems = async () => {
       try {
         const resp = await axios.post(`${backendUrl}/questions/`, pageConfig);
-        // console.log(resp.data);
         setCount(resp.data[0]);
         setTdata(resp.data[1]);
         settotalResults(resp.data.totalCount);
-        // console.log(searchQuery);
       } catch (err) {
         toast.error("There was some error fetching the data!!");
       }
@@ -62,7 +57,6 @@ const Problems = () => {
           <h4>Browse through all the problems available</h4>
         </div>
         <Container>
-          {/**style={{boxShadow:"0 10px 10px 1px rgba(0,0,0,.2)",height:"70vh"}} */}
           <Row>
             <InputGroup className="mb-3 w-25" style={{marginLeft:"56em"}}>
               <Form.Control
@@ -90,9 +84,6 @@ const Problems = () => {
                 width={900}
                 autoHeight={true}
                 bordered={false}
-                // classPrefix="rsuite-dark"
-                // classPrefix="custom-table"
-                // cellBordered={true}
                 onRowClick={(rowData) => navigate("/hints", { state: rowData })}
                 style={{
                   backgroundColor: "#000",
@@ -102,8 +93,6 @@ const Problems = () => {
                 rowHeight={50}
                 className="m-auto"
 
-                // virtualized
-                // fixed={"right"}
               >
                 <Column width={200} align="center">
                   <HeaderCell style={{ backgroundColor: "#1a1d24" }}>
@@ -167,31 +156,7 @@ const Problems = () => {
                 />
               </div>
             </Col>
-            {/* <Col style={{ borderLeft: "1px solid grey" }}>
-            <h2>Filters</h2>
-
-            <Form>
-              <Form.Group>
-                <Form.Check label="Codeforces" type="checkbox" id="checkbox1" />
-                <Form.Check label="Leetcode" type="checkbox" id="checkbox2" />
-                <Form.Check label="Codechef" type="checkbox" id="checkbox3" />
-                <Form.Check
-                  label="GeeksforGeeks" 
-                  type="checkbox"
-                  id="checkbox4"
-                />
-                <Form.Check
-                  label="Coding Ninjas"
-                  type="checkbox"
-                  id="checkbox5"
-                />
-              </Form.Group>
-            </Form>
-            <Stack gap={2} className="mt-3" direction="horizontal">
-              <Button variant="success">Apply</Button>
-              <Button variant="danger">Reset</Button>
-            </Stack>
-          </Col>   */}
+            
           </Row>
         </Container>
       </div>

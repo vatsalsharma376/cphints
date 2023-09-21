@@ -8,7 +8,6 @@ import Redis from "ioredis";
 import morgan from "morgan";
 
 import userRoutes from "./src/users/routes.js";
-// import { router as userRouter } from "./routes/user.js";
 import hintRoutes from "./src/hints/routes.js";
 import reviewRoutes from "./src/review/routes.js";
 import questionRoutes from "./src/question/routes.js";
@@ -34,18 +33,6 @@ app.use("/api/questions", questionRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/leaderboard", leaderboardRoutes);
 
-// app.use(express.static(path.join(__dirname, "./client/build")));
-
-// app.get("*", function (_, res) {
-//   res.sendFile(
-//     path.join(__dirname, "./client/build/index.html"),
-//     function (err) {
-//       if (err) {
-//         res.status(500).send(err);
-//       }
-//     }
-//   );
-// });
 const PORT = process.env.PORT || 5001;
 var redisClient;
 const startServer = async () => {

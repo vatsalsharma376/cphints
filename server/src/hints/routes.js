@@ -11,5 +11,4 @@ router.post("/", jwtAuth, addTemporaryHint);
 router.post("/gethints",jwtAuth, getHints);
 router.post("/getHintsByVotes",jwtAuth, getHintsByVotes);
 router.post("/updownvote",jwtAuth, upDownvoteHint);
-// router.post('/downvote',jwtAuth,downvoteHint);
 export default router;

@@ -18,7 +18,6 @@ const Leaderboard = () => {
     const getLeaderboardData = async () => {
       try {
         const res = await Axios.get(`${backendUrl}/leaderboard`);
-        console.log(res.data);
         setLeaderboardData(res.data);
         setIsLoading(false);
       } catch (err) {
@@ -42,10 +41,7 @@ const Leaderboard = () => {
         }}
       >
         <Navbar bg="black" />
-        <div
-
-        // className="min-vh-100"
-        >
+        <div>
           <h1 className="mb-3">Leaderboard</h1>
 
           <div className="container">

@@ -2,12 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-// import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Search } from "react-bootstrap-icons";
-// import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import logo from "../assets/images/cphlogo.png";
 import Image from "react-bootstrap/Image";
 import Dropdownmenu from "./Dropmenu";
@@ -29,7 +25,6 @@ const Navbars = (props) => {
     setLoggedIn(null);
     window.location.href = "/";
   };
-  // props.bg = "red";
   const bgcolor = `bg-${props.bg}`;
   return (
     <div className={bgcolor}>
@@ -70,7 +65,7 @@ const Navbars = (props) => {
                 </Button>
               </Link>
               {loggedIn ? (
-                <Dropdownmenu setLoggedIn={setLoggedIn} token={loggedIn}/>
+                <Dropdownmenu setLoggedIn={setLoggedIn} token={loggedIn} />
               ) : (
                 <Link to="/login">
                   <Button variant="purplee" className="">

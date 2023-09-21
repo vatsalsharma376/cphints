@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv"; 
+dotenv.config();
+
 const verifyToken = (req, res, next) => {
-  // console.log(req.headers.authorization);
   console.log(req.originalUrl);
   const authHeader =
     req.body.token ||
@@ -18,7 +20,7 @@ const verifyToken = (req, res, next) => {
     return res.status(403).send("A token is required for authentication");
   }
   try {
-    const decoded = jwt.verify(token, "secret");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
   } catch (err) {
     console.log('Invalid user');

@@ -6,7 +6,6 @@ export const showAllQuestions = async (request, response) => {
   const { limit, offset, searchQuery } = request.body;
   const obj = [];
   if (searchQuery === "") {
-    // *  changed the code to async await
 
     try {
       const totalHints = await pool.query(queries.totalHintsAll);
@@ -22,7 +21,6 @@ export const showAllQuestions = async (request, response) => {
       response.status(400).json({ error });
     }
   } else {
-    // *  changed the code to async await
     try {
       const totalHints = await pool.query(queries.totalHintsSearch, [
         searchQuery,
