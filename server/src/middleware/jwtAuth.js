@@ -13,7 +13,7 @@ const verifyToken = (req, res, next) => {
   
   const token = authHeader && authHeader.split(" ")[1];
   
-  if (token==="null" && exceptions.includes(req.originalUrl)) {
+  if ((token==="null" || token===undefined) && exceptions.includes(req.originalUrl)) {
     return next();
   }
   if (!token) {
